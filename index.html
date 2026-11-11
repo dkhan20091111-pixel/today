@@ -764,6 +764,80 @@ body.dark .x-tk, body.dark .x-ts, body.dark .x-ringt span, body.dark .x-wxt span
 body.dark .x-ring0 { stroke: #2a2e34; }
 body.dark .x-page .x-cell { background: #25292f; }
 body.dark .wx-cloud i { background: #aab3c2; }
+
+/* ==== Settings: a board of tiles, then pages of switches, pickers and boxes to type in ==== */
+.s-hl { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; min-width: 0; }
+.s-back { margin-right: 12px; padding: 8px 15px 8px 11px; border-radius: 999px; background: #fff; color: #14161a; font-size: 15px; font-weight: 700; white-space: nowrap; cursor: pointer; box-shadow: 0 2px 6px rgba(20,22,26,0.07); -webkit-tap-highlight-color: rgba(0,0,0,0); }
+.k-sec .s-back + b { margin-left: 0; }
+.s-save { visibility: hidden; -webkit-flex-shrink: 0; flex-shrink: 0; padding: 6px 13px; border-radius: 999px; background: #e4e6e0; color: #5d626b; font-size: 13px; font-weight: 700; white-space: nowrap; }
+.s-save.saving, .s-save.saved, .s-save.local, .s-save.error { visibility: visible; }
+.s-save.saved { background: #d9f3e2; color: #14532d; }
+.s-save.local, .s-save.error { background: #ffe6d2; color: #8a3b00; }
+
+.s-grid { display: -webkit-flex; display: flex; -webkit-flex-wrap: wrap; flex-wrap: wrap; margin: 0 -6px; }
+.s-tile { width: calc(50% - 12px); box-sizing: border-box; margin: 0 6px 12px; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 15px 16px; border-radius: 24px; background: #fff; box-shadow: 0 2px 6px rgba(20,22,26,0.05); cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+.s-ic { width: 46px; height: 46px; -webkit-flex-shrink: 0; flex-shrink: 0; margin-right: 14px; border-radius: 15px; color: #fff; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; }
+.s-ic svg { width: 24px; height: 24px; }
+.s-tt { min-width: 0; }
+.s-tt b { display: block; font-size: 18px; font-weight: 700; letter-spacing: -0.2px; }
+.s-tt span { display: block; margin-top: 1px; font-size: 13px; font-weight: 500; color: #8a8f98; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.s-row { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: space-between; justify-content: space-between; min-height: 50px; padding: 5px 0; border-top: 1px solid #eef0eb; }
+.x-ct + .s-row, .x-ct + div > .s-row:first-child { border-top: 0; }
+.s-l { min-width: 0; margin-right: 14px; }
+.s-l b { display: block; font-size: 16px; font-weight: 600; }
+.s-l span { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 500; line-height: 1.3; color: #8a8f98; }
+.s-c { -webkit-flex-shrink: 0; flex-shrink: 0; max-width: 66%; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: flex-end; justify-content: flex-end; }
+.s-note { margin: 8px 0 6px; line-height: 1.4; }
+.s-sep { margin: 10px 0 8px; font-size: 16px; font-weight: 600; }
+.s-in { height: 40px; min-width: 0; box-sizing: border-box; margin: 0; padding: 0 12px; border: 0; border-radius: 12px; background: #f1f2ee; color: #14161a; font-family: inherit; font-size: 16px; font-weight: 600; line-height: 40px; outline: none; -webkit-appearance: none; -webkit-user-select: text; user-select: text; }
+.s-in[type="text"] { width: 240px; }
+.s-in[type="time"] { width: 132px; }
+.s-in[type="date"] { width: 164px; }
+.s-in.wide { width: 320px; }
+.s-in.mid { width: 170px; }
+.s-in.short { width: 110px; }
+.s-in.grow { -webkit-flex: 1; flex: 1; width: auto; }
+select.s-in { width: auto; max-width: 190px; padding-right: 14px; }
+.s-in:focus { box-shadow: inset 0 0 0 2px #14161a; }
+.s-pair, .s-item { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
+.s-pair > *, .s-item > * { margin-left: 8px; }
+.s-pair > *:first-child, .s-item > *:first-child { margin-left: 0; }
+.s-pair .x-btn { margin: 0 0 0 8px; }
+.s-item { padding: 5px 0; }
+.s-to { -webkit-flex-shrink: 0; flex-shrink: 0; font-size: 13px; font-weight: 600; color: #8a8f98; }
+.s-del { width: 34px; height: 34px; -webkit-flex-shrink: 0; flex-shrink: 0; border-radius: 50%; background: #f1f2ee; color: #8a8f98; text-align: center; line-height: 31px; font-size: 22px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+.x-btn.s-add { margin: 8px 0 2px; }
+.s-sw { position: relative; width: 54px; height: 32px; -webkit-flex-shrink: 0; flex-shrink: 0; border-radius: 16px; background: #d5d8d1; cursor: pointer; -webkit-transition: background-color 0.22s ease; transition: background-color 0.22s ease; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+.s-sw i { position: absolute; top: 3px; left: 3px; width: 26px; height: 26px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.25); -webkit-transition: -webkit-transform 0.22s cubic-bezier(0.3,1.3,0.5,1); transition: transform 0.22s cubic-bezier(0.3,1.3,0.5,1); }
+.s-sw.on { background: #2fbf71; }
+.s-sw.on i { -webkit-transform: translateX(22px); transform: translateX(22px); }
+.s-days { display: -webkit-flex; display: flex; -webkit-flex-wrap: wrap; flex-wrap: wrap; -webkit-justify-content: flex-end; justify-content: flex-end; }
+.s-day { margin: 2px 0 2px 5px; padding: 8px 9px; border-radius: 12px; background: #f1f2ee; color: #5d626b; font-size: 13px; font-weight: 700; cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+.s-day.on { background: #14161a; color: #fff; }
+.s-step { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
+.s-step b { min-width: 92px; text-align: center; font-size: 15px; font-weight: 700; }
+.s-stepb { width: 36px; height: 36px; border-radius: 50%; background: #f1f2ee; color: #14161a; text-align: center; line-height: 33px; font-size: 22px; font-weight: 700; cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+.s-tile, .s-back, .s-del, .s-day, .s-stepb { -webkit-transition: -webkit-transform 0.14s ease, opacity 0.22s ease; transition: transform 0.14s ease, opacity 0.22s ease; }
+.s-tile.x-press { -webkit-transform: scale(0.97); transform: scale(0.97); }
+
+@media (orientation: landscape) {
+  .s-tile { width: calc(33.333% - 12px); padding: 11px 14px; margin-bottom: 10px; }
+  .s-ic { width: 42px; height: 42px; }
+}
+
+body.dark .s-tile, body.dark .s-back { background: #1a1d21; color: #f4f5f2; box-shadow: none; }
+body.dark .s-tt span, body.dark .s-l span, body.dark .s-to { color: #8d929b; }
+body.dark .s-row { border-top-color: #272b31; }
+body.dark .s-in { background: #25292f; color: #f4f5f2; }
+body.dark .s-in:focus { box-shadow: inset 0 0 0 2px #f4f5f2; }
+body.dark .s-del, body.dark .s-day, body.dark .s-stepb { background: #25292f; color: #b3b8c0; }
+body.dark .s-day.on { background: #f4f5f2; color: #14161a; }
+body.dark .s-sw { background: #3a3f46; }
+body.dark .s-sw.on { background: #2fbf71; }
+body.dark .s-save { background: #24282d; color: #b3b8c0; }
+body.dark .s-save.saved { background: #143524; color: #b6f0c8; }
+body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #ffd7b0; }
 </style>
 </head>
 <body>
@@ -1880,10 +1954,11 @@ body.dark .wx-cloud i { background: #aab3c2; }
      stays switched off until that setting is filled in.
      ========================================================================== */
   var X = {
-    course: '', detail: '', priv: false, done: {}, checks: {}, off: {}, lock: '', audio: null,
-    timer: null, alarm: { mins: 7 * 60, armed: false, ringing: false },
+    course: '', detail: '', priv: false, done: {}, checks: {}, off: {}, audio: null,
+    conf: null, set: '', typed: 0, bypass: false, newAlbum: '', albumNote: '',
+    timer: null, alarm: { ringing: false, rang: 0, since: 0 },
     game: { cells: ['', '', '', '', '', '', '', '', ''], over: '' },
-    frame: { on: null, at: 0, idx: -1, url: '', blob: false, busy: false }, night: null, checkDay: 0, nasa: null, motion: 'full', cal: 'month'
+    frame: { at: 0, idx: -1, url: '', blob: false, busy: false }, checkDay: 0, motion: 'full', cal: 'month'
   };
 
   // Testing on a computer: #name on the end of the address loads data-name.json instead.
@@ -1895,7 +1970,12 @@ body.dark .wx-cloud i { background: #aab3c2; }
   // and a handler can return false to say it will redraw the screen itself (after an animation).
   tap = function (node, fn) {
     var sx = 0, sy = 0, st = 0, handled = 0;
-    function run() { ui.touched = new Date().getTime(); if (fn() !== false) { render(true); } }
+    function run() {
+      ui.touched = new Date().getTime();
+      if (editing()) { document.activeElement.blur(); }   // finish typing first, so what was typed is kept
+      armAudio();                                         // sound may only start after a tap, so every tap enables it
+      if (fn() !== false) { X.bypass = true; render(true); X.bypass = false; }   // a tap always redraws
+    }
     function lift() { node.className = node.className.replace(/ ?x-press/g, ''); }
     node.addEventListener('touchstart', function (e) {
       var t = e.touches[0];
@@ -1923,7 +2003,172 @@ body.dark .wx-cloud i { background: #aab3c2; }
     return node;
   };
 
-  function cfg() { return (data && data.config) || {}; }
+  /* ---- Settings. There is one working copy. A change made on the wall shows at once and is then
+         saved to config.json in the private repository, which needs an access key that is allowed
+         to write. If the key may only read, changes are kept on this iPad until the app is closed. ---- */
+  var CONF_KEY = 'wallConf' + (LOCAL ? ':' + DATA_URL : '');   // test pages each keep their own
+  var store = { sha: '', dirty: false, state: '', canWrite: null, canRun: null, timer: 0, busy: false, tries: 0, note: '' };
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  function cfg() { return X.conf || (data && data.config) || {}; }
+  function conf() { if (!X.conf) { X.conf = clone((data && data.config) || {}); } return X.conf; }
+  function getv(path, fallback) {
+    var parts = path.split('.'), o = cfg(), i;
+    for (i = 0; i < parts.length; i++) {
+      if (o === null || typeof o !== 'object' || o[parts[i]] === undefined) { return fallback; }
+      o = o[parts[i]];
+    }
+    return (o === null || o === '') ? fallback : o;
+  }
+  function keepConf() {
+    try { window.localStorage.setItem(CONF_KEY, JSON.stringify({ conf: X.conf, dirty: store.dirty })); } catch (err) { /* lasts until the page closes */ }
+  }
+  // Settings that other parts read as plain values.
+  function applyConf() {
+    var c = cfg();
+    if (c.mode === 'auto' || c.mode === 'light' || c.mode === 'dark') { ui.mode = c.mode; }
+    X.motion = (c.motion === 'less' || c.motion === 'off') ? c.motion : 'full';
+  }
+  function touchConf() {
+    store.dirty = true; store.state = 'saving'; store.tries = 0;
+    keepConf(); applyConf(); showSave();
+    clearTimeout(store.timer);
+    store.timer = setTimeout(saveConfig, 2500);
+  }
+  function setv(path, value) {
+    var parts = path.split('.'), o = conf(), i;
+    for (i = 0; i < parts.length - 1; i++) {
+      if (o[parts[i]] === null || typeof o[parts[i]] !== 'object') { o[parts[i]] = {}; }
+      o = o[parts[i]];
+    }
+    o[parts[parts.length - 1]] = value;
+    touchConf();
+  }
+  function delv(path) {
+    var parts = path.split('.'), o = conf(), i;
+    for (i = 0; i < parts.length - 1; i++) { if (o[parts[i]] === null || typeof o[parts[i]] !== 'object') { return; } o = o[parts[i]]; }
+    delete o[parts[parts.length - 1]];
+    touchConf();
+  }
+  // What is written to the file: the same settings without the rows that were added but never filled in.
+  function cleanConf(c) {
+    var out = clone(c), keep = { countdowns: 'title', birthdays: 'name', reminders: 'text' }, k, i, list;
+    for (k in keep) {
+      if (keep.hasOwnProperty(k) && out[k] && out[k].length !== undefined) {
+        list = [];
+        for (i = 0; i < out[k].length; i++) { if (out[k][i] && out[k][i][keep[k]]) { list.push(out[k][i]); } }
+        out[k] = list;
+      }
+    }
+    for (k in { checklist: 1, quotes: 1 }) {
+      if (out[k] && out[k].length !== undefined) {
+        list = [];
+        for (i = 0; i < out[k].length; i++) { if (out[k][i]) { list.push(out[k][i]); } }
+        out[k] = list;
+      }
+    }
+    if (out.alarm && out.alarm.skip) {
+      list = [];
+      for (i = 0; i < out.alarm.skip.length; i++) { if (out.alarm.skip[i] && out.alarm.skip[i].from) { list.push(out.alarm.skip[i]); } }
+      out.alarm.skip = list;
+    }
+    return out;
+  }
+  function b64decode(text) { return decodeURIComponent(escape(window.atob(text.replace(/\s/g, '')))); }
+  function b64encode(text) { return window.btoa(unescape(encodeURIComponent(text))); }
+  function api(method, path, body, done) {
+    var x = new XMLHttpRequest();
+    x.open(method, 'https://api.github.com/repos/' + DATA_REPO + path, true);
+    x.setRequestHeader('Authorization', 'Bearer ' + getKey());
+    x.setRequestHeader('Accept', 'application/vnd.github+json');
+    if (body) { x.setRequestHeader('Content-Type', 'application/json'); }
+    x.onreadystatechange = function () {
+      var j = null;
+      if (x.readyState !== 4) { return; }
+      try { j = x.responseText ? JSON.parse(x.responseText) : null; } catch (err) { j = null; }
+      done(x.status, j);
+    };
+    x.send(body ? JSON.stringify(body) : null);
+  }
+  function online() { return (!LOCAL || param('nudge')) && !!getKey(); }
+  function saveText() {
+    return store.state === 'saving' ? 'Saving…' : store.state === 'saved' ? 'Saved' : store.state === 'local' ? 'Saved on this iPad only' :
+      store.state === 'error' ? 'Not saved yet' : '';
+  }
+  function showSave() {
+    var n = $('s-save');
+    if (n) { swapText(n, saveText() || ' '); n.className = 's-save ' + store.state; }
+  }
+  // Read config.json straight from the repository, so a change made on GitHub (or on another
+  // device) arrives without waiting for the hourly update.
+  function loadConfig() {
+    if (!online() || store.busy) { return; }
+    api('GET', '/contents/config.json?ref=main&t=' + new Date().getTime(), null, function (status, j) {
+      var remote;
+      if (status !== 200 || !j || !j.content) { return; }
+      store.sha = j.sha || '';
+      if (store.dirty) { saveConfig(); return; }   // unsaved changes made here come first
+      try { remote = JSON.parse(b64decode(j.content)); } catch (err) { return; }   // a typo in the file: keep what we have
+      if (remote && typeof remote === 'object' && JSON.stringify(remote) !== JSON.stringify(X.conf)) {
+        X.conf = remote; keepConf(); applyConf(); render(true);
+      }
+    });
+  }
+  function saveConfig() {
+    var sent;
+    clearTimeout(store.timer);
+    if (!store.dirty) { return; }
+    if (!online() || store.canWrite === false) { store.state = 'local'; showSave(); return; }
+    if (store.busy) { store.timer = setTimeout(saveConfig, 1500); return; }
+    store.busy = true; store.state = 'saving'; showSave();
+    function fail(retryIn) {
+      store.busy = false; store.state = 'error';
+      store.timer = setTimeout(saveConfig, retryIn);
+      showSave();
+    }
+    function put() {
+      sent = JSON.stringify(cleanConf(X.conf), null, 2) + '\n';
+      api('PUT', '/contents/config.json', { message: 'Settings changed on the wall', content: b64encode(sent), sha: store.sha || undefined, branch: 'main' },
+        function (status, j) {
+          if (status === 200 || status === 201) {
+            store.busy = false; store.canWrite = true; store.tries = 0;
+            store.sha = (j && j.content && j.content.sha) || '';
+            if (JSON.stringify(cleanConf(X.conf), null, 2) + '\n' === sent) {
+              store.dirty = false; store.state = 'saved'; keepConf();
+              nudgeUpdater(true);   // so things worked out on GitHub, such as the weather for a new town, follow soon
+            } else { store.timer = setTimeout(saveConfig, 1500); }   // changed again while it was saving
+            showSave();
+          } else if ((status === 409 || status === 422) && store.tries < 3) {
+            store.busy = false; store.tries++; store.sha = '';   // the file changed on GitHub: look it up again
+            store.timer = setTimeout(saveConfig, 1200);
+          } else if (status === 401 || status === 403 || status === 404) {
+            store.busy = false; store.canWrite = false; store.state = 'local'; showSave();
+            render();
+          } else { fail(60000); }
+        });
+    }
+    if (store.sha) { put(); return; }
+    api('GET', '/contents/config.json?ref=main&t=' + new Date().getTime(), null, function (status, j) {
+      if (status === 200 && j && j.sha) { store.sha = j.sha; put(); }
+      else if (status === 404) { put(); }   // no settings file yet: this makes one
+      else { fail(60000); }
+    });
+  }
+  (function () {
+    var o = null;
+    try { o = JSON.parse(window.localStorage.getItem(CONF_KEY) || 'null'); } catch (err) { o = null; }
+    if (o && o.conf && typeof o.conf === 'object') { X.conf = o.conf; store.dirty = !!o.dirty; }
+    applyConf();
+  }());
+  setTimeout(loadConfig, 4000);
+  setInterval(loadConfig, 20 * 60000);
+
+  /* ---- Typing. While a box is being typed in, the screen is not rebuilt underneath it. ---- */
+  function editing() {
+    var a = document.activeElement;
+    return !!(a && a !== document.body && /^(INPUT|SELECT|TEXTAREA)$/.test(a.tagName) && $('stage').contains(a));
+  }
+  var render0 = render;
+  render = function (force) { if (editing() && !X.bypass) { return; } render0(force); };
   function hm(text, fallback) { var r = /^(\d{1,2}):(\d{2})$/.exec(text || ''); return r ? (+r[1]) * 60 + (+r[2]) : fallback; }
   function minsOf(d) { return d.getHours() * 60 + d.getMinutes(); }
   function ymd(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
@@ -1953,21 +2198,15 @@ body.dark .wx-cloud i { background: #aab3c2; }
     var text, k, today = ymd(new Date());
     for (k in X.off) { if (X.off.hasOwnProperty(k) && k.indexOf(today) === -1) { delete X.off[k]; } }
     try {
-      text = JSON.stringify({ done: X.done, checks: X.checks, checkDay: X.checkDay, lock: X.lock, alarm: X.alarm.mins,
-        night: X.night, frame: X.frame.on, nasa: X.nasa, motion: X.motion, off: X.off });
+      text = JSON.stringify({ done: X.done, checks: X.checks, checkDay: X.checkDay, off: X.off });
       if (text !== savedX) { savedX = text; window.localStorage.setItem('wallX', text); }
-    } catch (err) { /* storage unavailable: the choices last until the page closes */ }
+    } catch (err) { /* storage unavailable: these last until the page closes */ }
   }
   (function () {
     var o = null;
     try { o = JSON.parse(window.localStorage.getItem('wallX') || 'null'); } catch (err) { o = null; }
     if (!o) { return; }
-    X.done = o.done || {}; X.checks = o.checks || {}; X.checkDay = o.checkDay || 0; X.lock = o.lock || ''; X.off = o.off || {};
-    if (typeof o.alarm === 'number') { X.alarm.mins = o.alarm; }
-    X.night = (o.night === 'off' || typeof o.night === 'number') ? o.night : null;
-    X.frame.on = typeof o.frame === 'boolean' ? o.frame : null;
-    X.nasa = typeof o.nasa === 'boolean' ? o.nasa : null;
-    X.motion = (o.motion === 'less' || o.motion === 'off') ? o.motion : 'full';
+    X.done = o.done || {}; X.checks = o.checks || {}; X.checkDay = o.checkDay || 0; X.off = o.off || {};
   }());
 
   // Weather is only shown while it is recent; sunrise barely moves, so it may be a day old.
@@ -1977,9 +2216,14 @@ body.dark .wx-cloud i { background: #aab3c2; }
   }
 
   /* ---- Photo frame: photos from the private repository, shown on the picture card ---- */
-  function nasaOn() { return !!(data && data.nasa && data.nasa.url) && (X.nasa !== null ? X.nasa : !!cfg().nasaPicture); }
-  function photoList() { return (data && data.photos) || []; }
-  function frameOn() { return photoList().length > 0 && (X.frame.on !== null ? X.frame.on : cfg().photoFrame !== false); }
+  function nasaOn() { return !!(data && data.nasa && data.nasa.url) && !!cfg().nasaPicture; }
+  // The chosen album, or every photo when none is chosen.
+  function photoList() {
+    var want = cfg().album || '', albums = (data && data.albums) || [], i;
+    if (want) { for (i = 0; i < albums.length; i++) { if (albums[i].name === want) { return albums[i].photos || []; } } }
+    return (data && data.photos) || [];
+  }
+  function frameOn() { return photoList().length > 0 && cfg().photoFrame !== false; }
   function setPhoto(url, isBlob) {
     var f = X.frame, old = f.url, oldBlob = f.blob, U = window.URL || window.webkitURL, img = document.querySelector('img.x-frame');
     f.url = url; f.blob = !!isBlob;
@@ -1988,6 +2232,7 @@ body.dark .wx-cloud i { background: #aab3c2; }
       img.onload = function () { img.style.opacity = 1; };
       img.src = url;
     } else if (layout === 'card' && !(ui.touched && new Date().getTime() - ui.touched < 4000)) { render(true); }
+    else if (url) { setTimeout(function () { if (!document.querySelector('img.x-frame')) { render(); } }, 4600); }
     if (old && oldBlob && U) { setTimeout(function () { try { U.revokeObjectURL(old); } catch (err) { /* already gone */ } }, 4000); }
   }
   function nextPhoto() {
@@ -2030,12 +2275,12 @@ body.dark .wx-cloud i { background: #aab3c2; }
   function nightHours() {
     NIGHT_START = hm(cfg().nightStart, 22 * 60);
     NIGHT_END = hm(cfg().nightEnd, 6 * 60 + 30);
-    if (X.night === 'off' || (X.night === null && cfg().nightClock === false)) { NIGHT_START = 1440; NIGHT_END = 0; }
-    else if (typeof X.night === 'number') { NIGHT_START = X.night; }
+    if (cfg().nightClock === false) { NIGHT_START = 1440; NIGHT_END = 0; }
   }
   var applyLook0 = applyLook;
   applyLook = function (now) {
-    var want = X.lock || cfg().theme || '', i;
+    var want = cfg().theme || '', i;
+    applyConf();
     nightHours();
     document.documentElement.className = 'm-' + X.motion;
     applyLook0(now);
@@ -2141,7 +2386,8 @@ body.dark .wx-cloud i { background: #aab3c2; }
     'Small steps every day add up.', 'You do not have to feel ready to begin.', 'Check your work before you submit.'
   ];
   function tipOfDay(now) {
-    var list = (cfg().quotes && cfg().quotes.length) ? cfg().quotes : TIPS;
+    var list = filled(cfg().quotes);
+    if (!list.length) { list = TIPS; }
     return list[dayOfYear(now) % list.length];
   }
   // A light overlay on the picture card at certain times of year.
@@ -2194,7 +2440,13 @@ body.dark .wx-cloud i { background: #aab3c2; }
     return 'Leave by ' + fmtTime(leave) + (n > 0 ? ' (in ' + n + ' min)' : ' (now)');
   }
   function leaveTime(now) {
-    var cd = classDay(now), travel = +cfg().travelMinutes || 0, leave;
+    var set = cfg().leaveAt || {}, at = hm(set[DSHORT[now.getDay()]] || set['default'], -1), cd = classDay(now), travel = +cfg().travelMinutes || 0, leave;
+    if (at >= 0) {
+      // A set time for each weekday. Shown on school days, from 90 minutes before until 10 minutes after.
+      if (noSchool(now)) { return null; }
+      leave = new Date(now.getFullYear(), now.getMonth(), now.getDate(), Math.floor(at / 60), at % 60);
+      return (leave - now < 90 * 60000 && now - leave < 10 * 60000) ? leave : null;
+    }
     if (!travel || !cd || !cd.today || cd.list[0].start <= now) { return null; }
     leave = new Date(cd.list[0].start.getTime() - travel * 60000);
     return (leave - now < 90 * 60000) ? leave : null;
@@ -2207,11 +2459,11 @@ body.dark .wx-cloud i { background: #aab3c2; }
     if (X.timer && X.timer.done) { add('timer' + X.timer.end, 'go', X.timer.label + ' timer finished. Tap to clear.'); }
     else if (X.timer) { out.push({ id: '', kind: 'go', text: X.timer.label + ' timer · ', live: 'timer' }); }
     for (i = 0; i < notes.length; i++) {
-      if (notes[i].date === today && /^(!|note:)/i.test(notes[i].title)) { add('note' + i, 'note', notes[i].title.replace(/^(!|note:)\s*/i, '')); }
+      if (shown('bNote') && notes[i].date === today && /^(!|note:)/i.test(notes[i].title)) { add('note' + i, 'note', notes[i].title.replace(/^(!|note:)\s*/i, '')); }
     }
     if (data && data.configError) { add('cfg', 'warn', data.configError); }
     for (i = 0; i < ahead.length; i++) {
-      if (ahead[i].date === today && /birthday/i.test(ahead[i].title || '')) { add('bday' + i, 'note', 'Today: ' + ahead[i].title); }
+      if (shown('bBday') && ahead[i].date === today && /birthday/i.test(ahead[i].title || '')) { add('bday' + i, 'note', 'Today: ' + ahead[i].title); }
     }
     leave = leaveTime(now);
     if (leave) { add('leave', 'go', leaveText(leave, now), 'leave'); }
@@ -2219,17 +2471,17 @@ body.dark .wx-cloud i { background: #aab3c2; }
       if (rem[i] && rem[i].text && (rem[i].days || []).join(',').toLowerCase().indexOf(DSHORT[now.getDay()].toLowerCase()) !== -1 &&
           mins >= hm(rem[i].from, 0)) { add('rem' + i, 'info', rem[i].text); }
     }
-    if (m.counts[0] >= 3) { add('today', 'warn', m.counts[0] + ' things are due today.'); }
-    else {
+    if (m.counts[0] >= 3 && shown('bToday')) { add('today', 'warn', m.counts[0] + ' things are due today.'); }
+    else if (shown('bHeavy')) {
       for (i = 1, best = 0; i < 7; i++) { if (m.counts[i] >= 5 && (!best || m.counts[i] > m.counts[best])) { best = i; } }
       if (best) { add('heavy', 'warn', m.counts[best] + ' things due ' + (best === 1 ? 'tomorrow' : 'on ' + DAYS[addDays(now, best).getDay()]) + '. Start today.'); }
     }
-    if (now.getDay() === 0) {
+    if (now.getDay() === 0 && shown('bWeek')) {
       for (i = 1, total = 0, best = 1; i < 7; i++) { total += m.counts[i]; if (m.counts[i] > m.counts[best]) { best = i; } }
       if (total) { add('week', 'info', 'This week: ' + total + ' due, heaviest on ' + DAYS[addDays(now, best).getDay()] + ' (' + m.counts[best] + ').'); }
     }
     wd = hm(cfg().windDown, 21 * 60 + 30);
-    if (mins >= wd && (NIGHT_START < wd || mins < NIGHT_START)) {
+    if (shown('bWind') && mins >= wd && (NIGHT_START < wd || mins < NIGHT_START)) {
       src = (data && data.classes) || []; first = null;
       for (i = 0; i < src.length; i++) { n = parse(src[i].start); if (!first && n && dayKey(n) === dayKey(addDays(now, 1))) { first = { title: src[i].title, start: n }; } }
       add('wind', 'info', 'Tomorrow: ' + (first ? first.title + ' at ' + fmtTime(first.start) : 'no classes') + ', ' + m.counts[1] + ' due.');
@@ -2277,7 +2529,7 @@ body.dark .wx-cloud i { background: #aab3c2; }
   var cardSignature0 = cardSignature;
   cardSignature = function (now) {
     return cardSignature0(now) + '|' + [ui.day, ui.date, ui.view, ui.item, ui.calY, ui.calM, X.course, X.detail, X.priv ? 1 : 0,
-      isLandscape() ? 'L' : 'P', morningClass(now) ? 'm' : '', bannerFlags(now), X.alarm.ringing ? 'r' : '', frameOn() ? 'f' : '', nasaOn() ? 'n' : '', X.night === null ? '' : X.night, X.motion].join('|');
+      isLandscape() ? 'L' : 'P', morningClass(now) ? 'm' : '', bannerFlags(now), X.alarm.ringing ? 'r' : '', frameOn() ? 'f' : '', nasaOn() ? 'n' : '', X.motion, X.set, cfg().theme || '', cfg().name || '', X.frame.url ? 'u' : ''].join('|');
   };
   var cardTick0 = cardTick;
   cardTick = function (now) {
@@ -2360,7 +2612,7 @@ body.dark .wx-cloud i { background: #aab3c2; }
 
   /* ---- Animation. The screen is rebuilt whenever something is tapped, so this remembers what was
          on screen last time; only the parts that actually changed are animated in. ---- */
-  var A = { first: true, view: '', tab: 0, list: '', hero: '', bans: {}, sheet: '', sel: -2, check: -1, cells: '', cal: 0 };
+  var A = { first: true, view: '', tab: 0, list: '', hero: '', bans: {}, sheet: '', sel: -2, check: -1, cells: '', cal: 0, set: '', flip: '' };
   function still() { return X.motion === 'off'; }
   function stagger(node, cls, i) {
     if (still()) { return node; }
@@ -2370,7 +2622,11 @@ body.dark .wx-cloud i { background: #aab3c2; }
   }
   // Run something once an exit animation has played (straight away when animations are off).
   // Returns false so the tap that started it does not redraw the screen underneath the animation.
-  function after(ms, fn) { if (still()) { fn(); } else { setTimeout(fn, ms); } return false; }
+  function after(ms, fn) {
+    function go() { X.bypass = true; fn(); X.bypass = false; }
+    if (still()) { go(); } else { setTimeout(go, ms); }
+    return false;
+  }
   // Slow movement that carries on from where it was, even though the screen is rebuilt.
   function drift(node) {
     if (node.className.indexOf('a-drift') === -1) { node.className += ' a-drift'; }
@@ -2435,6 +2691,7 @@ body.dark .wx-cloud i { background: #aab3c2; }
         if (ui.view === 'list') { ui.day = -1; ui.date = 0; ui.item = ''; X.course = ''; }   // Home again: back to the whole list
         ui.view = 'list';
       } else { ui.view = id; }
+      X.set = '';
       ui.scroll = 0;
     };
   }
@@ -2481,8 +2738,10 @@ body.dark .wx-cloud i { background: #aab3c2; }
     if (!a || !b || b <= a) { return null; }
     return { name: t.name || 'Term', pct: Math.max(0, Math.min(100, Math.round((now - a) / (b - a) * 100))), left: Math.max(0, dayGap(b, now)) };
   }
+  function filled(list) { var out = [], i; for (i = 0; list && i < list.length; i++) { if (list[i]) { out.push(list[i]); } } return out; }
   function checklist() {
-    return (cfg().checklist && cfg().checklist.length) ? cfg().checklist.slice(0, 8) : ['Pack bag for tomorrow', 'Check what is due', 'Read for 20 minutes'];
+    var list = filled(cfg().checklist).slice(0, 8);
+    return list.length ? list : ['Pack bag for tomorrow', 'Check what is due', 'Read for 20 minutes'];
   }
   function checkCount() { var list = checklist(), n = 0, i; for (i = 0; i < list.length; i++) { if (X.checks[i]) { n++; } } return n; }
   function daysText(n) { return n === 0 ? 'Today' : n === 1 ? 'Tomorrow' : n + ' days'; }
@@ -2499,25 +2758,24 @@ body.dark .wx-cloud i { background: #aab3c2; }
   }
   function homeTiles(now, most) {
     var out = [], w = weatherNow(), cds = countdownItems(now), term = termInfo(now), total = checklist().length, done = checkCount();
-    var tm = data && data.team, mc = data && data.minecraft, wrap = el('div', 'x-tiles'), score, i;
+    var team = data && data.team, wrap = el('div', 'x-tiles'), score, i;
     if (X.timer && !X.timer.done) { out.push(tile(X.timer.label + ' timer', timerText(), 'Tap to open', 2, { timer: true })); }
-    if (w) {
+    if (w && shown('tWeather')) {
       out.push(tile(w.place ? w.place.split(',')[0] : 'Weather', Math.round(w.temp) + '°',
         (w.text ? w.text + ' · ' : '') + Math.round(w.high) + '° / ' + Math.round(w.low) + '°', 3, { n: Math.round(w.temp), tail: '°' }));
     }
-    if (cds.length) {
+    if (cds.length && shown('tCountdown')) {
       out.push(tile(cds[0].title, daysText(cds[0].days), cds[0].days > 1 ? 'to go' : 'Countdown', 3, cds[0].days > 1 ? { n: cds[0].days, tail: ' days' } : {}));
     }
-    out.push(tile('Checklist', done + ' of ' + total, done === total ? 'All done today' : 'done today', 2, { pct: Math.round(done / total * 100) }));
-    if (tm && (tm.last || tm.next)) {
-      score = /(\d+)\D(\d+)/.exec(tm.last || '');
-      out.push(tile(tm.name || 'Team', score ? (/^won/i.test(tm.last) ? 'W ' : /^lost/i.test(tm.last) ? 'L ' : '') + score[1] + '–' + score[2] : 'Next up',
-        tm.next ? 'Next: ' + tm.next : (tm.record || ''), 3));
+    if (shown('tChecklist')) { out.push(tile('Checklist', done + ' of ' + total, done === total ? 'All done today' : 'done today', 2, { pct: Math.round(done / total * 100) })); }
+    if (team && (team.last || team.next) && shown('tTeam')) {
+      score = /(\d+)\D(\d+)/.exec(team.last || '');
+      out.push(tile(team.name || 'Team', score ? (/^won/i.test(team.last) ? 'W ' : /^lost/i.test(team.last) ? 'L ' : '') + score[1] + '–' + score[2] : 'Next up',
+        team.next ? 'Next: ' + team.next : (team.record || ''), 3));
     }
-    if (mc) { out.push(tile(mc.name || 'Server', mc.online ? 'Online' : 'Offline', mc.online ? plural(mc.players, 'player') + ' on' : 'Nobody on', 3)); }
-    if (term) { out.push(tile(term.name, term.pct + '%', plural(term.left, 'day') + ' left', 3, { n: term.pct, tail: '%', pct: term.pct })); }
-    out.push(tile('Moon', moonName(now), w && w.sunset ? 'Sunset ' + w.sunset : 'Tonight', 3));
-    if (!X.timer || X.timer.done) { out.push(tile('Timer', '25:00', 'Tap to start', 2)); }
+    if (term && shown('tTerm')) { out.push(tile(term.name, term.pct + '%', plural(term.left, 'day') + ' left', 3, { n: term.pct, tail: '%', pct: term.pct })); }
+    if (shown('tMoon')) { out.push(tile('Moon', moonName(now), w && w.sunset ? 'Sunset ' + w.sunset : 'Tonight', 3)); }
+    if ((!X.timer || X.timer.done) && shown('tTimer')) { out.push(tile('Timer', '25:00', 'Tap to start', 2)); }
     for (i = 0; i < out.length && i < most; i++) { wrap.appendChild(out[i]); }
     return wrap;
   }
@@ -2578,13 +2836,12 @@ body.dark .wx-cloud i { background: #aab3c2; }
     c.appendChild(el('div', 'x-sub', 'Clears itself every night.'));
     return c;
   }
-  function alarmCard() {
-    var c = card('Alarm'), a = new Date(2000, 0, 1, Math.floor(X.alarm.mins / 60), X.alarm.mins % 60);
-    return kids(c, el('div', 'x-big', fmtTime(a)),
-      btn('− 15 min', false, function () { X.alarm.mins = (X.alarm.mins + 1425) % 1440; }),
-      btn('+ 15 min', false, function () { X.alarm.mins = (X.alarm.mins + 15) % 1440; }),
-      btn(X.alarm.armed ? 'Alarm is on' : 'Turn alarm on', X.alarm.armed, function () { armAudio(); X.alarm.armed = !X.alarm.armed; }),
-      el('div', 'x-sub', 'Keep this screen open. The alarm has to be turned on again each night.'));
+  function alarmCard(now) {
+    var c = card('Alarm'), a = alarmConf(), next = nextAlarm(now);
+    return kids(c, el('div', 'x-big', a.on ? (next ? next.replace(/^\S+ /, '') : tm(a.time)) : 'Off'),
+      el('div', 'x-sub', a.on ? (next ? 'Next: ' + next + '. It follows the days set in Settings.' : 'Nothing in the next two weeks.') : 'Rings by itself on the days you choose.'),
+      btn(a.on ? 'Alarm is on' : 'Turn alarm on', a.on, function () { setv('alarm.on', !a.on); }),
+      btn('Alarm settings', false, function () { ui.view = 'more'; X.set = 'alarm'; ui.scroll = 0; }));
   }
   function coursesCard(m) {
     var c = card('Courses this week'), counts = {}, names = [], i, t;
@@ -2623,7 +2880,7 @@ body.dark .wx-cloud i { background: #aab3c2; }
     var c = el('div', 'x-card x-feat'), icon = el('div', 'x-wx x-moon'), side = el('div', 'x-featr');
     icon.innerHTML = moonSvg(now);
     kids(side, el('div', 'x-ct', 'Tonight'), el('div', 'x-feath', moonName(now)), el('div', 'x-quote', tipOfDay(now)),
-      el('div', 'x-sub', 'Put your town in config.json and the weather shows here.'));
+      el('div', 'x-sub', 'Add your town in Settings and the weather shows here.'));
     return kids(c, icon, side);
   }
   function sunMoonCard(now, w) {
@@ -2641,7 +2898,7 @@ body.dark .wx-cloud i { background: #aab3c2; }
       kids(c, kids(el('div', 'x-line'), el('span', '', term.name), big), meter(term.pct), el('div', 'x-sub', plural(term.left, 'day') + ' left'));
     }
     for (i = 0; i < items.length && i < 7; i++) { c.appendChild(line(items[i].title, daysText(items[i].days))); }
-    if (!term && !items.length) { c.appendChild(el('div', 'x-sub', 'Nothing coming up yet. All-day events in your calendar and dates in config.json show here.')); }
+    if (!term && !items.length) { c.appendChild(el('div', 'x-sub', 'Nothing coming up yet. All-day events in your calendar and the dates added in Settings show here.')); }
     return c;
   }
   function teamCard() {
@@ -2652,13 +2909,6 @@ body.dark .wx-cloud i { background: #aab3c2; }
     if (t.last) { c.appendChild(line(/^live/i.test(t.last) ? 'Now' : 'Last game', t.last.replace(/^live:\s*/i, ''))); }
     if (t.next) { c.appendChild(line('Next game', t.next)); }
     return c;
-  }
-  function serverCard() {
-    var s = data && data.minecraft, c;
-    if (!s) { return null; }
-    c = card('Minecraft');
-    return kids(c, kids(el('div', 'x-mrow'), el('i', 'x-dot' + (s.online ? ' on' : '')), el('b', '', s.online ? 'Online' : 'Offline')),
-      line(s.name || 'Server', s.online ? plural(s.players, 'player') + ' on' : 'Nobody on'));
   }
   function nasaCard() {
     var n = data && data.nasa, c, img;
@@ -2671,76 +2921,413 @@ body.dark .wx-cloud i { background: #aab3c2; }
       c.appendChild(img);
     }
     c.appendChild(el('div', 'x-quote', n.title));
-    if (n.url) { c.appendChild(btn(nasaOn() ? 'On the picture card' : 'Show on the picture card', nasaOn(), function () { X.nasa = !nasaOn(); })); }
+    if (n.url) { c.appendChild(btn(nasaOn() ? 'On the picture card' : 'Show on the picture card', nasaOn(), function () { setv('nasaPicture', !cfg().nasaPicture); })); }
     return c;
   }
   function setupCard() {
     var c = card('More to switch on'), n = 0;
-    if (!cfg().town) { c.appendChild(line('Weather and sunrise', 'add "town"')); n++; }
-    if (!cfg().team) { c.appendChild(line('Team scores', 'add "team"')); n++; }
-    if (!cfg().minecraftServer) { c.appendChild(line('Minecraft server', 'add "minecraftServer"')); n++; }
-    if (!termInfo(new Date())) { c.appendChild(line('Term progress', 'add "term" dates')); n++; }
+    function go(text, id) { n++; c.appendChild(btn(text, false, function () { ui.view = 'more'; X.set = id; ui.scroll = 0; })); }
+    if (!cfg().town) { go('Weather: add your town', 'you'); }
+    if (!cfg().team) { go('Team scores', 'home'); }
+    if (!termInfo(new Date())) { go('Term progress', 'dates'); }
+    if (!(cfg().birthdays || []).length) { go('Birthdays', 'dates'); }
     if (!n) { return null; }
-    c.appendChild(el('div', 'x-sub', 'These go in config.json in your wall repository on GitHub. Each one appears here within the hour.'));
+    c.appendChild(el('div', 'x-sub', 'Each of these opens the right place in Settings.'));
     return c;
   }
   function quoteCard(now) { return kids(card('Line of the day'), el('div', 'x-quote', tipOfDay(now))); }
 
-  function lookCard() {
-    var c = card('Look'), row = el('div', 'x-row'), i, sw, sc, on;
-    kids(c, btn('Auto', ui.mode === 'auto', function () { ui.mode = 'auto'; }), btn('Light', ui.mode === 'light', function () { ui.mode = 'light'; }),
-      btn('Dark', ui.mode === 'dark', function () { ui.mode = 'dark'; }));
-    row.appendChild(btn('Daily colors', !X.lock && !cfg().theme, function () { X.lock = ''; }));
+  /* ---- Settings pages. The first page is a board of tiles, one for each area; a tile opens
+         that area. Every control writes through setv(), which saves the change. ---- */
+  function shown(key) { return !getv('hide.' + key, false); }
+  function toggleHide(key) { return function () { setv('hide.' + key, shown(key)); }; }
+  function setter(path) { return function (v) { setv(path, v); }; }
+  function adder(path, blank) { return function () { var l = getv(path, []).slice(0); l.push(clone(blank)); setv(path, l); }; }
+  function remover(path, i) { return function () { var l = getv(path, []).slice(0); l.splice(i, 1); setv(path, l); }; }
+  function tm(text, fallback) {
+    var m = hm(text, -1);
+    return m < 0 ? (fallback || '') : fmtTime(new Date(2000, 0, 1, Math.floor(m / 60), m % 60));
+  }
+
+  // A box to type in, or a time or date picker. The change is kept when the box is left.
+  function watch(n, read, commit) {
+    var last = read();
+    function push() { X.typed = new Date().getTime(); if (read() !== last) { last = read(); commit(last); } }
+    n.addEventListener('input', function () { X.typed = ui.touched = new Date().getTime(); }, false);
+    n.addEventListener('focus', function () { X.typed = new Date().getTime(); }, false);
+    n.addEventListener('change', push, false);
+    n.addEventListener('blur', function () {
+      push();
+      window.scrollTo(0, 0);   // the keyboard can leave the page pushed up
+      setTimeout(function () { if (!editing()) { render(true); } }, 80);
+    }, false);
+    n.addEventListener('keydown', function (e) { if (e.keyCode === 13) { n.blur(); } }, false);
+    return n;
+  }
+  function sInput(type, value, hint, commit, cls) {
+    var n = el('input', 's-in' + (cls ? ' ' + cls : ''));
+    n.type = type;
+    n.value = value || '';
+    if (hint) { n.placeholder = hint; }
+    n.setAttribute('autocomplete', 'off'); n.setAttribute('autocorrect', 'off'); n.setAttribute('spellcheck', 'false');
+    return watch(n, function () { return n.value; }, commit);
+  }
+  function sSelect(options, value, commit) {
+    var n = el('select', 's-in'), i, o;
+    for (i = 0; i < options.length; i++) {
+      o = el('option', '', options[i][1]);
+      o.value = options[i][0];
+      if (options[i][0] === value) { o.selected = true; }
+      n.appendChild(o);
+    }
+    return watch(n, function () { return n.value; }, commit);
+  }
+  // An on/off switch. The knob slides when it was the thing just tapped.
+  function sSwitch(id, on, fn) {
+    var n = el('div', 's-sw' + (on ? ' on' : ''));
+    n.appendChild(el('i'));
+    if (A.flip === id && !still()) {
+      n.className = 's-sw' + (on ? '' : ' on');
+      setTimeout(function () { n.className = 's-sw' + (on ? ' on' : ''); }, 30);
+    }
+    return tap(n, function () { A.flip = id; fn(); });
+  }
+  function sSeg(options, current, fn) {
+    var seg = el('div', 'k-seg s-seg'), i;
+    for (i = 0; i < options.length; i++) {
+      seg.appendChild(tap(el('div', 'k-segb' + (current === options[i][0] ? ' on' : ''), options[i][1]),
+        (function (v) { return function () { fn(v); }; }(options[i][0]))));
+    }
+    return seg;
+  }
+  function sDays(list, fn) {
+    var row = el('div', 's-days'), i;
+    for (i = 1; i <= 7; i++) {
+      (function (name) {
+        var on = list.indexOf(name) !== -1;
+        row.appendChild(tap(el('div', 's-day' + (on ? ' on' : ''), name), function () {
+          var next = list.slice(0), at = next.indexOf(name);
+          if (at === -1) { next.push(name); } else { next.splice(at, 1); }
+          fn(next);
+        }));
+      }(DSHORT[i % 7]));
+    }
+    return row;
+  }
+  function sStep(text, down, up) {
+    return kids(el('div', 's-step'), tap(el('div', 's-stepb', '−'), down), el('b', '', text), tap(el('div', 's-stepb', '+'), up));
+  }
+  function sDel(fn) { return tap(el('div', 's-del', '×'), fn); }
+  function sAdd(text, fn) { return tap(el('div', 'x-btn s-add', '+ ' + text), fn); }
+  function sRow(label, control, sub) {
+    return kids(el('div', 's-row'), kids(el('div', 's-l'), el('b', '', label), sub ? el('span', '', sub) : null), kids(el('div', 's-c'), control));
+  }
+  function note(text) { return el('div', 'x-sub s-note', text); }
+  // A usual time with different times on chosen days, as in {Mon: "08:10"}.
+  function dayTimes(path, base) {
+    var wrap = el('div'), map = getv(path, {}), free = el('div', 's-days'), any = false, i, name;
+    for (i = 1; i <= 7; i++) {
+      name = DSHORT[i % 7];
+      if (map[name]) {
+        wrap.appendChild(sRow(DAYS[i % 7] + 's', kids(el('div', 's-pair'), sInput('time', map[name], '', setter(path + '.' + name)),
+          sDel((function (n) { return function () { delv(path + '.' + n); }; }(name))))));
+      } else {
+        any = true;
+        free.appendChild(tap(el('div', 's-day', name), (function (n) { return function () { setv(path + '.' + n, base); }; }(name))));
+      }
+    }
+    if (any) { wrap.appendChild(sRow('A different time on', free)); }
+    return wrap;
+  }
+  function textList(title, path, addText, hint, example) {
+    var c = card(title), list = getv(path, []), i;
+    for (i = 0; i < list.length; i++) {
+      c.appendChild(kids(el('div', 's-item'), sInput('text', list[i] || '', example, setter(path + '.' + i), 'grow'), sDel(remover(path, i))));
+    }
+    kids(c, sAdd(addText, adder(path, '')), note(hint));
+    return W(c, 4 + list.length * 2);
+  }
+
+  /* ---- The alarm follows a weekly pattern and switches itself off on chosen dates ---- */
+  function alarmConf() {
+    var a = cfg().alarm || {};
+    return { on: !!a.on, time: a.time || '07:00', days: a.days || ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'], times: a.times || {},
+      schoolOnly: !!a.schoolOnly, skip: a.skip || [] };
+  }
+  // True on a "No school" day, and on a day in the coming week that has no classes.
+  function noSchool(day) {
+    var notes = (data && data.notes) || [], src = (data && data.classes) || [], want = ymd(day), up = data ? parse(data.updated) : null;
+    var gap = dayGap(day, new Date()), any = false, i, d;
+    for (i = 0; i < notes.length; i++) {
+      if (notes[i].date === want && /no school|holiday|break|professional day/i.test(notes[i].title || '')) { return true; }
+    }
+    if (!up || new Date() - up > 36 * 3600000) { return false; }   // the class list is too old to trust
+    for (i = 0; i < src.length; i++) {
+      d = parse(src[i].start);
+      if (d) { any = true; if (ymd(d) === want) { return false; } }
+    }
+    return any && gap >= 0 && gap <= 6;
+  }
+  // Minutes after midnight that the alarm rings on a day, or -1 when it stays quiet.
+  function alarmFor(day) {
+    var a = alarmConf(), name = DSHORT[day.getDay()], want = ymd(day), i, s;
+    if (!a.on || a.days.indexOf(name) === -1) { return -1; }
+    for (i = 0; i < a.skip.length; i++) { s = a.skip[i]; if (s && s.from && want >= s.from && want <= (s.to || s.from)) { return -1; } }
+    if (a.schoolOnly && noSchool(day)) { return -1; }
+    return hm(a.times[name] || a.time, 7 * 60);
+  }
+  function nextAlarm(now) {
+    var i, d, m;
+    for (i = 0; i < 14; i++) {
+      d = addDays(now, i); m = alarmFor(d);
+      if (m >= 0 && (i > 0 || m > minsOf(now))) {
+        return (i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : DAYS[d.getDay()]) + ' ' + fmtTime(new Date(2000, 0, 1, Math.floor(m / 60), m % 60));
+      }
+    }
+    return '';
+  }
+  function resetFrame() { X.frame.idx = -1; X.frame.at = 0; if (X.frame.url) { setPhoto('', false); } }
+  function createAlbum() {
+    var name = (X.newAlbum || '').replace(/[^A-Za-z0-9 _-]/g, '').replace(/^\s+|\s+$/g, '');
+    if (!name) { X.albumNote = 'Type a name first, using letters and numbers.'; return; }
+    if (!online()) { X.albumNote = 'Albums can only be made from the wall itself.'; return; }
+    X.albumNote = 'Making the album…';
+    api('PUT', '/contents/photos/' + encodeURIComponent(name) + '/README.md',
+      { message: 'New album: ' + name, content: b64encode('Photos for the ' + name + ' album go in this folder.\n'), branch: 'main' }, function (status) {
+        if (status === 200 || status === 201) {
+          X.albumNote = 'Made "' + name + '". On GitHub, upload pictures into photos/' + name + '.';
+          X.newAlbum = ''; store.canWrite = true; nudgeUpdater(true);
+        } else {
+          X.albumNote = status === 422 ? 'There is already an album with that name.'
+            : (status === 401 || status === 403 || status === 404) ? 'The access key is not allowed to make albums yet. Settings, Data explains how to allow it.'
+            : 'Could not reach GitHub. Try again in a moment.';
+        }
+        render(true);
+      });
+  }
+
+  /* ---- One function for each area ---- */
+  function setYou() {
+    var a = card('About you'), b = card('Weather'), w = weatherNow(), town = getv('town', '');
+    a.appendChild(sRow('Name', sInput('text', getv('name', ''), 'Your name', setter('name')), 'Shown in the greeting'));
+    kids(b, sRow('Town', sInput('text', town, 'City, State', setter('town')), 'For weather, sunrise and air quality'),
+      sRow('Temperature', sSeg([['F', '°F'], ['C', '°C']], ('' + getv('units', 'F')).charAt(0).toUpperCase() === 'C' ? 'C' : 'F', setter('units'))),
+      note(w ? 'Showing the weather for ' + (w.place || town) + '.' : town ? 'The weather appears after the next update.' : 'Add a town to switch the weather on.'));
+    return [W(a, 3), W(b, 6)];
+  }
+  function setMorning() {
+    var a = card('Leaving home'), b = card('Morning screen'), on = !!getv('leaveAt.default', '');
+    a.appendChild(sRow('Leave-by reminder', sSwitch('leaveAt', on, function () {
+      if (on) { setv('leaveAt', {}); } else { setv('leaveAt.default', '08:00'); }
+    }), 'A banner that counts down to when you need to go'));
+    if (on) {
+      kids(a, sRow('Usual time', sInput('time', getv('leaveAt.default', ''), '', setter('leaveAt.default'))), dayTimes('leaveAt', getv('leaveAt.default', '08:00')),
+        note('Shows on school days, starting 90 minutes before.'));
+    }
+    kids(b, sRow('From', sInput('time', getv('morningStart', '06:30'), '', setter('morningStart'))),
+      sRow('Until', sInput('time', getv('morningEnd', '08:30'), '', setter('morningEnd'))),
+      note('Between these times, before your first class, the picture card shows that class and what is due today.'));
+    return [W(a, 8), W(b, 5)];
+  }
+  function setAlarm(now) {
+    var a = card('Alarm'), b = card('Days off'), c = card('Sound'), al = alarmConf(), nx = nextAlarm(now), i;
+    a.appendChild(sRow('Alarm', sSwitch('alarm.on', al.on, function () { setv('alarm.on', !al.on); }),
+      al.on ? (nx ? 'Next: ' + nx : 'Nothing in the next two weeks') : 'Off'));
+    kids(a, sRow('Usual time', sInput('time', al.time, '', setter('alarm.time'))), sRow('Rings on', sDays(al.days, setter('alarm.days'))),
+      dayTimes('alarm.times', al.time));
+    b.appendChild(sRow('School days only', sSwitch('alarm.schoolOnly', al.schoolOnly, function () { setv('alarm.schoolOnly', !al.schoolOnly); }),
+      'Quiet on No-school days and days without classes'));
+    for (i = 0; i < al.skip.length; i++) {
+      b.appendChild(kids(el('div', 's-item'), el('span', 's-to', 'Off from'), sInput('date', al.skip[i].from || '', '', setter('alarm.skip.' + i + '.from')),
+        el('span', 's-to', 'to'), sInput('date', al.skip[i].to || '', '', setter('alarm.skip.' + i + '.to')), sDel(remover('alarm.skip', i))));
+    }
+    kids(b, sAdd('Add dates off', function () { var l = alarmConf().skip.slice(0); l.push({ from: ymd(new Date()), to: '' }); setv('alarm.skip', l); }),
+      note('For a break or a trip. Leave the second date empty for a single day. The alarm switches itself back on afterwards.'));
+    kids(c, note(X.audio ? 'Sound is ready.' : 'Sound switches on the first time the screen is tapped after the wall app opens. Until then the alarm only shows on screen.'),
+      btn('Test the sound', false, function () { armAudio(); beep(3); }));
+    return [W(a, 10), W(b, 6 + al.skip.length * 2), W(c, 3)];
+  }
+  function setLook() {
+    var a = card('Light and dark'), b = card('Colors'), c = card('Animations'), row = el('div', 'x-row'), cur = getv('theme', ''), i, sw, sc;
+    kids(a, sSeg([['auto', 'Auto'], ['light', 'Light'], ['dark', 'Dark']], ui.mode, function (v) { ui.mode = v; setv('mode', v); A.view = ''; }),
+      note('Auto is light by day and dark from 7 in the evening.'));
+    row.appendChild(btn('A new one each day', !cur, function () { setv('theme', ''); }));
     for (i = 0; i < THEMES.length; i++) {
-      sc = SCENES[THEMES[i].id] || SCENES.forest; on = (X.lock || cfg().theme) === THEMES[i].id;
+      sc = SCENES[THEMES[i].id] || SCENES.forest;
       sw = el('i', 'x-sw');
       sw.style.background = sc.l[1];
-      row.appendChild(tap(kids(el('div', 'x-btn x-theme' + (on ? ' on' : '')), sw, el('span', '', THEMES[i].name)),
-        (function (id) { return function () { X.lock = id; }; }(THEMES[i].id))));
+      row.appendChild(tap(kids(el('div', 'x-btn x-theme' + (cur === THEMES[i].id ? ' on' : '')), sw, el('span', '', THEMES[i].name)),
+        (function (id) { return function () { setv('theme', id); }; }(THEMES[i].id))));
     }
-    return kids(c, row);
+    b.appendChild(row);
+    kids(c, sSeg([['full', 'Full'], ['less', 'Fewer'], ['off', 'Off']], X.motion, setter('motion')), note('Choose Fewer or Off if the iPad feels slow.'));
+    return [W(a, 4), W(b, 6), W(c, 4)];
   }
-  function picturesCard() {
-    var c = card('Pictures');
-    if (photoList().length) {
-      c.appendChild(btn(frameOn() ? 'Photo frame is on' : 'Photo frame is off', frameOn(), function () {
-        X.frame.on = !frameOn(); X.frame.at = 0;
-        if (!X.frame.on) { setPhoto('', false); }
-      }));
+  function setNight() {
+    var a = card('Night clock'), b = card('Evening'), on = getv('nightClock', true) !== false;
+    a.appendChild(sRow('Night clock', sSwitch('nightClock', on, function () { setv('nightClock', !on); }), 'A dim clock overnight. Touch the screen to wake it.'));
+    if (on) {
+      kids(a, sRow('Starts', sInput('time', getv('nightStart', '22:00'), '', setter('nightStart'))),
+        sRow('Ends', sInput('time', getv('nightEnd', '06:30'), '', setter('nightEnd'))));
     }
-    if (data && data.nasa && data.nasa.url) { c.appendChild(btn(nasaOn() ? 'NASA picture is on' : 'NASA picture is off', nasaOn(), function () { X.nasa = !nasaOn(); })); }
-    c.appendChild(el('div', 'x-sub', photoList().length ? 'Your photos change every few minutes on the picture card.'
-      : 'Add pictures to the photos folder in your wall repository to use the photo frame.'));
-    return c;
+    kids(b, sRow('Wind-down banner', sSwitch('hide.bWind', shown('bWind'), toggleHide('bWind')), 'Tomorrow\'s first class and what is due'),
+      sRow('From', sInput('time', getv('windDown', '21:30'), '', setter('windDown'))));
+    return [W(a, 6), W(b, 5)];
   }
-  function nightCard() {
-    var c = card('Night clock');
-    var a = new Date(2000, 0, 1, Math.floor(NIGHT_START / 60) % 24, NIGHT_START % 60), b = new Date(2000, 0, 1, Math.floor(NIGHT_END / 60), NIGHT_END % 60);
-    c.appendChild(el('div', 'x-sub', NIGHT_START >= 1440 ? 'The night clock is off.' : 'Dim clock from ' + fmtTime(a) + ' to ' + fmtTime(b) + '. Touch the screen to wake it.'));
-    return kids(c, btn('From settings', X.night === null, function () { X.night = null; }),
-      btn('9 PM', X.night === 21 * 60, function () { X.night = 21 * 60; }),
-      btn('10 PM', X.night === 22 * 60, function () { X.night = 22 * 60; }),
-      btn('11 PM', X.night === 23 * 60, function () { X.night = 23 * 60; }),
-      btn('Off', X.night === 'off', function () { X.night = 'off'; }));
+  function setPictures() {
+    var a = card('Photo frame'), b = card('NASA picture of the day'), albums = (data && data.albums) || [], all = (data && data.photos) || [];
+    var on = getv('photoFrame', true) !== false, cur = getv('album', ''), row = el('div', 'x-row'), mins = Math.max(1, +getv('photoMinutes', 3) || 3), i, nasa = data && data.nasa;
+    a.appendChild(sRow('Photo frame', sSwitch('photoFrame', on, function () { setv('photoFrame', !on); resetFrame(); }),
+      all.length ? plural(all.length, 'photo') + ' ready' : 'No photos yet'));
+    row.appendChild(btn('All photos · ' + all.length, !cur, function () { setv('album', ''); resetFrame(); }));
+    for (i = 0; i < albums.length; i++) {
+      row.appendChild(btn(albums[i].name + ' · ' + (albums[i].photos || []).length, cur === albums[i].name,
+        (function (name) { return function () { setv('album', name); resetFrame(); }; }(albums[i].name))));
+    }
+    kids(a, el('div', 's-sep', 'Album'), row,
+      sRow('New photo every', sStep(plural(mins, 'minute'), function () { setv('photoMinutes', Math.max(1, mins - 1)); }, function () { setv('photoMinutes', Math.min(60, mins + 1)); })),
+      sRow('New album', kids(el('div', 's-pair'), sInput('text', X.newAlbum || '', 'Album name', function (v) { X.newAlbum = v; }, 'mid'), btn('Make', false, createAlbum))),
+      X.albumNote ? note(X.albumNote) : null,
+      note('An album is a folder inside photos in your wall repository on GitHub. Pictures uploaded there appear within the hour.'));
+    b.appendChild(sRow('On the picture card', sSwitch('nasaPicture', !!getv('nasaPicture', false), function () { setv('nasaPicture', !getv('nasaPicture', false)); }),
+      nasa && nasa.title ? 'Today: ' + nasa.title : 'A new space photo each day'));
+    b.appendChild(note('Your own photos are shown instead when the photo frame is on.'));
+    return [W(a, 11), W(b, 4)];
   }
-  function motionCard() {
-    return kids(card('Animations'),
-      btn('Full', X.motion === 'full', function () { X.motion = 'full'; }),
-      btn('Fewer', X.motion === 'less', function () { X.motion = 'less'; }),
-      btn('Off', X.motion === 'off', function () { X.motion = 'off'; }),
-      el('div', 'x-sub', 'Choose Fewer or Off if the iPad feels slow.'));
+  // The month (0) or day (1) of a birthday as it is stored now.
+  function birthPart(j, which) { var r = /^(\d\d)-(\d\d)$/.exec(getv('birthdays.' + j + '.date', '')) || ['', '01', '01']; return r[which + 1]; }
+  function teamPart(which) { var t = ('' + getv('team', '')).split('/'); return t.length > 1 ? (which ? t[t.length - 1] : t[0]) : ''; }
+  var MONTH_PICK = (function () { var out = [], i; for (i = 0; i < 12; i++) { out.push([pad(i + 1), MONTHS[i]]); } return out; }());
+  var DAY_PICK = (function () { var out = [], i; for (i = 1; i <= 31; i++) { out.push([pad(i), '' + i]); } return out; }());
+  function setDates() {
+    var a = card('Term'), b = card('Countdowns'), c = card('Birthdays'), cds = getv('countdowns', []), bds = getv('birthdays', []), i, md;
+    kids(a, sRow('Name', sInput('text', getv('term.name', ''), 'Fall semester', setter('term.name'))),
+      sRow('First day', sInput('date', getv('term.start', ''), '', setter('term.start'))),
+      sRow('Last day', sInput('date', getv('term.end', ''), '', setter('term.end'))), note('Shows how far through the term you are.'));
+    for (i = 0; i < cds.length; i++) {
+      b.appendChild(kids(el('div', 's-item'), sInput('text', cds[i].title || '', 'What is it?', setter('countdowns.' + i + '.title'), 'grow'),
+        sInput('date', cds[i].date || '', '', setter('countdowns.' + i + '.date')), sDel(remover('countdowns', i))));
+    }
+    kids(b, sAdd('Add a countdown', adder('countdowns', { title: '', date: '' })), note('All-day events in your calendar are counted down by themselves.'));
+    for (i = 0; i < bds.length; i++) {
+      md = /^(\d\d)-(\d\d)$/.exec(bds[i].date || '') || ['', '01', '01'];
+      c.appendChild(kids(el('div', 's-item'), sInput('text', bds[i].name || '', 'Name', setter('birthdays.' + i + '.name'), 'grow'),
+        sSelect(MONTH_PICK, md[1], (function (j) { return function (v) { setv('birthdays.' + j + '.date', v + '-' + birthPart(j, 1)); }; }(i))),
+        sSelect(DAY_PICK, md[2], (function (j) { return function (v) { setv('birthdays.' + j + '.date', birthPart(j, 0) + '-' + v); }; }(i))),
+        sDel(remover('birthdays', i))));
+    }
+    kids(c, sAdd('Add a birthday', adder('birthdays', { name: '', date: '01-01' })), note('Counted down on the Around page, with a banner on the day.'));
+    return [W(a, 7), W(b, 4 + cds.length * 2), W(c, 4 + bds.length * 2)];
   }
-  function aboutCard(now) {
-    var c = card('About'), up = data ? parse(data.updated) : null;
-    if (up) { c.appendChild(line('Due list updated', (dayKey(up) === dayKey(now) ? '' : DSHORT[up.getDay()] + ' ') + fmtTime(up))); }
-    return kids(c, btn('Check for new data', false, function () { refreshing = true; load(); }),
-      el('div', 'x-sub', 'Choices made on the iPad last until the app is closed. Permanent ones go in config.json in your wall repository.'));
+  function setRemind() {
+    var list = getv('reminders', []), out = [], i, c;
+    for (i = 0; i < list.length; i++) {
+      c = card('Reminder ' + (i + 1));
+      kids(c, sRow('Says', sInput('text', list[i].text || '', 'Trash goes out tonight', setter('reminders.' + i + '.text'), 'wide')),
+        sRow('On', sDays(list[i].days || [], setter('reminders.' + i + '.days'))),
+        sRow('Starting at', sInput('time', list[i].from || '', '', setter('reminders.' + i + '.from')), 'Empty means all day'),
+        btn('Remove', false, remover('reminders', i)));
+      out.push(W(c, 8));
+    }
+    c = card(list.length ? 'Another one' : 'Reminders');
+    kids(c, note('A reminder is a banner on the days you pick, such as "Trash goes out tonight" every Tuesday from 5 PM. Tap a banner to hide it for the day.'),
+      sAdd('Add a reminder', adder('reminders', { text: '', days: [DSHORT[new Date().getDay()]], from: '' })));
+    out.push(W(c, 4));
+    return out;
+  }
+  function setLists() {
+    return [textList('Daily checklist', 'checklist', 'Add an item', 'Ticked off on the Focus page and cleared every night. With nothing here, three built-in items are used.', 'Pack bag for tomorrow'),
+      textList('Line of the day', 'quotes', 'Add a line', 'One of these shows each day. With nothing here, the built-in study tips are used.', 'Your own line')];
+  }
+  var LEAGUES = [['nba', 'NBA'], ['nfl', 'NFL'], ['mlb', 'MLB'], ['nhl', 'NHL'], ['wnba', 'WNBA'], ['mls', 'MLS'],
+    ['college-football', 'College football'], ['mens-college-basketball', 'College basketball']];
+  function setHome() {
+    var a = card('Tiles on the Home page'), b = card('Banners'), c = card('On the Home page'), d = card('Team'), t = ('' + getv('team', '')).split('/');
+    var league = t.length > 1 ? t[0] : 'nba', code = t.length > 1 ? t[t.length - 1] : '';
+    function sw(box, key, label, sub) { box.appendChild(sRow(label, sSwitch('hide.' + key, shown(key), toggleHide(key)), sub)); }
+    sw(a, 'tWeather', 'Weather'); sw(a, 'tCountdown', 'Next countdown'); sw(a, 'tChecklist', 'Checklist'); sw(a, 'tTeam', 'Team');
+    sw(a, 'tTerm', 'Term progress'); sw(a, 'tMoon', 'Moon'); sw(a, 'tTimer', 'Timer');
+    a.appendChild(note('The first four that have something to show are used.'));
+    sw(b, 'bNote', 'Notes from your phone', 'All-day calendar events that start with !');
+    sw(b, 'bBday', 'Birthdays'); sw(b, 'bToday', 'Busy today', 'Three or more things due today');
+    sw(b, 'bHeavy', 'Heavy day ahead', 'Five or more due on one day'); sw(b, 'bWeek', 'Sunday review');
+    sw(c, 'classes', 'Today\'s classes'); sw(c, 'tests', 'Test badges', 'Quizzes, tests and essays stand out');
+    sw(c, 'passed', 'Just passed', 'What was due in the last two days'); sw(c, 'speak', 'Read-aloud button');
+    kids(d, sRow('League', sSelect(LEAGUES, league, function (v) { league = v; if (teamPart(1)) { setv('team', v + '/' + teamPart(1)); } })),
+      sRow('Team', sInput('text', code, 'den', function (v) { v = v.replace(/[^A-Za-z0-9.-]/g, '').toLowerCase(); setv('team', v ? league + '/' + v : ''); }, 'short'),
+        'The league\'s short name for it, such as den, dal or nyy'),
+      note(data && data.team ? 'Following ' + (data.team.name || 'your team') + '.' : 'Shows the last result and the next game. Leave it empty for no team.'));
+    return [W(a, 10), W(b, 8), W(c, 7), W(d, 6)];
+  }
+  function setData(now) {
+    var a = card('Due list'), b = card('Saving settings'), up = data ? parse(data.updated) : null;
+    if (up) { a.appendChild(line('Last updated', (dayKey(up) === dayKey(now) ? '' : DSHORT[up.getDay()] + ' ') + fmtTime(up))); }
+    kids(a, btn('Check for new data', false, function () { refreshing = true; load(); loadConfig(); }),
+      btn('Run the updater now', false, function () { store.note = 'Asking GitHub…'; nudgeUpdater(true, true); }),
+      store.note ? note(store.note) : null,
+      note('GitHub is meant to run the updater every hour. If the list gets old, the wall asks for a run itself.'));
+    b.appendChild(line('Settings are', store.canWrite === true ? 'saved to GitHub' : store.canWrite === false ? 'kept on this iPad only' : 'saved when changed'));
+    if (store.canWrite === false || store.canRun === false) {
+      kids(b, note('The access key may only read, so ' + (store.canWrite === false ? 'changes made here are lost when the wall app is closed' : 'the wall cannot start the updater') +
+        '. To allow it: on GitHub open Settings, Developer settings, Fine-grained tokens, choose the wall key, and under Repository permissions set Contents and Actions to "Read and write". The key itself stays the same, so nothing changes on the iPad.'),
+        btn('Try again', false, function () { store.canWrite = null; store.canRun = null; store.dirty = true; store.sha = ''; saveConfig(); }));
+    } else {
+      b.appendChild(note('Changes are written to config.json in your wall repository, so they survive closing the app.'));
+    }
+    return [W(a, 6), W(b, 6)];
+  }
+
+  var SETS = [
+    { id: 'you', name: 'You', tint: '#4dabf7', icon: '<circle cx="12" cy="8" r="4"/><path d="M4.5 20c1.2-3.6 4-5.5 7.5-5.5s6.3 1.9 7.5 5.5"/>', build: setYou,
+      sum: function () { return (getv('name', '') || 'No name') + ' · ' + (getv('town', '') || 'no town'); } },
+    { id: 'morning', name: 'Mornings', tint: '#ffa94d', icon: '<path d="M4 18h16M7 14a5 5 0 0 1 10 0M12 4v3M5 8l2 2M19 8l-2 2"/>', build: setMorning,
+      sum: function () { return getv('leaveAt.default', '') ? 'Leave by ' + tm(getv('leaveAt.default', '')) : 'No leave-by time'; } },
+    { id: 'alarm', name: 'Alarm', tint: '#ff6b6b', icon: '<path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/>', build: setAlarm,
+      sum: function (now) { return alarmConf().on ? (nextAlarm(now) || 'On') : 'Off'; } },
+    { id: 'look', name: 'Look', tint: '#9775fa', icon: '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/>', build: setLook,
+      sum: function () { var i, t = 'daily colors'; for (i = 0; i < THEMES.length; i++) { if (THEMES[i].id === getv('theme', '')) { t = THEMES[i].name; } } return MODE_NAME[ui.mode] + ' · ' + t; } },
+    { id: 'night', name: 'Night', tint: '#5c6bc0', icon: '<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/>', build: setNight,
+      sum: function () { return getv('nightClock', true) === false ? 'Night clock off' : tm(getv('nightStart', '22:00')) + ' to ' + tm(getv('nightEnd', '06:30')); } },
+    { id: 'pictures', name: 'Pictures', tint: '#38d9a9', icon: '<rect x="3.5" y="5" width="17" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l5-4 3.5 3 3-2.5 4.5 4"/>', build: setPictures,
+      sum: function () { return frameOn() ? (getv('album', '') || 'All photos') : nasaOn() ? 'NASA picture' : 'Drawn scenes'; } },
+    { id: 'dates', name: 'Dates', tint: '#f783ac', icon: '<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/>', build: setDates,
+      sum: function () { return plural(getv('countdowns', []).length, 'countdown') + ' · ' + plural(getv('birthdays', []).length, 'birthday'); } },
+    { id: 'remind', name: 'Reminders', tint: '#fcc419', icon: '<path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4A2.5 2.5 0 0 1 4 13.5z"/>', build: setRemind,
+      sum: function () { var n = getv('reminders', []).length; return n ? plural(n, 'reminder') : 'None yet'; } },
+    { id: 'lists', name: 'Lists', tint: '#69db7c', icon: '<path d="M10 6.5h9.5M10 12h9.5M10 17.5h9.5M4.5 6.5l1 1 2-2M4.5 12l1 1 2-2M4.5 17.5l1 1 2-2"/>', build: setLists,
+      sum: function () { return 'Checklist · ' + plural(checklist().length, 'item'); } },
+    { id: 'home', name: 'Home page', tint: '#20c997', icon: '<rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/>', build: setHome,
+      sum: function () { return 'Tiles, banners and team'; } },
+    { id: 'data', name: 'Data', tint: '#868e96', icon: '<path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5v5h-5"/>', build: setData,
+      sum: function () { return saveText() || (store.canWrite === false ? 'On this iPad only' : 'Updates and saving'); } }
+  ];
+  function setFind(id) { var i; for (i = 0; i < SETS.length; i++) { if (SETS[i].id === id) { return SETS[i]; } } return null; }
+  function settingsHead(sec) {
+    var left = el('div', 's-hl'), save = el('div', 's-save ' + store.state, saveText() || ' ');
+    save.id = 's-save';
+    if (sec) { kids(left, tap(el('div', 's-back', '‹ Settings'), function () { X.set = ''; ui.scroll = 0; }), el('b', '', sec.name)); }
+    else { kids(left, el('b', '', 'Settings'), el('span', '', 'Everything about the wall')); }
+    return kids(el('div', 'k-sec x-ph'), left, save);
+  }
+  function settingsPage(pg, now, m, sc, land, fresh) {
+    var sec = setFind(X.set), grid, i, t, ic;
+    if (sec) { buildPage(pg, null, sec.build(now, m), land, fresh, land ? 2 : 1); return; }
+    grid = el('div', 's-grid');
+    for (i = 0; i < SETS.length; i++) {
+      ic = el('div', 's-ic');
+      ic.innerHTML = ICON_OPEN + SETS[i].icon + '</svg>';
+      ic.style.background = SETS[i].tint;
+      t = tap(kids(el('div', 's-tile'), ic, kids(el('div', 's-tt'), el('b', '', SETS[i].name), el('span', '', SETS[i].sum(now)))),
+        (function (id) { return function () { X.set = id; ui.scroll = 0; }; }(SETS[i].id)));
+      grid.appendChild(fresh ? stagger(t, 'a-pop', i) : t);
+    }
+    pg.appendChild(grid);
   }
 
   // A page is one large card and a set of smaller ones, dealt into columns of even height.
   function W(node, weight) { return node ? { node: node, weight: weight } : null; }
-  function buildPage(pg, feature, cards, land, fresh) {
-    var n = (land && !feature) ? 3 : 2, wrap = el('div', 'x-grid'), cols = [], i, j, best, seq = 0;
+  function buildPage(pg, feature, cards, land, fresh, count) {
+    var n = count || ((land && !feature) ? 3 : 2), wrap = el('div', 'x-grid'), cols = [], i, j, best, seq = 0;
     if (feature) { pg.appendChild(fresh ? stagger(feature, 'a-pop', seq++) : feature); }
     for (i = 0; i < n; i++) { cols.push({ node: el('div', 'x-col'), h: 0 }); wrap.appendChild(cols[i].node); }
     for (i = 0; i < cards.length; i++) {
@@ -2752,16 +3339,13 @@ body.dark .wx-cloud i { background: #aab3c2; }
     pg.appendChild(wrap);
   }
   function focusPage(pg, now, m, sc, land, fresh) {
-    buildPage(pg, timerCard(now, sc), [W(checklistCard(), 5), W(alarmCard(), 5), W(gameCard(), 7), W(coursesCard(m), 4)], land, fresh);
+    buildPage(pg, timerCard(now, sc), [W(checklistCard(), 5), W(alarmCard(now), 5), W(gameCard(), 7), W(coursesCard(m), 4)], land, fresh);
   }
   function aroundPage(pg, now, m, sc, land, fresh) {
     var w = weatherNow();
     buildPage(pg, w ? weatherCard(now, w) : skyCard(now),
-      [W(countdownCard(now), 6), w ? W(sunMoonCard(now, w), 4) : null, W(teamCard(), 3), W(serverCard(), 3), W(nasaCard(), 7), w ? W(quoteCard(now), 2) : null, W(setupCard(), 5)],
+      [W(countdownCard(now), 6), w ? W(sunMoonCard(now, w), 4) : null, W(teamCard(), 3), W(nasaCard(), 7), w ? W(quoteCard(now), 2) : null, W(setupCard(), 5)],
       land, fresh);
-  }
-  function settingsPage(pg, now, m, sc, land, fresh) {
-    buildPage(pg, null, [W(lookCard(), 7), W(picturesCard(), 3), W(nightCard(), 4), W(motionCard(), 3), W(aboutCard(now), 4)], land, fresh);
   }
 
   /* ---- The picture card ---- */
@@ -2839,9 +3423,12 @@ body.dark .wx-cloud i { background: #aab3c2; }
     var wx = weatherNow(), view = ui.view, tabNow = tabOf(view), home = view === 'list', calendar = view === 'month' || view === 'year';
     var fresh = A.first || A.view !== view;   // a different page from the one drawn last time
     var dir = A.first ? 0 : (tabNow > A.tab ? 1 : tabNow < A.tab ? -1 : 0);
+    var opened = view === 'more' && A.view === 'more' && A.set !== X.set;   // moved into or out of a Settings area
     var listKey = '', heroKey = '', calKey = 0, seen = {}, mode, sheet, pg, node, grid, cells, h;
 
-    if (!ui.touched) { X.course = ''; X.detail = ''; }   // the idle reset also clears these
+    if (!ui.touched) { X.course = ''; X.detail = ''; X.set = ''; }   // the idle reset also clears these
+    if (view !== 'more') { X.set = ''; }
+    if (opened) { fresh = true; dir = X.set ? 1 : -1; }
     if (X.checkDay !== dayKey(now)) { X.checks = {}; X.checkDay = dayKey(now); }   // the checklist clears itself each day
     if (calendar) { X.cal = view; }
     saveX();
@@ -2858,6 +3445,7 @@ body.dark .wx-cloud i { background: #aab3c2; }
     tap(mode, function () {
       ui.mode = MODE_NEXT[ui.mode] || 'auto';
       try { window.localStorage.setItem('wallMode', ui.mode); } catch (err) { /* still applies now */ }
+      setv('mode', ui.mode);
       A.view = '';   // light and dark fade into each other
     });
     kids(s, kids(el('div', 'k-head' + (A.first && !still() ? ' a-drop' : '')),
@@ -2911,7 +3499,7 @@ body.dark .wx-cloud i { background: #aab3c2; }
         node = hero.node.querySelectorAll('.k-tag'); for (i = 0; i < node.length; i++) { node[i].className += ' a-fade'; }
       }
       left.appendChild(hero.node);
-      strip = classStrip(now);
+      strip = shown('classes') ? classStrip(now) : null;
       if (strip) { left.appendChild(strip); }
       node = homeTiles(now, (land && bans.length) ? 2 : 4);   // sideways with banners showing, there is room for one row
       if (fresh) { for (i = 0; i < node.children.length; i++) { stagger(node.children[i], 'a-pop', i + 1); } }
@@ -2931,14 +3519,14 @@ body.dark .wx-cloud i { background: #aab3c2; }
           el('b', '', X.course ? X.course : (!sel ? 'Coming up' : dayName + ', ' + MONTHS[dayDate.getMonth()] + ' ' + dayDate.getDate())),
           X.course ? tap(el('span', 'x-clear', 'Show all'), function () { X.course = ''; ui.scroll = 0; })
                    : el('span', '', !sel ? m.all.length + ' this week' : list.length + ' due')),
-        kids(el('div', 'x-secr'), iconBtn('x-small', XI.speak, function () { speakToday(new Date(), m); }))));
+        kids(el('div', 'x-secr'), shown('speak') ? iconBtn('x-small', XI.speak, function () { speakToday(new Date(), m); }) : null)));
 
       box = el('div', 'k-list');
       listKey = [sel, X.course, data ? 1 : 0].join('|');
       for (i = 0; i < list.length; i++) {
         key = itemKey(list[i]);
         row = tap(cardRow(list[i], now, sc.l[1]), (function (k) { return function () { ui.item = k; X.detail = k; }; }(key)));
-        if (isTest(list[i])) { row.insertBefore(el('span', 'x-test', 'Test'), row.lastChild); }
+        if (shown('tests') && isTest(list[i])) { row.insertBefore(el('span', 'x-test', 'Test'), row.lastChild); }
         if (X.done[key]) { row.className += ' x-done'; }
         if (list[i] === hit) { row.className += ' sel'; selRow = row; }
         if ((fresh || listKey !== A.list) && i < 9) { stagger(row, 'a-rise', i + 1); }
@@ -2946,7 +3534,7 @@ body.dark .wx-cloud i { background: #aab3c2; }
       }
       if (!list.length) { box.appendChild(el('div', 'k-row k-more', X.course ? 'Nothing due for this course' : (!sel ? 'Nothing due this week' : 'Nothing due this day'))); }
       // Things that were due in the last two days, so nothing slips by unnoticed
-      if (!sel && !X.course) {
+      if (!sel && !X.course && shown('passed')) {
         old = [];
         for (i = m.every.length - 1; i >= 0; i--) { it = m.every[i]; if (it.when < now && now - it.when < 48 * 3600000) { old.push(it); } }
         if (old.length) {
@@ -2969,7 +3557,7 @@ body.dark .wx-cloud i { background: #aab3c2; }
     } else {
       right.appendChild(view === 'focus' ? pageHead('Focus', 'Timer, checklist, alarm and a break')
         : view === 'around' ? pageHead('Around', 'Weather, countdowns and what is going on')
-        : pageHead('Settings', 'How the wall looks and behaves'));
+        : settingsHead(setFind(X.set)));
       box = el('div', 'k-list x-page');
       pg = el('div', 'x-pg' + (land ? ' x-wide2' : ''));
       if (view === 'focus') { focusPage(pg, now, m, sc, land, fresh); }
@@ -2993,7 +3581,7 @@ body.dark .wx-cloud i { background: #aab3c2; }
     } else { X.detail = ''; }
     if (X.alarm.ringing) {
       s.appendChild(tap(kids(el('div', 'x-sheet x-alarm'), kids(el('div', 'x-sheetb a-ring'), el('div', 'x-sht', 'Alarm'),
-        el('div', 'x-shw', fmtTime(now)), el('div', 'x-btn dark', 'Stop'))), function () { X.alarm.ringing = false; X.alarm.armed = false; }));
+        el('div', 'x-shw', fmtTime(now)), el('div', 'x-btn dark', 'Stop'))), function () { X.alarm.ringing = false; }));
     }
 
     // Sizes that depend on the finished layout
@@ -3020,7 +3608,7 @@ body.dark .wx-cloud i { background: #aab3c2; }
     ui.reveal = false;
     ui.hero = hero ? hero.shows : null;
     A.first = false; A.view = view; A.tab = tabNow; A.list = listKey; A.hero = heroKey; A.bans = seen; A.sheet = X.detail;
-    A.sel = sel; A.check = -1; A.cells = X.game.cells.join(','); A.cal = calKey;
+    A.sel = sel; A.check = -1; A.cells = X.game.cells.join(','); A.cal = calKey; A.set = X.set; A.flip = '';
     settleSoon();
     cardSig = cardSignature(now);
   };
@@ -3050,15 +3638,24 @@ body.dark .wx-cloud i { background: #aab3c2; }
         if (ring) { ring.style.strokeDashoffset = (326.7 * (1 - Math.max(0, Math.min(1, (t.end - now.getTime() - 1000) / (t.total || 1))))).toFixed(1); }
       }
     }
-    if (X.alarm.armed && !X.alarm.ringing && minsOf(now) === X.alarm.mins && now.getSeconds() < 2) {
-      X.alarm.ringing = true; ui.touched = now.getTime(); render(true);
+    if (editing()) {
+      ui.touched = now.getTime();   // do not go back to Home in the middle of typing
+      if (now.getTime() - X.typed > 180000) { document.activeElement.blur(); }   // left open and forgotten
+    }
+    if (!X.alarm.ringing && X.alarm.rang !== dayKey(now) && alarmFor(now) === minsOf(now)) {
+      X.alarm.rang = dayKey(now); X.alarm.ringing = true; X.alarm.since = now.getTime(); ui.touched = now.getTime();
+      if (editing()) { document.activeElement.blur(); }
+      render(true);
     }
     if (frameOn() && layout === 'card' && !X.frame.busy &&
         (!X.frame.url || now.getTime() - X.frame.at > Math.max(1, +cfg().photoMinutes || 3) * 60000) &&
         now.getTime() - X.frame.at > 20000) { nextPhoto(); }
     if (X.alarm.ringing) {
-      ui.touched = now.getTime();   // keep the screen awake while it rings
-      if (now.getSeconds() % 2 === 0) { beep(2); }
+      if (now.getTime() - X.alarm.since > 10 * 60000) { X.alarm.ringing = false; render(true); }   // nobody came: stop after ten minutes
+      else {
+        ui.touched = now.getTime();   // keep the screen awake while it rings
+        if (now.getSeconds() % 2 === 0) { beep(2); }
+      }
     }
   }, 1000);
 
@@ -3067,25 +3664,28 @@ body.dark .wx-cloud i { background: #aab3c2; }
          when the access key is also allowed to start it ("Actions: read and write" on the key);
          without that permission GitHub says no and nothing else happens. ---- */
   var nudge = { at: 0, wait: 30 * 60000 };
-  function nudgeUpdater() {
-    var key = getKey(), up = data ? parse(data.updated) : null, now = new Date().getTime(), x;
-    if (LOCAL && !param('nudge')) { return; }
-    if (!key || !up || now - up.getTime() < 75 * 60000 || now - nudge.at < nudge.wait) { return; }
+  function nudgeUpdater(force, tell) {
+    var up = data ? parse(data.updated) : null, now = new Date().getTime();
+    function say(text) { if (tell) { store.note = text; render(); } }
+    if (!online()) { say('The updater can only be started from the wall itself.'); return; }
+    if (force !== true && (!up || now - up.getTime() < 75 * 60000 || now - nudge.at < nudge.wait)) { return; }
+    if (force === true && !tell && (store.canRun === false || now - nudge.at < 20000)) { return; }
     nudge.at = now;
-    try {
-      x = new XMLHttpRequest();
-      x.open('POST', 'https://api.github.com/repos/' + DATA_REPO + '/actions/workflows/update.yml/dispatches', true);
-      x.setRequestHeader('Authorization', 'Bearer ' + key);
-      x.setRequestHeader('Accept', 'application/vnd.github+json');
-      x.setRequestHeader('Content-Type', 'application/json');
-      x.onreadystatechange = function () {
-        if (x.readyState !== 4) { return; }
-        if (x.status === 204) { nudge.wait = 30 * 60000; setTimeout(load, 70000); setTimeout(load, 160000); }   // started: collect the result shortly
-        else if (x.status === 401 || x.status === 403 || x.status === 404) { nudge.wait = 6 * 3600000; }       // not allowed: ask only now and then
-      };
-      x.send('{"ref":"main"}');
-    } catch (err) { /* try again later */ }
+    api('POST', '/actions/workflows/update.yml/dispatches', { ref: 'main' }, function (status) {
+      if (status === 204) {
+        store.canRun = true; nudge.wait = 30 * 60000;
+        setTimeout(load, 45000); setTimeout(load, 100000); setTimeout(load, 180000);   // collect the result shortly
+        say('Started. New data arrives in a minute or two.');
+      } else if (status === 401 || status === 403 || status === 404) {
+        store.canRun = false; nudge.wait = 6 * 3600000;   // not allowed: ask only now and then
+        say('The access key is not allowed to start the updater yet. See "Saving settings".');
+      } else { say('Could not reach GitHub. Try again in a moment.'); }
+    });
   }
+  // The page reloads itself at 4 AM to pick up a new version. That would switch sound off again,
+  // so it is skipped while an alarm is set and sound has been enabled.
+  var nightlyReload0 = nightlyReload;
+  nightlyReload = function (now) { if (X.audio && alarmConf().on) { return; } nightlyReload0(now); };
   setTimeout(nudgeUpdater, 20000);
   setInterval(nudgeUpdater, 5 * 60000);
 

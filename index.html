@@ -582,6 +582,10 @@ body.dark .x-line span { color: #b3b8c0; }
 body.dark .x-check i { border-color: #555b63; }
 body.dark .x-check.on i { background: #f4f5f2; border-color: #f4f5f2; }
 body.dark .x-cell { background: #1a1d21; }
+
+/* Photo frame and the newest extras */
+.x-photo.x-frame { -webkit-transition: opacity 0.8s; transition: opacity 0.8s; }
+.k-sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 </style>
 </head>
 <body>
@@ -1700,7 +1704,7 @@ body.dark .x-cell { background: #1a1d21; }
     course: '', detail: '', priv: false, done: {}, checks: {}, off: {}, lock: '', audio: null,
     timer: null, alarm: { mins: 7 * 60, armed: false, ringing: false },
     game: { cells: ['', '', '', '', '', '', '', '', ''], over: '' },
-    frame: { on: false, list: null, at: 0, url: '', busy: false }
+    frame: { on: null, at: 0, idx: -1, url: '', blob: false, busy: false }, night: null, checkDay: 0, nasa: null
   };
 
   // Testing on a computer: #name on the end of the address loads data-name.json instead.
@@ -1731,6 +1735,76 @@ body.dark .x-cell { background: #1a1d21; }
     return '';
   }
 
+  /* ---- Choices made on the iPad are kept in its storage. This iPad empties that storage when the
+         Home Screen app is closed, so they last until then; the nightly reload keeps them. ---- */
+  var savedX = '';
+  function saveX() {
+    var text, k, today = ymd(new Date());
+    for (k in X.off) { if (X.off.hasOwnProperty(k) && k.indexOf(today) === -1) { delete X.off[k]; } }
+    try {
+      text = JSON.stringify({ done: X.done, checks: X.checks, checkDay: X.checkDay, lock: X.lock, alarm: X.alarm.mins,
+        night: X.night, frame: X.frame.on, nasa: X.nasa, off: X.off });
+      if (text !== savedX) { savedX = text; window.localStorage.setItem('wallX', text); }
+    } catch (err) { /* storage unavailable: the choices last until the page closes */ }
+  }
+  (function () {
+    var o = null;
+    try { o = JSON.parse(window.localStorage.getItem('wallX') || 'null'); } catch (err) { o = null; }
+    if (!o) { return; }
+    X.done = o.done || {}; X.checks = o.checks || {}; X.checkDay = o.checkDay || 0; X.lock = o.lock || ''; X.off = o.off || {};
+    if (typeof o.alarm === 'number') { X.alarm.mins = o.alarm; }
+    X.night = (o.night === 'off' || typeof o.night === 'number') ? o.night : null;
+    X.frame.on = typeof o.frame === 'boolean' ? o.frame : null;
+    X.nasa = typeof o.nasa === 'boolean' ? o.nasa : null;
+  }());
+
+  // Weather is only shown while it is recent; sunrise barely moves, so it may be a day old.
+  function weatherNow(maxHours) {
+    var w = data && data.weather, at = w ? parse(w.at) : null;
+    return (w && at && new Date() - at < (maxHours || 4) * 3600000) ? w : null;
+  }
+
+  /* ---- Photo frame: photos from the private repository, shown on the picture card ---- */
+  function nasaOn() { return !!(data && data.nasa && data.nasa.url) && (X.nasa !== null ? X.nasa : !!cfg().nasaPicture); }
+  function photoList() { return (data && data.photos) || []; }
+  function frameOn() { return photoList().length > 0 && (X.frame.on !== null ? X.frame.on : cfg().photoFrame !== false); }
+  function setPhoto(url, isBlob) {
+    var f = X.frame, old = f.url, oldBlob = f.blob, U = window.URL || window.webkitURL, img = document.querySelector('img.x-frame');
+    f.url = url; f.blob = !!isBlob;
+    if (img) {
+      img.style.opacity = 0;
+      img.onload = function () { img.style.opacity = 1; };
+      img.src = url;
+    } else if (layout === 'card' && !(ui.touched && new Date().getTime() - ui.touched < 4000)) { render(true); }
+    if (old && oldBlob && U) { setTimeout(function () { try { U.revokeObjectURL(old); } catch (err) { /* already gone */ } }, 4000); }
+  }
+  function nextPhoto() {
+    var list = photoList(), f = X.frame, key = getKey(), U = window.URL || window.webkitURL, path, parts, i, x, kind;
+    if (f.busy || !list.length) { return; }
+    f.idx = (f.idx + 1) % list.length;
+    f.at = new Date().getTime();
+    path = list[f.idx];
+    parts = path.split('/');
+    for (i = 0; i < parts.length; i++) { parts[i] = encodeURIComponent(parts[i]); }
+    if (LOCAL) { setPhoto(parts.join('/'), false); return; }
+    if (!key || !U || !window.Blob) { return; }
+    kind = /\.png$/i.test(path) ? 'image/png' : /\.gif$/i.test(path) ? 'image/gif' : 'image/jpeg';
+    try {
+      x = new XMLHttpRequest();
+      x.open('GET', API_URL.replace('data.json', parts.join('/')), true);
+      x.responseType = 'blob';
+      x.setRequestHeader('Authorization', 'Bearer ' + key);
+      x.setRequestHeader('Accept', 'application/vnd.github.raw+json');
+      f.busy = true;
+      x.onload = function () {
+        f.busy = false;
+        if (x.status === 200 && x.response) { setPhoto(U.createObjectURL(new window.Blob([x.response], { type: kind })), true); }
+      };
+      x.onerror = function () { f.busy = false; };
+      x.send(null);
+    } catch (err) { f.busy = false; }
+  }
+
   var XI = {
     eye: ICON_OPEN + '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
     eyeOff: ICON_OPEN + '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><path d="M4 4l16 16"/></svg>',
@@ -1740,12 +1814,17 @@ body.dark .x-cell { background: #1a1d21; }
 
   /* ---- Settings that change earlier behaviour ---- */
 
-  // Night hours and a locked color theme can come from the settings file.
+  // Night hours and a locked color theme can come from the settings file, or from the More page.
+  function nightHours() {
+    NIGHT_START = hm(cfg().nightStart, 22 * 60);
+    NIGHT_END = hm(cfg().nightEnd, 6 * 60 + 30);
+    if (X.night === 'off' || (X.night === null && cfg().nightClock === false)) { NIGHT_START = 1440; NIGHT_END = 0; }
+    else if (typeof X.night === 'number') { NIGHT_START = X.night; }
+  }
   var applyLook0 = applyLook;
   applyLook = function (now) {
     var want = X.lock || cfg().theme || '', i;
-    NIGHT_START = hm(cfg().nightStart, 22 * 60);
-    NIGHT_END = hm(cfg().nightEnd, 6 * 60 + 30);
+    nightHours();
     applyLook0(now);
     if (want && !param('theme')) { for (i = 0; i < THEMES.length; i++) { if (THEMES[i].id === want) { theme = THEMES[i]; } } }
   };
@@ -1768,6 +1847,7 @@ body.dark .x-cell { background: #1a1d21; }
   pickLayout = function () {
     var want = param('layout'), i, now = new Date();
     for (i = 0; i < LAYOUTS.length; i++) { if (LAYOUTS[i] === want) { return want; } }
+    nightHours();
     if (isNight(now) && !(ui.touched && now.getTime() - ui.touched < 90000) && !X.alarm.ringing) { return 'night'; }
     return 'card';
   };
@@ -1916,13 +1996,17 @@ body.dark .x-cell { background: #1a1d21; }
   }
   function banners(now, m) {
     var out = [], today = ymd(now), mins = minsOf(now), notes = (data && data.notes) || [], rem = cfg().reminders || [];
-    var i, n, best, total, leave, wd, first, src;
+    var i, n, best, total, leave, wd, first, src, ahead = (data && data.ahead) || [];
     function add(id, kind, text, live) { if (!X.off[id + today]) { out.push({ id: id + today, kind: kind, text: text, live: live || '' }); } }
 
     if (X.timer && X.timer.done) { add('timer' + X.timer.end, 'go', X.timer.label + ' timer finished. Tap to clear.'); }
     else if (X.timer) { out.push({ id: '', kind: 'go', text: X.timer.label + ' timer · ', live: 'timer' }); }
     for (i = 0; i < notes.length; i++) {
       if (notes[i].date === today && /^(!|note:)/i.test(notes[i].title)) { add('note' + i, 'note', notes[i].title.replace(/^(!|note:)\s*/i, '')); }
+    }
+    if (data && data.configError) { add('cfg', 'warn', data.configError); }
+    for (i = 0; i < ahead.length; i++) {
+      if (ahead[i].date === today && /birthday/i.test(ahead[i].title || '')) { add('bday' + i, 'note', 'Today: ' + ahead[i].title); }
     }
     leave = leaveTime(now);
     if (leave) { add('leave', 'go', leaveText(leave, now), 'leave'); }
@@ -1988,7 +2072,7 @@ body.dark .x-cell { background: #1a1d21; }
   var cardSignature0 = cardSignature;
   cardSignature = function (now) {
     return cardSignature0(now) + '|' + [ui.day, ui.date, ui.view, ui.item, ui.calY, ui.calM, X.course, X.detail, X.priv ? 1 : 0,
-      isLandscape() ? 'L' : 'P', morningClass(now) ? 'm' : '', bannerFlags(now), X.alarm.ringing ? 'r' : '', X.frame.on ? 'f' : ''].join('|');
+      isLandscape() ? 'L' : 'P', morningClass(now) ? 'm' : '', bannerFlags(now), X.alarm.ringing ? 'r' : '', frameOn() ? 'f' : '', nasaOn() ? 'n' : '', X.night === null ? '' : X.night].join('|');
   };
   var cardTick0 = cardTick;
   cardTick = function (now) {
@@ -2080,17 +2164,19 @@ body.dark .x-cell { background: #1a1d21; }
     box.appendChild(c);
 
     // Today at a glance: weather and the other live extras, when the updater provides them
-    w = data && data.weather;
+    w = weatherNow();
     if (w || (data && (data.minecraft || data.team || data.nasa))) {
       c = card('Right now');
       if (w) {
-        c.appendChild(line('Weather', Math.round(w.temp) + '° ' + (w.text || '') + ' · high ' + Math.round(w.high) + '°, low ' + Math.round(w.low) + '°'));
+        c.appendChild(line(w.place || 'Weather', Math.round(w.temp) + '° ' + (w.text || '') + ' · high ' + Math.round(w.high) + '°, low ' + Math.round(w.low) + '°' +
+          (w.rain >= 30 ? ' · rain ' + w.rain + '%' : '')));
+        if (w.tomorrow) { c.appendChild(line('Tomorrow', (w.tomorrow.text ? w.tomorrow.text + ' · ' : '') + 'high ' + Math.round(w.tomorrow.high) + '°, low ' + Math.round(w.tomorrow.low) + '°')); }
         if (w.sunrise) { c.appendChild(line('Sun', 'up ' + w.sunrise + ' · down ' + w.sunset)); }
         if (w.air) { c.appendChild(line('Air quality', w.air)); }
       }
       if (data.minecraft) { c.appendChild(line(data.minecraft.name || 'Minecraft server', data.minecraft.online ? 'Online · ' + data.minecraft.players + ' playing' : 'Offline')); }
       if (data.team) {
-        if (data.team.last) { c.appendChild(line(data.team.name || 'Team', data.team.last)); }
+        if (data.team.last) { c.appendChild(line((data.team.name || 'Team') + (data.team.record ? ' (' + data.team.record + ')' : ''), data.team.last)); }
         if (data.team.next) { c.appendChild(line('Next game', data.team.next)); }
       }
       if (data.nasa && data.nasa.title) { c.appendChild(line('NASA picture', data.nasa.title)); }
@@ -2179,8 +2265,30 @@ body.dark .x-cell { background: #1a1d21; }
     for (i = 0; i < THEMES.length; i++) {
       row.appendChild(btn(THEMES[i].name, (X.lock || cfg().theme) === THEMES[i].id, (function (id) { return function () { X.lock = id; }; }(THEMES[i].id))));
     }
-    kids(c, row, btn(X.frame.on ? 'Photo frame is on' : 'Photo frame', X.frame.on, function () { X.frame.on = !X.frame.on; }),
-      el('div', 'x-sub', 'Choices made here last until the app is closed. Permanent ones go in config.json.'));
+    c.appendChild(row);
+    if (photoList().length) {
+      c.appendChild(btn(frameOn() ? 'Photo frame is on' : 'Photo frame is off', frameOn(), function () {
+        X.frame.on = !frameOn(); X.frame.at = 0;
+        if (!X.frame.on) { setPhoto('', false); }
+      }));
+    }
+    if (data && data.nasa && data.nasa.url) {
+      c.appendChild(btn(nasaOn() ? 'NASA picture is on' : 'NASA picture is off', nasaOn(), function () { X.nasa = !nasaOn(); }));
+    }
+    c.appendChild(el('div', 'x-sub', (photoList().length ? '' : 'Add pictures to the photos folder to use the photo frame. ') +
+      'Choices made here last until the app is closed. Permanent ones go in config.json.'));
+    box.appendChild(c);
+
+    // Night clock hours
+    c = card('Night clock');
+    a = new Date(2000, 0, 1, Math.floor(NIGHT_START / 60) % 24, NIGHT_START % 60);
+    b = new Date(2000, 0, 1, Math.floor(NIGHT_END / 60), NIGHT_END % 60);
+    c.appendChild(el('div', 'x-sub', NIGHT_START >= 1440 ? 'The night clock is off.' : 'Dim clock from ' + fmtTime(a) + ' to ' + fmtTime(b) + '. Touch the screen to wake it.'));
+    kids(c, btn('From settings', X.night === null, function () { X.night = null; }),
+      btn('9 PM', X.night === 21 * 60, function () { X.night = 21 * 60; }),
+      btn('10 PM', X.night === 22 * 60, function () { X.night = 22 * 60; }),
+      btn('11 PM', X.night === 23 * 60, function () { X.night = 23 * 60; }),
+      btn('Off', X.night === 'off', function () { X.night = 'off'; }));
     box.appendChild(c);
   }
 
@@ -2189,8 +2297,8 @@ body.dark .x-cell { background: #1a1d21; }
     var hero = el('div', 'k-hero'), art = sceneNode(theme.id, dayKey(now)), body = el('div', 'k-body'), season = seasonSvg(now);
     var i, n, icon, left, morn, extra, img, nasa = data && data.nasa, due, cta;
     kids(hero, art);
-    if (X.frame.url) { img = el('img', 'x-photo'); img.src = X.frame.url; hero.appendChild(img); }
-    else if (nasa && nasa.url && cfg().nasaPicture) {
+    if (X.frame.url && frameOn()) { img = el('img', 'x-photo x-frame'); img.src = X.frame.url; hero.appendChild(img); }
+    else if (nasaOn()) {
       img = el('img', 'x-photo'); img.onerror = function () { if (img.parentNode) { img.parentNode.removeChild(img); } }; img.src = nasa.url; hero.appendChild(img);
     } else if (season) { extra = el('div', 'k-art'); extra.innerHTML = season; hero.appendChild(extra); }
     hero.appendChild(el('div', 'k-shade'));
@@ -2237,7 +2345,10 @@ body.dark .x-cell { background: #1a1d21; }
     var list = m.all, dayDate = null, dayName = '', hit = null, selected = false, sel, i, d, n, row, chip, key;
     var left = el('div', 'x-left'), right = el('div', 'x-right'), cols = el('div', 'x-cols'), calendar, tools, hero, strip, bans, b, box, selRow = null, old, it, ban;
 
+    var wx = weatherNow();
     if (!ui.touched) { X.course = ''; X.detail = ''; }   // the idle reset also clears these
+    if (X.checkDay !== dayKey(now)) { X.checks = {}; X.checkDay = dayKey(now); }   // the checklist clears itself each day
+    saveX();
 
     sel = ui.date || (ui.day >= 0 ? dayKey(addDays(now, ui.day)) : 0);
     if (sel) { dayDate = keyDate(sel); dayName = dayLabel(dayDate, now); list = m.byDay[sel] || []; }
@@ -2255,7 +2366,7 @@ body.dark .x-cell { background: #1a1d21; }
     kids(s, kids(el('div', 'k-head'),
       kids(el('div', 'k-left'), el('div', 'k-hello', greeting(now)),
         el('div', 'k-sub', DAYS[now.getDay()] + ', ' + MONTHS[now.getMonth()] + ' ' + now.getDate() +
-          (todayNote(now) ? ' · ' + todayNote(now) : ''))),
+          (todayNote(now) ? ' · ' + todayNote(now) : '') + (wx ? ' · ' + Math.round(wx.temp) + '°' + (wx.text ? ' ' + wx.text : '') : ''))),
       kids(el('div', 'k-right'),
         iconBtn('', X.priv ? XI.eyeOff : XI.eye, function () { X.priv = !X.priv; X.detail = ''; }),
         iconBtn(refreshing ? 'spin' : '', REFRESH_ICON, function () { refreshing = true; load(); }),
@@ -2382,11 +2493,11 @@ body.dark .x-cell { background: #1a1d21; }
   /* ---- Night clock: add the moon, sunrise when known, and a line for tomorrow ---- */
   var night0 = ALT.night;
   ALT.night = function (now, m) {
-    var wrap, w = data && data.weather;
+    var wrap, w = weatherNow(36), rise = w ? ((minsOf(now) >= 12 * 60 && w.sunriseNext) ? w.sunriseNext : w.sunrise) : '';
     night0(now, m);
     wrap = document.querySelector('.n-wrap');
     if (!wrap) { return; }
-    wrap.appendChild(el('div', 'n-next n2', moonName(now) + (w && w.sunrise ? ' · sunrise ' + w.sunrise : '')));
+    wrap.appendChild(el('div', 'n-next n2', moonName(now) + (rise ? ' · sunrise ' + rise : '')));
     wrap.appendChild(el('div', 'n-next n3', tipOfDay(addDays(now, minsOf(now) >= 12 * 60 ? 1 : 0))));
   };
 
@@ -2400,6 +2511,9 @@ body.dark .x-cell { background: #1a1d21; }
     if (X.alarm.armed && !X.alarm.ringing && minsOf(now) === X.alarm.mins && now.getSeconds() < 2) {
       X.alarm.ringing = true; ui.touched = now.getTime(); render(true);
     }
+    if (frameOn() && layout === 'card' && !X.frame.busy &&
+        (!X.frame.url || now.getTime() - X.frame.at > Math.max(1, +cfg().photoMinutes || 3) * 60000) &&
+        now.getTime() - X.frame.at > 20000) { nextPhoto(); }
     if (X.alarm.ringing) {
       ui.touched = now.getTime();   // keep the screen awake while it rings
       if (now.getSeconds() % 2 === 0) { beep(2); }

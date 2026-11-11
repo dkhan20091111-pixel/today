@@ -344,6 +344,14 @@ body.dark .k-stat { color: rgba(20,22,26,0.66); }
 body.dark .k-stat b { background: rgba(20,22,26,0.1); color: #14161a; }
 body.dark .k-stat.on b { background: #14161a; color: #fff; }
 
+/* Reminder shown in Safari on an iPad once the key works: add the page to the Home Screen */
+#pin {
+  position: absolute; left: 16px; right: 16px; bottom: 16px; z-index: 9; display: none;
+  padding: 16px 20px; border-radius: 20px; background: #14161a; color: #fff;
+  font-size: 17px; font-weight: 500; line-height: 1.4; box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+#pinOk { float: right; margin: 0 0 6px 16px; padding: 6px 18px; border-radius: 999px; background: #fff; color: #14161a; font-weight: 800; cursor: pointer; }
+
 /* One-time screen for entering the access key */
 #setup {
   position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 10; display: none;
@@ -435,6 +443,11 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
       <div id="setupMsg"></div>
       <button id="keySave" type="button">Save</button>
     </div>
+  </div>
+
+  <div id="pin">
+    <b id="pinOk">OK</b>
+    Connected. To keep it that way, tap the Share button and choose <strong>Add to Home Screen</strong>, then open Today from the new icon. Delete any older Today icon first.
   </div>
 </div>
 
@@ -1144,6 +1157,23 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
     load();
   }
 
+  // Some iPads forget saved data every time a Home Screen app is closed. A Home Screen icon always
+  // remembers its address though, so on an iPad or iPhone a working key is also kept on the end of
+  // the address (after a #, which is never sent to the web server). Adding the page to the Home
+  // Screen after that gives an icon that stays connected.
+  var IOS = ('standalone' in window.navigator) || window.location.search.indexOf('ios=1') !== -1;
+  var pinDismissed = false;
+  function keepKeyInAddress() {
+    var key = getKey(), want = '#key=' + encodeURIComponent(key);
+    if (!IOS || !key) { return; }
+    if (window.location.hash !== want) {
+      try { window.history.replaceState(null, '', window.location.pathname + window.location.search + want); }
+      catch (err) { window.location.hash = want.substring(1); }
+    }
+    // In Safari (not yet opened from the Home Screen), say what to do next.
+    if (!window.navigator.standalone && !pinDismissed) { $('pin').style.display = 'block'; }
+  }
+
   function load() {
     var x = new XMLHttpRequest(), key = getKey();
     if (LOCAL) {
@@ -1157,7 +1187,7 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
     x.onreadystatechange = function () {
       if (x.readyState !== 4) { return; }
       if (x.status === 200) {
-        try { data = JSON.parse(x.responseText); loadFailed = false; hideSetup(); }
+        try { data = JSON.parse(x.responseText); loadFailed = false; hideSetup(); keepKeyInAddress(); }
         catch (err) { loadFailed = true; }
       } else {
         loadFailed = true;
@@ -1185,16 +1215,17 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
     } catch (err) { /* storage unavailable: skip the reload */ }
   }
 
-  // The key can also arrive on the end of the address (#key=...), then it is saved and removed
-  // from the address. #resetkey forgets the saved key.
+  // The key can also arrive on the end of the address (#key=...). It is left there on purpose:
+  // see keepKeyInAddress. #resetkey forgets the saved key.
   (function () {
     var h = window.location.hash;
-    if (h.indexOf('#key=') === 0) { setKey(decodeURIComponent(h.substring(5)).replace(/\s+/g, '')); }
-    else if (h === '#resetkey') { setKey(''); }
-    else { return; }
+    if (h.indexOf('#key=') === 0) { setKey(decodeURIComponent(h.substring(5)).replace(/\s+/g, '')); return; }
+    if (h !== '#resetkey') { return; }
+    setKey('');
     try { window.history.replaceState(null, '', window.location.pathname + window.location.search); }
     catch (err) { window.location.hash = ''; }
   }());
+  $('pinOk').addEventListener('click', function () { pinDismissed = true; $('pin').style.display = 'none'; }, false);
   $('keySave').addEventListener('click', saveKeyFromInput, false);
   $('keyInput').addEventListener('keydown', function (e) { if (e.keyCode === 13) { saveKeyFromInput(); } }, false);
 

@@ -328,7 +328,50 @@ body.l-card #stale { color: #c8553d; }
 .k-row.sel { margin: 0 -8px; padding-left: 8px; padding-right: 8px; border-radius: 18px; border-top-color: transparent; background: #f1f3ee; }
 .k-row.sel + .k-row { border-top-color: transparent; }
 
+/* Card layout: List / Month / Year switch and the calendar */
+.k-sec { -webkit-align-items: center; align-items: center; }
+.k-sec span { margin-left: 10px; }
+.k-seg { display: -webkit-flex; display: flex; padding: 4px; border-radius: 999px; background: #e4e6e0; }
+.k-segb { padding: 6px 14px; border-radius: 999px; color: #5d626b; font-size: 14px; font-weight: 700; cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+.k-segb.on { background: #14161a; color: #fff; }
+.k-nav { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: space-between; justify-content: space-between; margin: 16px 2px 12px; }
+.k-navl { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
+.k-arrow { width: 42px; height: 42px; line-height: 38px; border-radius: 21px; background: #fff; text-align: center; font-size: 26px; font-weight: 700; cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); box-shadow: 0 2px 6px rgba(20,22,26,0.07); }
+.k-navt { min-width: 214px; margin: 0 8px; text-align: center; font-size: 26px; font-weight: 700; letter-spacing: -0.4px; }
+.k-now { margin-left: 10px; padding: 8px 14px; border-radius: 999px; background: #e4e6e0; color: #5d626b; font-size: 14px; font-weight: 700; cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+.k-cal { -webkit-flex: 1; flex: 1; min-height: 0; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; padding: 14px 12px 8px; border-radius: 30px; background: #fff; }
+.k-wk { display: -webkit-flex; display: flex; }
+.k-wd { -webkit-flex: 1; flex: 1; padding-bottom: 8px; text-align: center; font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: #8a8f98; }
+.k-grid { -webkit-flex: 1; flex: 1; min-height: 0; display: -webkit-flex; display: flex; -webkit-flex-wrap: wrap; flex-wrap: wrap; -webkit-align-content: flex-start; align-content: flex-start; overflow: hidden; }
+.k-cell { width: 14.2857%; box-sizing: border-box; padding: 6px 5px 0; border-top: 1px solid #eef0eb; overflow: hidden; cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+.k-num { display: inline-block; min-width: 28px; height: 28px; line-height: 28px; border-radius: 14px; text-align: center; font-size: 17px; font-weight: 700; }
+.k-cell.out .k-num { color: #c2c6cc; }
+.k-cell.today .k-num { background: #14161a; color: #fff; }
+.k-ev { margin-top: 3px; padding: 1px 6px; border-radius: 6px; color: #fff; font-size: 11px; font-weight: 700; line-height: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.k-evm { margin-top: 2px; padding-left: 2px; font-size: 11px; font-weight: 700; color: #8a8f98; }
+.k-year { -webkit-flex: 1; flex: 1; min-height: 0; display: -webkit-flex; display: flex; -webkit-flex-wrap: wrap; flex-wrap: wrap; -webkit-align-content: space-around; align-content: space-around; padding: 10px 8px; border-radius: 30px; background: #fff; overflow: hidden; }
+.k-ym { width: 33.333%; box-sizing: border-box; padding: 4px 10px; cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+.k-ymt { margin-bottom: 4px; font-size: 16px; font-weight: 800; }
+.k-ymt span { margin-left: 8px; font-size: 12px; font-weight: 700; color: #8a8f98; }
+.k-yg { display: -webkit-flex; display: flex; -webkit-flex-wrap: wrap; flex-wrap: wrap; }
+.k-yd { width: 14.2857%; height: 20px; line-height: 20px; text-align: center; font-size: 11px; font-weight: 600; color: #5d626b; }
+.k-yd.has { border-radius: 10px; color: #fff; font-weight: 800; }
+.k-yd.today { border-radius: 10px; box-shadow: inset 0 0 0 2px #14161a; color: #14161a; font-weight: 800; }
+.k-yd.today.has { color: #fff; }
+
 /* Card layout: dark mode */
+body.dark .k-seg, body.dark .k-now { background: #24282d; }
+body.dark .k-segb, body.dark .k-now { color: #b3b8c0; }
+body.dark .k-segb.on { background: #f4f5f2; color: #14161a; }
+body.dark .k-arrow { background: #1c1f24; color: #f4f5f2; box-shadow: none; }
+body.dark .k-cal, body.dark .k-year { background: #1a1d21; }
+body.dark .k-cell { border-top-color: #272b31; }
+body.dark .k-cell.out .k-num { color: #4a4f57; }
+body.dark .k-cell.today .k-num { background: #f4f5f2; color: #14161a; }
+body.dark .k-wd, body.dark .k-evm, body.dark .k-ymt span { color: #8d929b; }
+body.dark .k-yd { color: #b3b8c0; }
+body.dark .k-yd.has { color: #fff; }
+body.dark .k-yd.today { box-shadow: inset 0 0 0 2px #f4f5f2; color: #f4f5f2; }
 body.l-card.dark #app { background: #0f1113; color: #f4f5f2; }
 body.dark #foot { color: #6d727a; }
 body.dark .k-sub, body.dark .k-sec span, body.dark .k-s, body.dark .k-clock small, body.dark .k-row.k-more { color: #8d929b; }
@@ -694,22 +737,27 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
   // Sort the due list into today, tomorrow and the rest of the week, with a count per day.
   function model(now) {
     var todayK = dayKey(now), tomK = dayKey(addDays(now, 1)), endK = dayKey(addDays(now, 7));
-    var src = (data && data.due) || [], all = [], i, j, d, k;
+    var src = (data && data.due) || [], all = [], every = [], byDay = {}, it, i, j, d, k;
     var dayKeys = [], counts = [0, 0, 0, 0, 0, 0, 0];
     for (j = 0; j < 7; j++) { dayKeys.push(dayKey(addDays(now, j))); }
     for (i = 0; i < src.length; i++) {
       d = parse(src[i].due);
       if (!d) { continue; }
       k = dayKey(d);
-      if (k < todayK || k > endK) { continue; }
-      for (j = 0; j < 7; j++) { if (dayKeys[j] === k) { counts[j]++; } }
-      all.push({
+      it = {
         title: src[i].title || '(untitled)', course: src[i].course || '', note: src[i].note || '',
         allDay: !!src[i].allDay || (src[i].due || '').length === 10, when: d, key: k
-      });
+      };
+      every.push(it);   // everything with a date, for the calendar
+      if (k < todayK || k > endK) { continue; }
+      for (j = 0; j < 7; j++) { if (dayKeys[j] === k) { counts[j]++; } }
+      all.push(it);     // the next seven days, for the lists
     }
-    all.sort(function (a, b) { return a.when - b.when; });
-    var m = { all: all, today: [], tomorrow: [], week: [], counts: counts, next: null };
+    function byTime(a, b) { return a.when - b.when; }
+    all.sort(byTime);
+    every.sort(byTime);
+    for (i = 0; i < every.length; i++) { (byDay[every[i].key] = byDay[every[i].key] || []).push(every[i]); }
+    var m = { all: all, every: every, byDay: byDay, today: [], tomorrow: [], week: [], counts: counts, next: null };
     for (i = 0; i < all.length; i++) {
       if (all[i].key === todayK) { m.today.push(all[i]); }
       else if (all[i].key === tomK) { m.tomorrow.push(all[i]); }
@@ -745,7 +793,13 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
     if (k === dayKey(addDays(now, 1))) { return 'Tomorrow'; }
     return DAYS[d.getDay()];
   }
-  function whenText(it, now) { return dayLabel(it.when, now) + (it.allDay ? '' : ', ' + fmtTime(it.when)); }
+  // "Today", "Tomorrow", a weekday for this week, or "Wed, Dec 23" for anything further away.
+  function dayWords(d, now) {
+    var gap = Math.round((new Date(d.getFullYear(), d.getMonth(), d.getDate()) - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 86400000);
+    if (gap >= 0 && gap <= 6) { return dayLabel(d, now); }
+    return DSHORT[d.getDay()] + ', ' + MONTHS[d.getMonth()].substring(0, 3) + ' ' + d.getDate();
+  }
+  function whenText(it, now) { return dayWords(it.when, now) + (it.allDay ? '' : ', ' + fmtTime(it.when)); }
   function countdown(it, now) {
     var mins = Math.round((it.when - now) / 60000), h;
     if (mins <= 0) { return 'now'; }
@@ -940,12 +994,13 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
     var tile = kids(el('div', 'k-tile'), el('div', 'd', DSHORT[it.when.getDay()]), el('div', 'n', '' + it.when.getDate()));
     tile.style.background = colorFor(it.course) || fallback;
     return kids(el('div', 'k-row' + ((!it.allDay && it.when < now) ? ' past' : '')), tile,
-      kids(el('div', 'k-txt'), el('div', 'k-t', it.title), el('div', 'k-s', joinMeta([dayLabel(it.when, now), it.course]))),
+      kids(el('div', 'k-txt'), el('div', 'k-t', it.title), el('div', 'k-s', joinMeta([dayWords(it.when, now), it.course]))),
       el('div', 'k-time', it.allDay ? 'Any time' : fmtTime(it.when)));
   }
 
   /* What the person has tapped in the card layout. It all resets after 90 seconds without a touch. */
-  var ui = { day: -1, item: '', scroll: 0, reveal: false, touched: 0, scrolled: 0, mode: 'auto', hero: null };
+  var ui = { day: -1, date: 0, view: 'list', calY: 0, calM: 0, item: '', scroll: 0, reveal: false,
+             touched: 0, scrolled: 0, mode: 'auto', hero: null };
   try { ui.mode = window.localStorage.getItem('wallMode') || 'auto'; } catch (err) { ui.mode = 'auto'; }
   var MODE_NEXT = { auto: 'light', light: 'dark', dark: 'auto' };
   var MODE_NAME = { auto: 'Auto', light: 'Light', dark: 'Dark' };
@@ -984,7 +1039,94 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
     }, false);
     return node;
   }
-  function pickDay(n) { return function () { ui.day = n; ui.item = ''; ui.scroll = 0; }; }
+  function pickDay(n) { return function () { ui.day = n; ui.date = 0; ui.view = 'list'; ui.item = ''; ui.scroll = 0; }; }
+  // A date chosen on the calendar, as a number like 20261115.
+  function pickDate(k) { return function () { ui.date = k; ui.day = -1; ui.view = 'list'; ui.item = ''; ui.scroll = 0; }; }
+  function keyDate(k) { return new Date(Math.floor(k / 10000), Math.floor(k / 100) % 100 - 1, k % 100); }
+  function setView(v) {
+    return function () {
+      var t = ui.date ? keyDate(ui.date) : new Date();
+      if (v !== 'list' && ui.view === 'list') { ui.calY = t.getFullYear(); ui.calM = t.getMonth(); }
+      ui.view = v; ui.scroll = 0;
+    };
+  }
+  function viewSwitch() {
+    var seg = el('div', 'k-seg'), names = [['list', 'List'], ['month', 'Month'], ['year', 'Year']], i;
+    for (i = 0; i < names.length; i++) {
+      seg.appendChild(tap(el('div', 'k-segb' + (ui.view === names[i][0] ? ' on' : ''), names[i][1]), setView(names[i][0])));
+    }
+    return seg;
+  }
+  function stepMonth(n) {
+    return function () { var d = new Date(ui.calY, ui.calM + n, 1); ui.calY = d.getFullYear(); ui.calM = d.getMonth(); };
+  }
+  function stepYear(n) { return function () { ui.calY += n; }; }
+  function calNav(title, step) {
+    return kids(el('div', 'k-nav'),
+      kids(el('div', 'k-navl'),
+        tap(el('div', 'k-arrow', '\u2039'), step(-1)), el('div', 'k-navt', title), tap(el('div', 'k-arrow', '\u203a'), step(1)),
+        tap(el('div', 'k-now', 'Today'), function () { var t = new Date(); ui.calY = t.getFullYear(); ui.calM = t.getMonth(); })),
+      viewSwitch());
+  }
+  function statBar(now, m, sel) {
+    var cal = ui.view !== 'list';
+    return kids(el('div', 'k-bar'),
+      tap(kids(el('div', 'k-stat' + (!cal && sel === dayKey(now) ? ' on' : '')), el('b', '', '' + m.today.length), el('span', '', 'due today')), pickDay(0)),
+      tap(kids(el('div', 'k-stat' + (!cal && sel === dayKey(addDays(now, 1)) ? ' on' : '')), el('b', '', '' + m.tomorrow.length), el('span', '', 'tomorrow')), pickDay(1)),
+      tap(kids(el('div', 'k-stat' + (!cal && !sel ? ' on' : '')), el('b', '', '' + m.all.length), el('span', '', 'this week')), pickDay(-1)));
+  }
+
+  // Month: a full grid. Each day shows up to two things due; tapping a day opens its list.
+  function monthView(s, now, m, sc) {
+    var y = ui.calY, mo = ui.calM, first = new Date(y, mo, 1), start = addDays(first, -first.getDay());
+    var days = new Date(y, mo + 1, 0).getDate(), rows = Math.ceil((first.getDay() + days) / 7), todayK = dayKey(now);
+    var card = el('div', 'k-cal'), wk = el('div', 'k-wk'), grid = el('div', 'k-grid'), cells = [], i, j, d, k, items, cell, ev;
+    var fit = rows > 5 ? 3 : 4;   // how many things fit in one day's box
+    s.appendChild(calNav(MONTHS[mo] + ' ' + y, stepMonth));
+    for (i = 0; i < 7; i++) { wk.appendChild(el('div', 'k-wd', DSHORT[i])); }
+    for (i = 0; i < rows * 7; i++) {
+      d = addDays(start, i); k = dayKey(d); items = m.byDay[k] || [];
+      cell = tap(el('div', 'k-cell' + (d.getMonth() !== mo ? ' out' : '') + (k === todayK ? ' today' : '')), pickDate(k));
+      cell.appendChild(el('div', 'k-num', '' + d.getDate()));
+      for (j = 0; j < items.length && j < (items.length > fit ? fit - 1 : fit); j++) {
+        ev = el('div', 'k-ev', items[j].title);
+        ev.style.background = colorFor(items[j].course) || sc.l[1];
+        cell.appendChild(ev);
+      }
+      if (items.length > fit) { cell.appendChild(el('div', 'k-evm', '+' + (items.length - fit + 1) + ' more')); }
+      cells.push(cell);
+      grid.appendChild(cell);
+    }
+    kids(card, wk, grid);
+    s.appendChild(card);
+    s.appendChild(statBar(now, m, 0));
+    // Every week row gets an equal share of the height that is left.
+    j = Math.floor(grid.clientHeight / rows);
+    for (i = 0; i < cells.length; i++) { cells[i].style.height = j + 'px'; }
+  }
+
+  // Year: twelve small months. Days with something due are filled in; tapping a month opens it.
+  function openMonth(mo) { return function () { ui.calM = mo; ui.view = 'month'; }; }
+  function yearView(s, now, m, sc) {
+    var y = ui.calY, todayK = dayKey(now), wrap = el('div', 'k-year'), mo, g, first, days, i, k, n, cell, title;
+    s.appendChild(calNav('' + y, stepYear));
+    for (mo = 0; mo < 12; mo++) {
+      first = new Date(y, mo, 1); days = new Date(y, mo + 1, 0).getDate(); n = 0;
+      g = el('div', 'k-yg');
+      for (i = 0; i < first.getDay(); i++) { g.appendChild(el('div', 'k-yd', '')); }
+      for (i = 1; i <= days; i++) {
+        k = y * 10000 + (mo + 1) * 100 + i;
+        cell = el('div', 'k-yd' + (m.byDay[k] ? ' has' : '') + (k === todayK ? ' today' : ''), '' + i);
+        if (m.byDay[k]) { n += m.byDay[k].length; cell.style.background = sc.l[1]; }
+        g.appendChild(cell);
+      }
+      title = el('div', 'k-ymt', MONTHS[mo]);
+      if (n) { title.appendChild(el('span', '', '' + n + ' due')); }
+      wrap.appendChild(tap(kids(el('div', 'k-ym'), title, g), openMonth(mo)));
+    }
+    s.appendChild(wrap);
+    s.appendChild(statBar(now, m, 0));
+  }
   function pickItem(key) { return function () { ui.item = key; }; }
 
   var REFRESH_ICON = ICON_OPEN + '<path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5v5h-5"/></svg>';
@@ -1019,12 +1161,10 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
     var list = m.all, dayDate = null, dayName = '', hit = null, selected = false;
 
     // Which day is being looked at (-1 means the whole week), and which item the picture card shows.
-    if (ui.day >= 0) {
-      dayDate = addDays(now, ui.day); dayName = dayLabel(dayDate, now); list = [];
-      for (i = 0; i < m.all.length; i++) { if (m.all[i].key === dayKey(dayDate)) { list.push(m.all[i]); } }
-    }
+    var sel = ui.date || (ui.day >= 0 ? dayKey(addDays(now, ui.day)) : 0);
+    if (sel) { dayDate = keyDate(sel); dayName = dayLabel(dayDate, now); list = m.byDay[sel] || []; }
     for (i = 0; i < list.length; i++) { if (ui.item && itemKey(list[i]) === ui.item) { hit = list[i]; } }
-    if (hit) { selected = true; } else { ui.item = ''; hit = ui.day < 0 ? m.next : (list[0] || null); }
+    if (hit) { selected = true; } else { ui.item = ''; hit = !sel ? m.next : (list[0] || null); }
 
     // Refresh: fetch the newest due list from GitHub right now.
     var refresh = el('div', 'k-mode k-ref' + (refreshing ? ' spin' : ''));
@@ -1044,10 +1184,18 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
       kids(el('div', 'k-right'), refresh, mode,
         kids(el('div', 'k-clock'), el('span', '', clockText(now)), el('small', '', ampmText(now))))));
 
-    var chips = kids(el('div', 'k-chips'), tap(el('div', 'k-chip' + (ui.day < 0 ? ' on' : ''), 'All'), pickDay(-1)));
+    // The calendar views take over the rest of the screen.
+    if (ui.view === 'month' || ui.view === 'year') {
+      if (ui.view === 'month') { monthView(s, now, m, sc); } else { yearView(s, now, m, sc); }
+      ui.hero = null;
+      cardSig = cardSignature(now);
+      return;
+    }
+
+    var chips = kids(el('div', 'k-chips'), tap(el('div', 'k-chip' + (!sel ? ' on' : ''), 'All'), pickDay(-1)));
     for (i = 0; i < 7; i++) {
       d = addDays(now, i); n = m.counts[i];
-      chip = tap(el('div', 'k-chip' + (ui.day === i ? ' on' : ''), i === 0 ? 'Today' : DSHORT[d.getDay()]), pickDay(i));
+      chip = tap(el('div', 'k-chip' + (sel === dayKey(d) ? ' on' : ''), i === 0 ? 'Today' : DSHORT[d.getDay()]), pickDay(i));
       if (n) { chip.appendChild(el('b', '', '' + n)); }
       chips.appendChild(chip);
     }
@@ -1060,15 +1208,16 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
       for (i = 0, n = 0; i < list.length; i++) { if (list[i] === hit) { n = i + 1; } }
       icon = el('i'); icon.innerHTML = CLOCK_ICON;
       left = countdown(hit, now);
-      kids(hero, el('div', 'k-tag', selected ? n + ' of ' + list.length : (ui.day < 0 ? 'Next up' : dayName)),
+      kids(hero, el('div', 'k-tag', selected ? n + ' of ' + list.length : (!sel ? 'Next up' : dayName)),
         hit.course ? el('div', 'k-tag r', hit.course) : null);
       kids(body, kids(el('div', 'k-main'), el('div', 'k-title', hit.title), el('div', 'k-when', whenText(hit, now))),
         kids(el('div', 'k-cta'), el('span', '', left === 'now' ? 'Past due' : left + ' left'), icon));
     } else {
-      kids(hero, el('div', 'k-tag', ui.day < 0 ? 'All clear' : dayName));
+      kids(hero, el('div', 'k-tag', !sel ? 'All clear' : dayName));
       kids(body, kids(el('div', 'k-main'),
-        el('div', 'k-title', ui.day < 0 ? 'Nothing due this week' : 'Nothing due ' + (ui.day < 2 ? dayName.toLowerCase() : 'on ' + dayName)),
-        el('div', 'k-when', ui.day < 0 ? 'Enjoy the free time' : 'Tap another day to look ahead')));
+        el('div', 'k-title', !sel ? 'Nothing due this week' : 'Nothing due ' +
+          ((dayName === 'Today' || dayName === 'Tomorrow') ? dayName.toLowerCase() : 'on ' + dayName)),
+        el('div', 'k-when', !sel ? 'Enjoy the free time' : 'Tap another day to look ahead')));
     }
     hero.appendChild(body);
     tap(hero, function () {
@@ -1081,8 +1230,10 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
     s.appendChild(hero);
 
     kids(s, kids(el('div', 'k-sec'),
-      el('b', '', ui.day < 0 ? 'Coming up' : dayName + ', ' + MONTHS[dayDate.getMonth()] + ' ' + dayDate.getDate()),
-      el('span', '', ui.day < 0 ? m.all.length + ' in the next 7 days' : list.length + ' due')));
+      kids(el('div'),
+        el('b', '', !sel ? 'Coming up' : dayName + ', ' + MONTHS[dayDate.getMonth()] + ' ' + dayDate.getDate()),
+        el('span', '', !sel ? m.all.length + ' this week' : list.length + ' due')),
+      viewSwitch()));
 
     // The list scrolls by touch. Tapping a row shows it on the picture card.
     var box = el('div', 'k-list'), selRow = null;
@@ -1091,16 +1242,13 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
       if (list[i] === hit) { row.className += ' sel'; selRow = row; }
       box.appendChild(row);
     }
-    if (!list.length) { box.appendChild(el('div', 'k-row k-more', ui.day < 0 ? 'Nothing due this week' : 'Nothing due this day')); }
+    if (!list.length) { box.appendChild(el('div', 'k-row k-more', !sel ? 'Nothing due this week' : 'Nothing due this day')); }
     box.addEventListener('scroll', function () {
       ui.scroll = box.scrollTop; ui.touched = ui.scrolled = new Date().getTime();
     }, false);
     s.appendChild(box);
 
-    kids(s, kids(el('div', 'k-bar'),
-      tap(kids(el('div', 'k-stat' + (ui.day === 0 ? ' on' : '')), el('b', '', '' + m.today.length), el('span', '', 'due today')), pickDay(0)),
-      tap(kids(el('div', 'k-stat' + (ui.day === 1 ? ' on' : '')), el('b', '', '' + m.tomorrow.length), el('span', '', 'tomorrow')), pickDay(1)),
-      tap(kids(el('div', 'k-stat' + (ui.day < 0 ? ' on' : '')), el('b', '', '' + m.all.length), el('span', '', 'this week')), pickDay(-1))));
+    s.appendChild(statBar(now, m, sel));
 
     // Put the list back where it was, or bring the chosen row into view after a step.
     box.scrollTop = ui.scroll;
@@ -1337,7 +1485,7 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
     var at = new Date(), reset = false;
     // After 90 seconds without a touch, go back to the normal view.
     if (ui.touched && at.getTime() - ui.touched > 90000) {
-      ui.day = -1; ui.item = ''; ui.scroll = 0; ui.touched = 0; reset = true;
+      ui.day = -1; ui.date = 0; ui.view = 'list'; ui.item = ''; ui.scroll = 0; ui.touched = 0; reset = true;
     }
     if (reset || Math.floor(at.getTime() / 60000) !== drawnMinute) { render(); }
     nightlyReload(at);

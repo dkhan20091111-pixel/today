@@ -297,7 +297,8 @@ body.l-card #stale { color: #c8553d; }
 .k-sec { display: -webkit-flex; display: flex; -webkit-align-items: baseline; align-items: baseline; -webkit-justify-content: space-between; justify-content: space-between; margin: 16px 4px 10px; }
 .k-sec b { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
 .k-sec span { font-size: 15px; font-weight: 600; color: #8a8f98; }
-.k-list { -webkit-flex: 1; flex: 1; min-height: 0; overflow: hidden; padding: 6px 16px; border-radius: 30px; background: #fff; box-shadow: 0 8px 24px rgba(20,22,26,0.06); }
+.k-list { position: relative; -webkit-flex: 1; flex: 1; min-height: 0; overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 6px 16px; border-radius: 30px; background: #fff; box-shadow: 0 8px 24px rgba(20,22,26,0.06); }
+.k-list::-webkit-scrollbar { display: none; }
 .k-row { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 8px 0; border-top: 1px solid #eef0eb; }
 .k-row:first-child { border-top: 0; }
 .k-tile { width: 46px; height: 46px; -webkit-flex-shrink: 0; flex-shrink: 0; border-radius: 15px; color: #fff; text-align: center; }
@@ -313,6 +314,35 @@ body.l-card #stale { color: #c8553d; }
 .k-stat { -webkit-flex: 1; flex: 1; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.72); }
 .k-stat b { display: inline-block; min-width: 18px; height: 38px; line-height: 38px; margin-right: 10px; padding: 0 10px; border-radius: 19px; background: rgba(255,255,255,0.15); color: #fff; font-size: 17px; font-weight: 800; text-align: center; }
 .k-stat.on b { background: #fff; color: #14161a; }
+
+/* Card layout: things that can be tapped */
+.k-chip, .k-row, .k-hero, .k-stat, .k-mode { cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+.k-right { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
+.k-mode { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; margin-right: 10px; padding: 13px 16px 13px 14px; border-radius: 999px; background: #fff; color: #14161a; font-size: 15px; font-weight: 700; box-shadow: 0 6px 18px rgba(20,22,26,0.08); }
+.k-mode span { margin-left: 7px; }
+.k-row.sel { margin: 0 -8px; padding-left: 8px; padding-right: 8px; border-radius: 18px; border-top-color: transparent; background: #f1f3ee; }
+.k-row.sel + .k-row { border-top-color: transparent; }
+
+/* Card layout: dark mode */
+body.l-card.dark #app { background: #0f1113; color: #f4f5f2; }
+body.dark #foot { color: #6d727a; }
+body.dark .k-sub, body.dark .k-sec span, body.dark .k-s, body.dark .k-clock small, body.dark .k-row.k-more { color: #8d929b; }
+body.dark .k-clock, body.dark .k-mode { background: #1c1f24; color: #f4f5f2; box-shadow: none; }
+body.dark .k-chip { background: #24282d; color: #b3b8c0; }
+body.dark .k-chip b { background: #3a3f46; color: #f4f5f2; }
+body.dark .k-chip.on { background: #f4f5f2; color: #14161a; }
+body.dark .k-chip.on b { background: #14161a; color: #fff; }
+body.dark .k-hero { box-shadow: 0 14px 34px rgba(0,0,0,0.5); }
+body.dark .k-shade { height: 100%; background: -webkit-linear-gradient(top, rgba(8,10,14,0.28), rgba(0,0,0,0.72)); background: linear-gradient(to bottom, rgba(8,10,14,0.28), rgba(0,0,0,0.72)); }
+body.dark .k-list { background: #1a1d21; box-shadow: none; }
+body.dark .k-row { border-top-color: #272b31; }
+body.dark .k-row.sel { background: #25292f; border-top-color: transparent; }
+body.dark .k-row.sel + .k-row { border-top-color: transparent; }
+body.dark .k-time { background: #24282d; color: #b3b8c0; }
+body.dark .k-bar { background: #f4f5f2; color: #14161a; box-shadow: none; }
+body.dark .k-stat { color: rgba(20,22,26,0.66); }
+body.dark .k-stat b { background: rgba(20,22,26,0.1); color: #14161a; }
+body.dark .k-stat.on b { background: #14161a; color: #fff; }
 
 /* One-time screen for entering the access key */
 #setup {
@@ -571,7 +601,8 @@ body.l-card #stale { color: #c8553d; }
     setText('greet', h24 < 5 ? 'Good night' : h24 < 12 ? 'Good morning' : h24 < 17 ? 'Good afternoon' : h24 < 22 ? 'Good evening' : 'Good night');
     var mins = h24 * 60 + now.getMinutes();
     var night = mins >= 22 * 60 || mins < 6 * 60 + 30;
-    var cls = 't-' + theme.id + (night ? ' night' : '') + (layout === 'classic' ? '' : ' l-alt l-' + layout);
+    var cls = 't-' + theme.id + (night ? ' night' : '') + (layout === 'classic' ? '' : ' l-alt l-' + layout) +
+              (layout === 'card' && isDark(now) ? ' dark' : '');
     if (document.body.className !== cls) { document.body.className = cls; }
   }
 
@@ -880,49 +911,122 @@ body.l-card #stale { color: #c8553d; }
       el('div', 'k-time', it.allDay ? 'Any time' : fmtTime(it.when)));
   }
 
+  /* What the person has tapped in the card layout. It all resets after 90 seconds without a touch. */
+  var ui = { day: -1, item: '', scroll: 0, reveal: false, touched: 0, mode: 'auto' };
+  try { ui.mode = window.localStorage.getItem('wallMode') || 'auto'; } catch (err) { ui.mode = 'auto'; }
+  var MODE_NEXT = { auto: 'light', light: 'dark', dark: 'auto' };
+  var MODE_NAME = { auto: 'Auto', light: 'Light', dark: 'Dark' };
+  var ICON_OPEN = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">';
+  var MODE_ICON = {
+    light: ICON_OPEN + '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg>',
+    dark: ICON_OPEN + '<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg>',
+    auto: ICON_OPEN + '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg>'
+  };
+  // Auto means light during the day and dark from 7 in the evening to 7 in the morning.
+  function isDark(now) {
+    var h = now.getHours();
+    return ui.mode === 'dark' || (ui.mode !== 'light' && (h >= 19 || h < 7));
+  }
+  function itemKey(it) { return it.title + '|' + it.when.getTime(); }
+  function tap(node, fn) {
+    node.addEventListener('click', function () { ui.touched = new Date().getTime(); fn(); render(true); }, false);
+    return node;
+  }
+  function pickDay(n) { return function () { ui.day = n; ui.item = ''; ui.scroll = 0; }; }
+  function pickItem(key) { return function () { ui.item = key; }; }
+
   ALT.card = function (now, m) {
-    var s = stage('cardy'), i, d, n, chip, icon, rows = [], sc = SCENES[theme.id] || SCENES.forest;
+    var s = stage('cardy'), i, d, n, chip, icon, row, sc = SCENES[theme.id] || SCENES.forest;
+    var list = m.all, dayDate = null, dayName = '', hit = null, selected = false;
+
+    // Which day is being looked at (-1 means the whole week), and which item the picture card shows.
+    if (ui.day >= 0) {
+      dayDate = addDays(now, ui.day); dayName = dayLabel(dayDate, now); list = [];
+      for (i = 0; i < m.all.length; i++) { if (m.all[i].key === dayKey(dayDate)) { list.push(m.all[i]); } }
+    }
+    for (i = 0; i < list.length; i++) { if (ui.item && itemKey(list[i]) === ui.item) { hit = list[i]; } }
+    if (hit) { selected = true; } else { ui.item = ''; hit = ui.day < 0 ? m.next : (list[0] || null); }
+
+    var mode = el('div', 'k-mode');
+    mode.innerHTML = MODE_ICON[ui.mode] || MODE_ICON.auto;
+    mode.appendChild(el('span', '', MODE_NAME[ui.mode] || 'Auto'));
+    tap(mode, function () {
+      ui.mode = MODE_NEXT[ui.mode] || 'auto';
+      try { window.localStorage.setItem('wallMode', ui.mode); } catch (err) { /* not saved, still applies now */ }
+    });
     kids(s, kids(el('div', 'k-head'),
       kids(el('div'), el('div', 'k-hello', greeting(now)),
         el('div', 'k-sub', DAYS[now.getDay()] + ', ' + MONTHS[now.getMonth()] + ' ' + now.getDate())),
-      kids(el('div', 'k-clock'), el('span', '', clockText(now)), el('small', '', ampmText(now)))));
+      kids(el('div', 'k-right'), mode,
+        kids(el('div', 'k-clock'), el('span', '', clockText(now)), el('small', '', ampmText(now))))));
 
-    var chips = el('div', 'k-chips');
+    var chips = kids(el('div', 'k-chips'), tap(el('div', 'k-chip' + (ui.day < 0 ? ' on' : ''), 'All'), pickDay(-1)));
     for (i = 0; i < 7; i++) {
       d = addDays(now, i); n = m.counts[i];
-      chip = el('div', 'k-chip' + (i === 0 ? ' on' : ''), i === 0 ? 'Today' : DSHORT[d.getDay()]);
+      chip = tap(el('div', 'k-chip' + (ui.day === i ? ' on' : ''), i === 0 ? 'Today' : DSHORT[d.getDay()]), pickDay(i));
       if (n) { chip.appendChild(el('b', '', '' + n)); }
       chips.appendChild(chip);
     }
     s.appendChild(chips);
 
-    var hero = el('div', 'k-hero'), art = el('div', 'k-art'), body = el('div', 'k-body');
+    // The picture card. Tapping it steps to the next item in the list.
+    var hero = el('div', 'k-hero'), art = el('div', 'k-art'), body = el('div', 'k-body'), left;
     art.innerHTML = sceneSvg(theme.id, dayKey(now));
     kids(hero, art, el('div', 'k-shade'));
-    if (m.next) {
+    if (hit) {
+      for (i = 0, n = 0; i < list.length; i++) { if (list[i] === hit) { n = i + 1; } }
       icon = el('i'); icon.innerHTML = CLOCK_ICON;
-      kids(hero, el('div', 'k-tag', 'Next up'), m.next.course ? el('div', 'k-tag r', m.next.course) : null);
-      kids(body, kids(el('div', 'k-main'), el('div', 'k-title', m.next.title), el('div', 'k-when', whenText(m.next, now))),
-        kids(el('div', 'k-cta'), el('span', '', countdown(m.next, now) + ' left'), icon));
+      left = countdown(hit, now);
+      kids(hero, el('div', 'k-tag', selected ? n + ' of ' + list.length : (ui.day < 0 ? 'Next up' : dayName)),
+        hit.course ? el('div', 'k-tag r', hit.course) : null);
+      kids(body, kids(el('div', 'k-main'), el('div', 'k-title', hit.title), el('div', 'k-when', whenText(hit, now))),
+        kids(el('div', 'k-cta'), el('span', '', left === 'now' ? 'Past due' : left + ' left'), icon));
     } else {
-      kids(hero, el('div', 'k-tag', 'All clear'));
-      kids(body, kids(el('div', 'k-main'), el('div', 'k-title', 'Nothing due this week'), el('div', 'k-when', 'Enjoy the free time')));
+      kids(hero, el('div', 'k-tag', ui.day < 0 ? 'All clear' : dayName));
+      kids(body, kids(el('div', 'k-main'),
+        el('div', 'k-title', ui.day < 0 ? 'Nothing due this week' : 'Nothing due ' + (ui.day < 2 ? dayName.toLowerCase() : 'on ' + dayName)),
+        el('div', 'k-when', ui.day < 0 ? 'Enjoy the free time' : 'Tap another day to look ahead')));
     }
     hero.appendChild(body);
+    tap(hero, function () {
+      var j, cur = -1;
+      if (!list.length) { return; }
+      for (j = 0; j < list.length; j++) { if (list[j] === hit) { cur = j; } }
+      ui.item = itemKey(list[(cur + 1) % list.length]);
+      ui.reveal = true;
+    });
     s.appendChild(hero);
 
-    // No written brief here: the picture card and the day chips already say the same thing.
-    kids(s, kids(el('div', 'k-sec'), el('b', '', 'Coming up'), el('span', '', m.all.length + ' in the next 7 days')));
+    kids(s, kids(el('div', 'k-sec'),
+      el('b', '', ui.day < 0 ? 'Coming up' : dayName + ', ' + MONTHS[dayDate.getMonth()] + ' ' + dayDate.getDate()),
+      el('span', '', ui.day < 0 ? m.all.length + ' in the next 7 days' : list.length + ' due')));
 
-    var box = el('div', 'k-list');
-    for (i = 0; i < m.all.length; i++) { if (m.all[i] !== m.next) { rows.push(cardRow(m.all[i], now, sc.l[1])); } }
-    if (!rows.length) { rows.push(el('div', 'k-row k-more', 'Nothing else this week')); }
+    // The list scrolls by touch. Tapping a row shows it on the picture card.
+    var box = el('div', 'k-list'), selRow = null;
+    for (i = 0; i < list.length; i++) {
+      row = tap(cardRow(list[i], now, sc.l[1]), pickItem(itemKey(list[i])));
+      if (list[i] === hit) { row.className += ' sel'; selRow = row; }
+      box.appendChild(row);
+    }
+    if (!list.length) { box.appendChild(el('div', 'k-row k-more', ui.day < 0 ? 'Nothing due this week' : 'Nothing due this day')); }
+    box.addEventListener('scroll', function () { ui.scroll = box.scrollTop; ui.touched = new Date().getTime(); }, false);
     s.appendChild(box);
+
     kids(s, kids(el('div', 'k-bar'),
-      kids(el('div', 'k-stat on'), el('b', '', '' + m.today.length), el('span', '', 'due today')),
-      kids(el('div', 'k-stat'), el('b', '', '' + m.tomorrow.length), el('span', '', 'tomorrow')),
-      kids(el('div', 'k-stat'), el('b', '', '' + m.all.length), el('span', '', 'this week'))));
-    fitRows(box, rows, 'k-row k-more');
+      tap(kids(el('div', 'k-stat' + (ui.day === 0 ? ' on' : '')), el('b', '', '' + m.today.length), el('span', '', 'due today')), pickDay(0)),
+      tap(kids(el('div', 'k-stat' + (ui.day === 1 ? ' on' : '')), el('b', '', '' + m.tomorrow.length), el('span', '', 'tomorrow')), pickDay(1)),
+      tap(kids(el('div', 'k-stat' + (ui.day < 0 ? ' on' : '')), el('b', '', '' + m.all.length), el('span', '', 'this week')), pickDay(-1))));
+
+    // Put the list back where it was, or bring the chosen row into view after a step.
+    box.scrollTop = ui.scroll;
+    if (ui.reveal && selRow) {
+      if (selRow.offsetTop < box.scrollTop) { box.scrollTop = selRow.offsetTop; }
+      else if (selRow.offsetTop + selRow.offsetHeight > box.scrollTop + box.clientHeight) {
+        box.scrollTop = selRow.offsetTop + selRow.offsetHeight - box.clientHeight;
+      }
+      ui.scroll = box.scrollTop;
+    }
+    ui.reveal = false;
   };
 
   function pickLayout() {
@@ -999,8 +1103,10 @@ body.l-card #stale { color: #c8553d; }
     setText('stale', warn);
   }
 
-  function render() {
+  function render(force) {
     var now = new Date();
+    // Do not redraw under someone's finger: the timed refresh waits 4 seconds after the last touch.
+    if (force !== true && layout === 'card' && ui.touched && now.getTime() - ui.touched < 4000) { return; }
     layout = pickLayout();
     renderClock(now);
     renderMeta(now);
@@ -1097,7 +1203,26 @@ body.l-card #stale { color: #c8553d; }
   // Re-fit the lists when the iPad is rotated or the window changes size.
   window.addEventListener('resize', render, false);
   window.addEventListener('orientationchange', function () { setTimeout(render, 300); }, false);
-  setInterval(function () { render(); nightlyReload(new Date()); }, 15000);
+  // Touch: remember when the screen was last touched, and stop the whole page from dragging.
+  // Only the list in the card layout scrolls.
+  document.addEventListener('touchstart', function () { ui.touched = new Date().getTime(); }, false);
+  document.addEventListener('touchmove', function (e) {
+    var t = e.target;
+    while (t && t !== document.body) {
+      if (typeof t.className === 'string' && t.className.indexOf('k-list') !== -1 && t.scrollHeight > t.clientHeight) { return; }
+      t = t.parentNode;
+    }
+    e.preventDefault();
+  }, false);
+
+  setInterval(function () {
+    // After 90 seconds without a touch, go back to the normal view.
+    if (ui.touched && new Date().getTime() - ui.touched > 90000) {
+      ui.day = -1; ui.item = ''; ui.scroll = 0; ui.touched = 0;
+    }
+    render();
+    nightlyReload(new Date());
+  }, 15000);
   setInterval(load, REFRESH_MS);
 }());
 </script>

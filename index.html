@@ -184,6 +184,136 @@ li.more { border-top: 0; padding: 6px 0 0 15px; font-size: 14px; font-weight: 70
 }
 #stale { color: var(--a1); font-weight: 800; }
 
+/* ---- Portrait layouts: agenda, focus, poster. They are drawn into #stage by the script. ---- */
+#stage { display: none; position: relative; -webkit-flex: 1; flex: 1; min-height: 0; -webkit-flex-direction: column; flex-direction: column; }
+body.l-alt #top, body.l-alt #cols, body.l-alt #schedWrap { display: none; }
+body.l-alt #stage { display: -webkit-flex; display: flex; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 22px; }
+.lbl { font-size: 12px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; color: var(--a2); }
+.btxt { margin-top: 4px; font-size: 19px; font-weight: 500; line-height: 1.34; }
+.ampm2 { font-size: 22px; font-weight: 600; color: var(--mute); margin-left: 8px; }
+
+/* a single-line row, shared by the three layouts */
+.ln { position: relative; display: -webkit-flex; display: flex; -webkit-align-items: baseline; align-items: baseline; padding: 9px 0 9px 15px; border-top: 1px solid var(--line); }
+.ln .bar { top: 10px; bottom: 10px; }
+.ln-d { width: 48px; -webkit-flex-shrink: 0; flex-shrink: 0; font-size: 14px; font-weight: 800; color: var(--a3); }
+.ln-t { -webkit-flex: 1; flex: 1; min-width: 0; font-size: 19px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ln-m { margin-left: 12px; -webkit-flex-shrink: 0; flex-shrink: 0; font-size: 14px; font-weight: 600; color: var(--mute); }
+.ln.past .ln-t { text-decoration: line-through; opacity: 0.5; }
+.ln.more, .ln.clear { border-top: 0; font-size: 15px; font-weight: 700; color: var(--mute); }
+.dh { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 13px 0 4px; }
+.dh-n { font-size: 13px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: var(--a3); }
+.dh.h1 .dh-n { color: var(--a1); } .dh.h2 .dh-n { color: var(--a2); }
+.dh-c { margin-left: auto; min-width: 24px; height: 24px; line-height: 24px; border-radius: 12px; text-align: center; font-size: 13px; font-weight: 800; background: var(--chip); }
+.dh + .ln, .ln:first-child, .pill + .ln { border-top: 0; }
+
+/* Agenda: clock, week strip, then everything grouped by day */
+.a-head { display: -webkit-flex; display: flex; -webkit-align-items: flex-end; align-items: flex-end; -webkit-justify-content: space-between; justify-content: space-between; }
+.greet2 { font-size: 17px; font-weight: 600; letter-spacing: 0.5px; color: var(--a2); }
+.a-time { font-family: var(--display); font-size: 98px; font-weight: var(--clockw); letter-spacing: -2px; line-height: 1.05; }
+.a-r { text-align: right; padding-bottom: 12px; }
+.a-wd { font-family: var(--display); font-size: 44px; font-weight: 700; color: var(--a1); line-height: 1.1; }
+.a-date { font-size: 23px; font-weight: 500; }
+.a-brief { margin-top: 12px; padding: 12px 18px 14px; }
+.a-week { display: -webkit-flex; display: flex; margin-top: 12px; }
+.wkt { -webkit-flex: 1; flex: 1; margin-right: 8px; padding: 9px 0 10px; text-align: center; background: var(--card); border: 1px solid var(--line); border-radius: 16px; }
+.wkt:last-child { margin-right: 0; }
+.wkt.on { border: 2px solid var(--a1); padding: 8px 0 9px; }
+.wk-d { font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--mute); }
+.wk-n { font-size: 24px; font-weight: 700; line-height: 1.2; }
+.wk-c { display: inline-block; min-width: 26px; height: 26px; line-height: 26px; border-radius: 13px; margin-top: 4px; font-size: 14px; font-weight: 800; color: var(--on); }
+.c1 { background: var(--a1); } .c2 { background: var(--a2); } .c3 { background: var(--a3); }
+.c0 { background: transparent; color: var(--mute); }
+.a-list { -webkit-flex: 1; flex: 1; min-height: 0; overflow: hidden; margin-top: 12px; padding: 2px 18px 10px; }
+
+/* Focus: one big card for the next thing due, with a countdown */
+.f-head { display: -webkit-flex; display: flex; -webkit-align-items: flex-end; align-items: flex-end; -webkit-justify-content: space-between; justify-content: space-between; }
+.f-wd { font-family: var(--display); font-size: 46px; font-weight: 700; color: var(--a1); line-height: 1.1; }
+.f-date { font-size: 23px; font-weight: 500; }
+.f-time { font-family: var(--display); font-size: 72px; font-weight: var(--clockw); letter-spacing: -1px; line-height: 1; }
+.f-hero { margin-top: 14px; padding: 20px 24px 22px; border-radius: 28px; }
+.f-title { margin-top: 12px; font-size: 44px; font-weight: 700; line-height: 1.12; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.f-row { display: -webkit-flex; display: flex; -webkit-align-items: flex-end; align-items: flex-end; margin-top: 14px; }
+.f-when { font-size: 23px; font-weight: 600; }
+.f-course { display: inline-block; margin-top: 8px; padding: 3px 12px; border-radius: 999px; font-size: 14px; font-weight: 800; color: #17251e; }
+.f-count { margin-left: auto; text-align: right; }
+.f-cd { font-family: var(--display); font-size: 58px; font-weight: 700; color: var(--a1); line-height: 1; }
+.f-cdl { margin-top: 2px; font-size: 13px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--mute); }
+.f-stats { display: -webkit-flex; display: flex; margin-top: 12px; }
+.f-stat { -webkit-flex: 1; flex: 1; margin-right: 12px; padding: 12px 18px 14px; }
+.f-stat:last-child { margin-right: 0; }
+.f-num { font-family: var(--display); font-size: 60px; font-weight: 700; line-height: 1; }
+.n1 { color: var(--a1); } .n2 { color: var(--a2); } .n3 { color: var(--a3); }
+.f-lab { margin-top: 4px; font-size: 13px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--mute); }
+.f-list { -webkit-flex: 1; flex: 1; min-height: 0; overflow: hidden; margin-top: 12px; padding: 14px 18px 10px; }
+.f-list .pill { margin-bottom: 4px; }
+
+/* Poster: huge date, one headline, and a tall bar chart of the week */
+.p-top { display: -webkit-flex; display: flex; -webkit-align-items: flex-end; align-items: flex-end; }
+.p-wd { font-family: var(--display); font-size: 126px; font-weight: 800; line-height: 0.95; letter-spacing: -3px; text-transform: uppercase; color: var(--a1); }
+.p-num { font-family: var(--display); font-size: 126px; font-weight: 800; line-height: 0.95; letter-spacing: -3px; margin-left: 18px; }
+.p-side { margin-left: auto; text-align: right; padding-bottom: 12px; white-space: nowrap; }
+.p-time { font-family: var(--display); font-size: 50px; font-weight: var(--clockw); line-height: 1; }
+.p-month { margin-top: 6px; font-size: 20px; font-weight: 600; color: var(--mute); }
+.p-state { margin-top: 18px; font-family: var(--display); font-size: 52px; font-weight: 700; line-height: 1.08; color: var(--a2); }
+.p-state.busy { color: var(--a1); }
+.p-next { margin-top: 8px; font-size: 21px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.p-chart { display: -webkit-flex; display: flex; -webkit-align-items: flex-end; align-items: flex-end; margin-top: 16px; padding: 16px 12px 12px; }
+.pc { -webkit-flex: 1; flex: 1; text-align: center; }
+.pc-n { font-size: 20px; font-weight: 800; min-height: 26px; }
+.pc-bar { width: 56%; margin: 4px auto 8px; border-radius: 9px; background: var(--a3); }
+.pc.k0 .pc-bar { background: var(--a1); } .pc.k1 .pc-bar { background: var(--a2); }
+.pc-bar.zero { background: var(--line); }
+.pc-d { font-size: 13px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--mute); }
+.pc.k0 .pc-d { color: var(--a1); }
+.p-list { -webkit-flex: 1; flex: 1; min-height: 0; overflow: hidden; margin-top: 12px; padding: 4px 18px 10px; }
+
+/* ---- Card layout: light, rounded, with a scenic picture card that changes every day ---- */
+body.l-card #app { background: #f1f2ee; color: #14161a; padding: 22px 24px 10px; }
+body.l-card #deco { display: none; }
+body.l-card #foot { color: #9a9fa8; }
+body.l-card #stale { color: #c8553d; }
+.k-head { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: space-between; justify-content: space-between; }
+.k-hello { font-size: 33px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.15; }
+.k-sub { margin-top: 2px; font-size: 17px; font-weight: 500; color: #8a8f98; }
+.k-clock { padding: 9px 22px 9px 24px; border-radius: 999px; background: #fff; font-size: 32px; font-weight: 700; letter-spacing: -0.5px; white-space: nowrap; box-shadow: 0 6px 18px rgba(20,22,26,0.08); }
+.k-clock small { margin-left: 6px; font-size: 15px; font-weight: 700; color: #8a8f98; letter-spacing: 0; }
+.k-chips { display: -webkit-flex; display: flex; margin-top: 16px; }
+.k-chip { margin-right: 8px; padding: 9px 16px; border-radius: 999px; background: #e4e6e0; color: #5d626b; font-size: 15px; font-weight: 700; white-space: nowrap; }
+.k-chip.on { background: #14161a; color: #fff; }
+.k-chip b { display: inline-block; min-width: 10px; height: 20px; line-height: 20px; margin-left: 7px; padding: 0 5px; border-radius: 10px; background: #fff; color: #14161a; font-size: 12px; font-weight: 800; text-align: center; }
+.k-hero { position: relative; margin-top: 16px; height: 262px; -webkit-flex-shrink: 0; flex-shrink: 0; border-radius: 34px; overflow: hidden; color: #fff; box-shadow: 0 14px 34px rgba(20,22,26,0.18); -webkit-mask-image: -webkit-radial-gradient(white, black); }
+.k-art, .k-art svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.k-shade { position: absolute; left: 0; right: 0; bottom: 0; height: 72%; background: -webkit-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.58)); background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.58)); }
+.k-tag { position: absolute; top: 18px; left: 20px; padding: 7px 14px; border-radius: 999px; background: rgba(255,255,255,0.9); color: #14161a; font-size: 13px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+.k-tag.r { left: auto; right: 20px; letter-spacing: 0.3px; text-transform: none; }
+.k-body { position: absolute; left: 24px; right: 20px; bottom: 20px; display: -webkit-flex; display: flex; -webkit-align-items: flex-end; align-items: flex-end; }
+.k-main { -webkit-flex: 1; flex: 1; min-width: 0; }
+.k-title { font-size: 36px; font-weight: 700; line-height: 1.1; letter-spacing: -0.5px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.k-when { margin-top: 6px; font-size: 18px; font-weight: 600; opacity: 0.92; }
+.k-cta { margin-left: 14px; -webkit-flex-shrink: 0; flex-shrink: 0; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 7px 7px 7px 20px; border-radius: 999px; background: #14161a; font-size: 17px; font-weight: 700; white-space: nowrap; }
+.k-cta i { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; width: 38px; height: 38px; margin-left: 12px; border-radius: 19px; background: #fff; }
+.k-brief { margin: 14px 4px 0; font-size: 16px; font-weight: 500; line-height: 1.4; color: #5d626b; }
+.k-sec { display: -webkit-flex; display: flex; -webkit-align-items: baseline; align-items: baseline; -webkit-justify-content: space-between; justify-content: space-between; margin: 16px 4px 10px; }
+.k-sec b { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
+.k-sec span { font-size: 15px; font-weight: 600; color: #8a8f98; }
+.k-list { -webkit-flex: 1; flex: 1; min-height: 0; overflow: hidden; padding: 6px 16px; border-radius: 30px; background: #fff; box-shadow: 0 8px 24px rgba(20,22,26,0.06); }
+.k-row { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 8px 0; border-top: 1px solid #eef0eb; }
+.k-row:first-child { border-top: 0; }
+.k-tile { width: 46px; height: 46px; -webkit-flex-shrink: 0; flex-shrink: 0; border-radius: 15px; color: #fff; text-align: center; }
+.k-tile .d { padding-top: 6px; font-size: 10px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; opacity: 0.92; }
+.k-tile .n { font-size: 18px; font-weight: 800; line-height: 1.1; }
+.k-txt { -webkit-flex: 1; flex: 1; min-width: 0; margin-left: 14px; }
+.k-t { font-size: 19px; font-weight: 700; letter-spacing: -0.2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.k-s { margin-top: 1px; font-size: 14px; font-weight: 500; color: #8a8f98; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.k-time { margin-left: 12px; -webkit-flex-shrink: 0; flex-shrink: 0; padding: 6px 12px; border-radius: 999px; background: #f1f2ee; color: #5d626b; font-size: 13px; font-weight: 700; }
+.k-row.past .k-t { text-decoration: line-through; opacity: 0.45; }
+.k-row.k-more { padding: 10px 4px 8px; border-top: 0; font-size: 15px; font-weight: 700; color: #8a8f98; }
+.k-bar { margin-top: 14px; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 8px 10px; border-radius: 999px; background: #14161a; color: #fff; box-shadow: 0 10px 26px rgba(20,22,26,0.22); }
+.k-stat { -webkit-flex: 1; flex: 1; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.72); }
+.k-stat b { display: inline-block; min-width: 18px; height: 38px; line-height: 38px; margin-right: 10px; padding: 0 10px; border-radius: 19px; background: rgba(255,255,255,0.15); color: #fff; font-size: 17px; font-weight: 800; text-align: center; }
+.k-stat.on b { background: #fff; color: #14161a; }
+
 /* One-time screen for entering the access key */
 #setup {
   position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 10; display: none;
@@ -263,6 +393,8 @@ li.more { border-top: 0; padding: 6px 0 0 15px; font-size: 14px; font-weight: 70
     <div id="sched"></div>
   </div>
 
+  <div id="stage"></div>
+
   <div id="foot"><span id="updated">&nbsp;</span><span id="look"></span><span id="stale"></span></div>
 
   <div id="setup">
@@ -310,6 +442,21 @@ li.more { border-top: 0; padding: 6px 0 0 15px; font-size: 14px; font-weight: 70
     { id: 'midnight', name: 'Midnight Garden' }   // Saturday
   ];
   var MOTIFS = ['leaves', 'bubbles', 'waves', 'rays'];
+  // How the screen is arranged when the iPad is upright. Landscape always uses 'classic'.
+  // Add ?layout=agenda (or focus, poster, classic) to the address to preview one.
+  var LAYOUTS = ['classic', 'agenda', 'focus', 'poster', 'card'];
+  var PORTRAIT_LAYOUT = 'card';
+  // Colors for the picture card in the 'card' layout: sky (top, bottom), sun or moon, then four hill layers.
+  var SCENES = {
+    forest:   { sky: ['#bfe8d0', '#f7f4d2'], orb: '#fff6c0', l: ['#7fbf9b', '#4a9a72', '#236f4d', '#124a33'] },
+    lagoon:   { sky: ['#8fdfe6', '#e9fbf2'], orb: '#ffffff', l: ['#63c6cb', '#2a9aa8', '#0b6e77', '#073b4c'] },
+    lavender: { sky: ['#bfaef2', '#ffd9e8'], orb: '#fff5fb', l: ['#a48be0', '#7a5cc4', '#573c95', '#2d2463'] },
+    meadow:   { sky: ['#bfe6fb', '#fdf6cf'], orb: '#ffe58a', l: ['#a9dba0', '#7cc47a', '#4fa35a', '#2e7d50'] },
+    sunset:   { sky: ['#ff9e6b', '#ffe3ae'], orb: '#fff3cc', l: ['#f08a4b', '#c9503d', '#8f2d4a', '#5a1a35'] },
+    midnight: { sky: ['#0d0221', '#43208a'], orb: '#f3ecff', l: ['#4a2a8a', '#331a6b', '#200b4d', '#12052e'], stars: true },
+    golden:   { sky: ['#ffcf7a', '#fff4d6'], orb: '#ffffff', l: ['#f1b56a', '#d98a45', '#a85d2c', '#6e3a1c'] }
+  };
+  var layout = 'classic';
   var COURSE_COLORS = ['#ff6b6b', '#ffa94d', '#ffd43b', '#69db7c', '#38d9a9', '#4dabf7', '#9775fa', '#f783ac'];
 
   var data = null;
@@ -424,7 +571,7 @@ li.more { border-top: 0; padding: 6px 0 0 15px; font-size: 14px; font-weight: 70
     setText('greet', h24 < 5 ? 'Good night' : h24 < 12 ? 'Good morning' : h24 < 17 ? 'Good afternoon' : h24 < 22 ? 'Good evening' : 'Good night');
     var mins = h24 * 60 + now.getMinutes();
     var night = mins >= 22 * 60 || mins < 6 * 60 + 30;
-    var cls = 't-' + theme.id + (night ? ' night' : '');
+    var cls = 't-' + theme.id + (night ? ' night' : '') + (layout === 'classic' ? '' : ' l-alt l-' + layout);
     if (document.body.className !== cls) { document.body.className = cls; }
   }
 
@@ -492,7 +639,8 @@ li.more { border-top: 0; padding: 6px 0 0 15px; font-size: 14px; font-weight: 70
     }
   }
 
-  function renderDue(now) {
+  // Sort the due list into today, tomorrow and the rest of the week, with a count per day.
+  function model(now) {
     var todayK = dayKey(now), tomK = dayKey(addDays(now, 1)), endK = dayKey(addDays(now, 7));
     var src = (data && data.due) || [], all = [], i, j, d, k;
     var dayKeys = [], counts = [0, 0, 0, 0, 0, 0, 0];
@@ -509,16 +657,279 @@ li.more { border-top: 0; padding: 6px 0 0 15px; font-size: 14px; font-weight: 70
       });
     }
     all.sort(function (a, b) { return a.when - b.when; });
-    var today = [], tomorrow = [], week = [];
+    var m = { all: all, today: [], tomorrow: [], week: [], counts: counts, next: null };
     for (i = 0; i < all.length; i++) {
-      if (all[i].key === todayK) { today.push(all[i]); }
-      else if (all[i].key === tomK) { tomorrow.push(all[i]); }
-      else { week.push(all[i]); }
+      if (all[i].key === todayK) { m.today.push(all[i]); }
+      else if (all[i].key === tomK) { m.tomorrow.push(all[i]); }
+      else { m.week.push(all[i]); }
+      if (!m.next && all[i].when > now) { m.next = all[i]; }
     }
-    renderSpark(counts, now);
-    fill('today', 'nToday', today, MAX_TODAY, function (it) { return dueItem(it, now); }, 'All clear today');
-    fill('tomorrow', 'nTomorrow', tomorrow, MAX_TOMORROW, function (it) { return dueItem(it, now); }, 'Nothing due tomorrow');
-    fill('week', 'nWeek', week, MAX_WEEK, weekItem, 'Nothing else this week');
+    return m;
+  }
+
+  function renderDue(now) {
+    var m = model(now);
+    renderSpark(m.counts, now);
+    fill('today', 'nToday', m.today, MAX_TODAY, function (it) { return dueItem(it, now); }, 'All clear today');
+    fill('tomorrow', 'nTomorrow', m.tomorrow, MAX_TOMORROW, function (it) { return dueItem(it, now); }, 'Nothing due tomorrow');
+    fill('week', 'nWeek', m.week, MAX_WEEK, weekItem, 'Nothing else this week');
+  }
+
+  /* ---- Portrait layouts ---- */
+  function clockText(now) { var h = now.getHours() % 12; return (h === 0 ? 12 : h) + ':' + pad(now.getMinutes()); }
+  function ampmText(now) { return now.getHours() >= 12 ? 'PM' : 'AM'; }
+  function greeting(now) {
+    var h = now.getHours();
+    return h < 5 ? 'Good night' : h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : h < 22 ? 'Good evening' : 'Good night';
+  }
+  function briefText(now) {
+    var up = data ? parse(data.updated) : null;
+    if (!up || dayKey(up) !== dayKey(now) || now - up >= 6 * 60 * 60 * 1000) { return ''; }
+    return data.summary || '';
+  }
+  function dayLabel(d, now) {
+    var k = dayKey(d);
+    if (k === dayKey(now)) { return 'Today'; }
+    if (k === dayKey(addDays(now, 1))) { return 'Tomorrow'; }
+    return DAYS[d.getDay()];
+  }
+  function whenText(it, now) { return dayLabel(it.when, now) + (it.allDay ? '' : ', ' + fmtTime(it.when)); }
+  function countdown(it, now) {
+    var mins = Math.round((it.when - now) / 60000), h;
+    if (mins <= 0) { return 'now'; }
+    if (mins < 60) { return mins + ' min'; }
+    h = Math.floor(mins / 60);
+    return h < 48 ? h + 'h ' + pad(mins % 60) + 'm' : Math.round(h / 24) + ' days';
+  }
+  function kids(parent) {
+    var i;
+    for (i = 1; i < arguments.length; i++) { if (arguments[i]) { parent.appendChild(arguments[i]); } }
+    return parent;
+  }
+  function lineRow(it, now, showDay) {
+    var row = el('div', 'ln' + ((!it.allDay && it.when < now) ? ' past' : ''));
+    row.appendChild(stripe(it.course));
+    if (showDay) { row.appendChild(el('span', 'ln-d', DSHORT[it.when.getDay()])); }
+    row.appendChild(el('span', 'ln-t', it.title));
+    row.appendChild(el('span', 'ln-m', joinMeta([it.course, it.allDay ? '' : fmtTime(it.when)])));
+    return row;
+  }
+  function dayHead(label, count, cls) {
+    return kids(el('div', 'dh ' + cls), el('span', 'dh-n', label), count ? el('span', 'dh-c', '' + count) : null);
+  }
+  // Add rows to a fixed-height box, then drop rows from the end until they fit.
+  function fitRows(box, rows, moreCls) {
+    var i, shown = rows.length, more = null;
+    function isHead(r) { return r.className.indexOf('dh') === 0; }
+    function hidden() { var n = 0, j; for (j = shown; j < rows.length; j++) { if (!isHead(rows[j])) { n++; } } return n; }
+    for (i = 0; i < rows.length; i++) { box.appendChild(rows[i]); }
+    while (shown > 1 && box.scrollHeight > box.clientHeight + 1) {
+      shown--; box.removeChild(rows[shown]);
+      while (shown > 1 && isHead(rows[shown - 1])) { shown--; box.removeChild(rows[shown]); }   // no dangling day heading
+      if (!more) { more = el('div', moreCls || 'ln more', ''); box.appendChild(more); }
+      clear(more);
+      more.appendChild(document.createTextNode('+ ' + hidden() + ' more'));
+    }
+  }
+  function stage(cls) { var s = $('stage'); clear(s); s.className = cls; return s; }
+
+  var ALT = {};
+
+  ALT.agenda = function (now, m) {
+    var s = stage('agenda'), i, d, it, lastKey = 0, n, cls;
+    kids(s, kids(el('div', 'a-head'),
+      kids(el('div'), el('div', 'greet2', greeting(now)),
+        kids(el('div'), el('span', 'a-time', clockText(now)), el('span', 'ampm2', ampmText(now)))),
+      kids(el('div', 'a-r'), el('div', 'a-wd', DAYS[now.getDay()]), el('div', 'a-date', MONTHS[now.getMonth()] + ' ' + now.getDate()))));
+    var brief = briefText(now);
+    if (brief) { kids(s, kids(el('div', 'card a-brief'), el('div', 'lbl', 'Today’s brief'), el('div', 'btxt', brief))); }
+
+    var week = el('div', 'a-week');
+    for (i = 0; i < 7; i++) {
+      d = addDays(now, i); n = m.counts[i];
+      kids(week, kids(el('div', 'wkt' + (i === 0 ? ' on' : '')),
+        el('div', 'wk-d', DSHORT[d.getDay()]), el('div', 'wk-n', '' + d.getDate()),
+        el('div', 'wk-c ' + (n ? (i === 0 ? 'c1' : i === 1 ? 'c2' : 'c3') : 'c0'), n ? '' + n : '–')));
+    }
+    s.appendChild(week);
+
+    var box = el('div', 'card a-list'), rows = [];
+    if (!m.today.length) { rows.push(dayHead('Today', 0, 'h1')); rows.push(el('div', 'ln clear', 'All clear today')); }
+    for (i = 0; i < m.all.length; i++) {
+      it = m.all[i];
+      if (it.key !== lastKey) {
+        lastKey = it.key; n = 0;
+        for (d = 0; d < m.all.length; d++) { if (m.all[d].key === it.key) { n++; } }
+        cls = it.key === dayKey(now) ? 'h1' : it.key === dayKey(addDays(now, 1)) ? 'h2' : 'h3';
+        rows.push(dayHead(dayLabel(it.when, now) + (cls === 'h3' ? ' · ' + MONTHS[it.when.getMonth()].substring(0, 3) + ' ' + it.when.getDate() : ''), n, cls));
+      }
+      rows.push(lineRow(it, now, false));
+    }
+    s.appendChild(box);
+    fitRows(box, rows);
+  };
+
+  ALT.focus = function (now, m) {
+    var s = stage('focus'), i, rows = [], hero = el('div', 'card f-hero'), chip;
+    kids(s, kids(el('div', 'f-head'),
+      kids(el('div'), el('div', 'f-wd', DAYS[now.getDay()]), el('div', 'f-date', MONTHS[now.getMonth()] + ' ' + now.getDate())),
+      kids(el('div'), el('span', 'f-time', clockText(now)), el('span', 'ampm2', ampmText(now)))));
+    if (m.next) {
+      chip = m.next.course ? el('span', 'f-course', m.next.course) : null;
+      if (chip) { chip.style.background = colorFor(m.next.course); }
+      kids(hero, el('span', 'pill p1', 'Next up'), el('div', 'f-title', m.next.title),
+        kids(el('div', 'f-row'),
+          kids(el('div'), el('div', 'f-when', whenText(m.next, now)), chip),
+          kids(el('div', 'f-count'), el('div', 'f-cd', countdown(m.next, now)), el('div', 'f-cdl', 'left'))));
+    } else {
+      kids(hero, el('span', 'pill p2', 'All clear'), el('div', 'f-title', 'Nothing due in the next week'));
+    }
+    s.appendChild(hero);
+    kids(s, kids(el('div', 'f-stats'),
+      kids(el('div', 'card f-stat'), el('div', 'f-num n1', '' + m.today.length), el('div', 'f-lab', 'Due today')),
+      kids(el('div', 'card f-stat'), el('div', 'f-num n2', '' + m.tomorrow.length), el('div', 'f-lab', 'Tomorrow')),
+      kids(el('div', 'card f-stat'), el('div', 'f-num n3', '' + m.all.length), el('div', 'f-lab', 'Next 7 days'))));
+    var box = kids(el('div', 'card f-list'), el('span', 'pill p3', 'Coming up'));
+    for (i = 0; i < m.all.length; i++) { if (m.all[i] !== m.next) { rows.push(lineRow(m.all[i], now, true)); } }
+    if (!rows.length) { rows.push(el('div', 'ln clear', 'Nothing else this week')); }
+    s.appendChild(box);
+    fitRows(box, rows);
+  };
+
+  ALT.poster = function (now, m) {
+    var s = stage('poster'), i, d, n, max = 1, bar, rows = [];
+    kids(s, kids(el('div', 'p-top'),
+      el('div', 'p-wd', DSHORT[now.getDay()]), el('div', 'p-num', '' + now.getDate()),
+      kids(el('div', 'p-side'),
+        kids(el('div'), el('span', 'p-time', clockText(now)), el('span', 'ampm2', ampmText(now))),
+        el('div', 'p-month', MONTHS[now.getMonth()] + ' ' + now.getFullYear()))));
+    n = m.today.length;
+    kids(s, el('div', 'p-state' + (n ? ' busy' : ''), n ? n + ' due today' : 'Nothing due today'));
+    if (m.next) { kids(s, el('div', 'p-next', 'Next: ' + m.next.title + ' · ' + whenText(m.next, now))); }
+
+    var chart = el('div', 'card p-chart');
+    for (i = 0; i < 7; i++) { if (m.counts[i] > max) { max = m.counts[i]; } }
+    for (i = 0; i < 7; i++) {
+      d = addDays(now, i); n = m.counts[i];
+      bar = el('div', 'pc-bar' + (n ? '' : ' zero'));
+      bar.style.height = (n ? Math.max(12, Math.round(120 * n / max)) : 4) + 'px';
+      kids(chart, kids(el('div', 'pc k' + i), el('div', 'pc-n', n ? '' + n : ''), bar, el('div', 'pc-d', DSHORT[d.getDay()])));
+    }
+    s.appendChild(chart);
+
+    var box = el('div', 'card p-list');
+    for (i = 0; i < m.all.length; i++) { rows.push(lineRow(m.all[i], now, true)); }
+    if (!rows.length) { rows.push(el('div', 'ln clear', 'Nothing due in the next week')); }
+    s.appendChild(box);
+    fitRows(box, rows);
+  };
+
+  /* The picture card: a small landscape drawn from the date, so it is different every day. */
+  function rng(seed) {
+    var s = seed % 2147483647;
+    if (s <= 0) { s += 2147483646; }
+    return function () { s = s * 16807 % 2147483647; return (s - 1) / 2147483646; };
+  }
+  var sceneCache = { key: '', svg: '' };
+  function sceneSvg(themeId, seed) {
+    var key = themeId + '/' + seed;
+    if (sceneCache.key === key) { return sceneCache.svg; }
+    var sc = SCENES[themeId] || SCENES.forest, rand = rng(seed), W = 720, H = 262, i, x, y, px, py, d;
+    var s = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid slice">' +
+            '<defs><linearGradient id="skyg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + sc.sky[0] +
+            '"/><stop offset="1" stop-color="' + sc.sky[1] + '"/></linearGradient></defs>' +
+            '<rect width="' + W + '" height="' + H + '" fill="url(#skyg)"/>';
+    if (sc.stars) {
+      for (i = 0; i < 40; i++) {
+        s += '<circle cx="' + Math.round(rand() * W) + '" cy="' + Math.round(rand() * 150) + '" r="' + (0.6 + rand() * 1.4).toFixed(1) +
+             '" fill="#fff" opacity="' + (0.4 + rand() * 0.6).toFixed(2) + '"/>';
+      }
+    }
+    var ox = Math.round(430 + rand() * 200), oy = Math.round(50 + rand() * 40);
+    s += '<circle cx="' + ox + '" cy="' + oy + '" r="58" fill="' + sc.orb + '" opacity="0.25"/>' +
+         '<circle cx="' + ox + '" cy="' + oy + '" r="34" fill="' + sc.orb + '"/>';
+    // base height, how tall the peaks get, distance between peaks, smooth hills or sharp peaks
+    var layers = [[150, 95, 78, false], [182, 70, 96, false], [214, 44, 130, true], [244, 26, 170, true]];
+    for (i = 0; i < layers.length; i++) {
+      x = -30; y = layers[i][0] - rand() * layers[i][1];
+      d = 'M-30,' + H + ' L' + x + ',' + Math.round(y);
+      while (x < W + 30) {
+        px = x; py = y;
+        x += layers[i][2] * (0.6 + rand() * 0.8);
+        y = layers[i][0] - rand() * layers[i][1];
+        if (layers[i][3]) {
+          d += ' Q' + Math.round(px + (x - px) / 2) + ',' + Math.round(Math.min(py, y) - 14) + ' ' + Math.round(x) + ',' + Math.round(y);
+        } else {
+          d += ' L' + Math.round(x) + ',' + Math.round(y);
+        }
+      }
+      s += '<path d="' + d + ' L' + (W + 30) + ',' + H + ' Z" fill="' + sc.l[i] + '"/>';
+    }
+    sceneCache = { key: key, svg: s + '</svg>' };
+    return sceneCache.svg;
+  }
+  var CLOCK_ICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">' +
+    '<circle cx="12" cy="12" r="8.5" fill="none" stroke="#14161a" stroke-width="2.2"/>' +
+    '<path d="M12 7.5V12l3 2" fill="none" stroke="#14161a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  function cardRow(it, now, fallback) {
+    var tile = kids(el('div', 'k-tile'), el('div', 'd', DSHORT[it.when.getDay()]), el('div', 'n', '' + it.when.getDate()));
+    tile.style.background = colorFor(it.course) || fallback;
+    return kids(el('div', 'k-row' + ((!it.allDay && it.when < now) ? ' past' : '')), tile,
+      kids(el('div', 'k-txt'), el('div', 'k-t', it.title), el('div', 'k-s', joinMeta([dayLabel(it.when, now), it.course]))),
+      el('div', 'k-time', it.allDay ? 'Any time' : fmtTime(it.when)));
+  }
+
+  ALT.card = function (now, m) {
+    var s = stage('cardy'), i, d, n, chip, icon, rows = [], sc = SCENES[theme.id] || SCENES.forest;
+    kids(s, kids(el('div', 'k-head'),
+      kids(el('div'), el('div', 'k-hello', greeting(now)),
+        el('div', 'k-sub', DAYS[now.getDay()] + ', ' + MONTHS[now.getMonth()] + ' ' + now.getDate())),
+      kids(el('div', 'k-clock'), el('span', '', clockText(now)), el('small', '', ampmText(now)))));
+
+    var chips = el('div', 'k-chips');
+    for (i = 0; i < 7; i++) {
+      d = addDays(now, i); n = m.counts[i];
+      chip = el('div', 'k-chip' + (i === 0 ? ' on' : ''), i === 0 ? 'Today' : DSHORT[d.getDay()]);
+      if (n) { chip.appendChild(el('b', '', '' + n)); }
+      chips.appendChild(chip);
+    }
+    s.appendChild(chips);
+
+    var hero = el('div', 'k-hero'), art = el('div', 'k-art'), body = el('div', 'k-body');
+    art.innerHTML = sceneSvg(theme.id, dayKey(now));
+    kids(hero, art, el('div', 'k-shade'));
+    if (m.next) {
+      icon = el('i'); icon.innerHTML = CLOCK_ICON;
+      kids(hero, el('div', 'k-tag', 'Next up'), m.next.course ? el('div', 'k-tag r', m.next.course) : null);
+      kids(body, kids(el('div', 'k-main'), el('div', 'k-title', m.next.title), el('div', 'k-when', whenText(m.next, now))),
+        kids(el('div', 'k-cta'), el('span', '', countdown(m.next, now) + ' left'), icon));
+    } else {
+      kids(hero, el('div', 'k-tag', 'All clear'));
+      kids(body, kids(el('div', 'k-main'), el('div', 'k-title', 'Nothing due this week'), el('div', 'k-when', 'Enjoy the free time')));
+    }
+    hero.appendChild(body);
+    s.appendChild(hero);
+
+    // No written brief here: the picture card and the day chips already say the same thing.
+    kids(s, kids(el('div', 'k-sec'), el('b', '', 'Coming up'), el('span', '', m.all.length + ' in the next 7 days')));
+
+    var box = el('div', 'k-list');
+    for (i = 0; i < m.all.length; i++) { if (m.all[i] !== m.next) { rows.push(cardRow(m.all[i], now, sc.l[1])); } }
+    if (!rows.length) { rows.push(el('div', 'k-row k-more', 'Nothing else this week')); }
+    s.appendChild(box);
+    kids(s, kids(el('div', 'k-bar'),
+      kids(el('div', 'k-stat on'), el('b', '', '' + m.today.length), el('span', '', 'due today')),
+      kids(el('div', 'k-stat'), el('b', '', '' + m.tomorrow.length), el('span', '', 'tomorrow')),
+      kids(el('div', 'k-stat'), el('b', '', '' + m.all.length), el('span', '', 'this week'))));
+    fitRows(box, rows, 'k-row k-more');
+  };
+
+  function pickLayout() {
+    var want = param('layout'), i;
+    // A layout named in the address always wins, so any of them can be previewed on a computer.
+    for (i = 0; i < LAYOUTS.length; i++) { if (LAYOUTS[i] === want) { return want; } }
+    return window.innerHeight > window.innerWidth ? PORTRAIT_LAYOUT : 'classic';
   }
 
   function renderClasses(now) {
@@ -590,8 +1001,10 @@ li.more { border-top: 0; padding: 6px 0 0 15px; font-size: 14px; font-weight: 70
 
   function render() {
     var now = new Date();
+    layout = pickLayout();
     renderClock(now);
     renderMeta(now);
+    if (layout !== 'classic') { ALT[layout](now, model(now)); return; }
     renderClasses(now);
     // Last, because it trims the lists to the space the other parts leave.
     renderDue(now);

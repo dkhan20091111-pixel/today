@@ -465,6 +465,123 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
   li.empty .ic { display: none; }
   li.empty .et { margin-top: 0; }
 }
+
+/* ==== Version 2 of the card screen: two-part layout, banners, details, the More page ==== */
+.x-cols { -webkit-flex: 1; flex: 1; min-height: 0; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; }
+.x-left { -webkit-flex-shrink: 0; flex-shrink: 0; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; }
+.x-right { -webkit-flex: 1; flex: 1; min-height: 0; min-width: 0; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; }
+.x-secr { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
+.k-ref.x-small { padding: 8px; margin-right: 8px; box-shadow: none; background: #e4e6e0; }
+.k-ref.spin svg { -webkit-animation: kspin 0.9s linear infinite; animation: kspin 0.9s linear infinite; }
+.x-clear { padding: 4px 12px; border-radius: 999px; background: #14161a; color: #fff !important; font-size: 13px !important; font-weight: 700 !important; cursor: pointer; }
+.x-priv .k-hero { -webkit-flex: 1; flex: 1; height: auto; margin-bottom: 8px; }
+.x-photo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* Banners */
+.x-ban { margin-top: 10px; padding: 11px 16px; border-radius: 16px; font-size: 16px; font-weight: 600; line-height: 1.3; cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+.x-ban.x-warn { background: #ffe6d2; color: #8a3b00; }
+.x-ban.x-info { background: #e4e6e0; color: #33373d; }
+.x-ban.x-note { background: #14161a; color: #fff; }
+.x-ban.x-go { background: #d9f3e2; color: #14532d; }
+.x-timer { font-weight: 800; }
+
+/* Class timeline */
+.x-tl { height: 5px; margin: 7px 0 0 56px; border-radius: 3px; background: #e0e3dc; overflow: hidden; }
+.x-tl.x-wide { margin: 6px 0 4px; }
+.x-tlf { height: 100%; border-radius: 3px; background: #14161a; }
+
+/* List extras */
+.x-test { -webkit-flex-shrink: 0; flex-shrink: 0; margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: #ffe1e1; color: #b42318; font-size: 11px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; }
+.k-row.x-done .k-t { text-decoration: line-through; opacity: 0.45; }
+.k-row.x-done .k-tile { opacity: 0.4; }
+.k-row.x-old { opacity: 0.6; }
+.k-row.x-label { padding: 14px 4px 2px; font-size: 12px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; }
+
+/* Details sheet and the alarm */
+.x-sheet { position: absolute; top: 0; left: -24px; right: -24px; bottom: -10px; z-index: 8; background: rgba(0,0,0,0.45);
+  display: -webkit-flex; display: flex; -webkit-align-items: flex-end; align-items: flex-end; }
+.x-sheetb { width: 100%; box-sizing: border-box; max-height: 76%; overflow: hidden; padding: 24px 28px 26px; border-radius: 30px 30px 0 0; background: #fff; color: #14161a; }
+.x-shh { font-size: 13px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: #8a8f98; }
+.x-sht { margin-top: 6px; font-size: 30px; font-weight: 700; line-height: 1.15; letter-spacing: -0.4px; }
+.x-shw { margin-top: 8px; font-size: 18px; font-weight: 600; color: #5d626b; }
+.x-shd { margin-top: 14px; max-height: 190px; overflow: hidden; font-size: 17px; line-height: 1.45; color: #33373d; }
+.x-shb { margin-top: 20px; }
+.x-alarm { -webkit-align-items: center; align-items: center; cursor: pointer; }
+.x-alarm .x-sheetb { width: 70%; margin: 0 auto; border-radius: 30px; text-align: center; }
+.x-alarm .x-btn { margin-top: 18px; }
+
+/* Buttons and cards on the More page */
+.x-btn { display: inline-block; margin: 0 8px 8px 0; padding: 9px 16px; border-radius: 999px; background: #e4e6e0; color: #33373d; font-size: 15px; font-weight: 700; cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+.x-btn.on, .x-btn.dark { background: #14161a; color: #fff; }
+.x-tools { padding: 4px 12px 12px; }
+.x-card { margin-top: 10px; padding: 14px 16px 8px; border-radius: 20px; background: #f3f4f0; }
+.x-ct { margin-bottom: 10px; font-size: 12px; font-weight: 800; letter-spacing: 1.3px; text-transform: uppercase; color: #8a8f98; }
+.x-big { margin: 0 0 10px; font-size: 54px; font-weight: 700; letter-spacing: -1px; line-height: 1; }
+.x-sub { margin: 2px 0 8px; font-size: 14px; font-weight: 500; color: #8a8f98; }
+.x-line { display: -webkit-flex; display: flex; -webkit-justify-content: space-between; justify-content: space-between; padding: 6px 0; font-size: 16px; }
+.x-line span { color: #5d626b; font-weight: 500; }
+.x-line b { margin-left: 14px; text-align: right; font-weight: 700; }
+.x-quote { padding: 6px 0 8px; font-size: 17px; font-weight: 600; font-style: italic; }
+.x-row { margin-top: 2px; }
+.x-check { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 8px 0; font-size: 17px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+.x-check i { width: 24px; height: 24px; margin-right: 12px; border-radius: 8px; border: 2px solid #b9bdb4; box-sizing: border-box; }
+.x-check.on i { background: #14161a; border-color: #14161a; }
+.x-check.on span { text-decoration: line-through; opacity: 0.5; }
+.x-game { width: 204px; margin: 0 0 8px; }
+.x-game:after { content: ""; display: block; clear: both; }
+.x-cell { float: left; width: 62px; height: 62px; margin: 0 6px 6px 0; border-radius: 14px; background: #fff; text-align: center; line-height: 62px; font-size: 30px; font-weight: 800; cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+.x-cell.o { color: #e4572e; }
+.n-next.n3 { margin-top: 26px; font-style: italic; }
+
+/* Landscape: picture on the left, list on the right */
+@media (orientation: landscape) {
+  body.l-card #app { padding: 14px 22px 6px; }
+  .x-cols { -webkit-flex-direction: row; flex-direction: row; margin-top: 12px; }
+  .x-left { width: 41%; margin-right: 16px; }
+  .x-left .k-hero { -webkit-flex: 1; flex: 1; height: auto; min-height: 150px; margin-top: 0; }
+  .x-left .k-title { font-size: 28px; }
+  .x-left .k-body { -webkit-flex-wrap: wrap; flex-wrap: wrap; }
+  .x-left .k-cta { margin: 10px 0 0; padding: 5px 5px 5px 16px; font-size: 15px; }
+  .x-left .k-day { -webkit-align-items: flex-start; align-items: flex-start; }
+  .x-left .k-dayl { padding-top: 8px; }
+  .x-left .k-dayr { -webkit-flex-wrap: wrap; flex-wrap: wrap; }
+  .x-left .k-cls { -webkit-flex: 1 1 28%; flex: 1 1 28%; margin: 0 6px 6px 0; }
+  .x-left .x-tl { margin-top: 2px; }
+  .x-right .k-chips { margin-top: 0; }
+  .x-right .k-chip { margin-right: 5px; padding: 7px 10px; font-size: 13px; }
+  .x-right .k-sec { margin: 10px 2px 8px; }
+  .x-right .k-sec b { font-size: 19px; }
+  .x-right .k-segb { padding: 6px 10px; font-size: 13px; }
+  .x-right .k-nav { margin: 0 2px 8px; }
+  .x-right .k-navt { min-width: 150px; font-size: 21px; }
+  .x-right .k-now { display: none; }
+  .x-right .k-row { padding: 6px 0; }
+  .k-bar { margin-top: 10px; padding: 5px 10px; }
+  .x-ban { margin-top: 8px; padding: 8px 14px; font-size: 15px; }
+  .x-sheet { bottom: -6px; }
+  .x-sheetb { max-height: 88%; }
+  .x-priv .k-hero { margin-top: 12px; }
+}
+
+/* Dark mode for the new parts */
+body.dark .k-ref.x-small { background: #24282d; color: #f4f5f2; }
+body.dark .x-clear { background: #f4f5f2; color: #14161a !important; }
+body.dark .x-ban.x-warn { background: #4a2a12; color: #ffd7b0; }
+body.dark .x-ban.x-info { background: #24282d; color: #d6d9de; }
+body.dark .x-ban.x-note { background: #f4f5f2; color: #14161a; }
+body.dark .x-ban.x-go { background: #143524; color: #b6f0c8; }
+body.dark .x-tl { background: #2a2e34; }
+body.dark .x-tlf { background: #f4f5f2; }
+body.dark .x-test { background: #4a1d1d; color: #ffb4b4; }
+body.dark .x-sheetb { background: #1a1d21; color: #f4f5f2; }
+body.dark .x-shw, body.dark .x-shd { color: #b3b8c0; }
+body.dark .x-btn { background: #2a2e34; color: #d6d9de; }
+body.dark .x-btn.on, body.dark .x-btn.dark { background: #f4f5f2; color: #14161a; }
+body.dark .x-card { background: #22262b; }
+body.dark .x-line span { color: #b3b8c0; }
+body.dark .x-check i { border-color: #555b63; }
+body.dark .x-check.on i { background: #f4f5f2; border-color: #f4f5f2; }
+body.dark .x-cell { background: #1a1d21; }
 </style>
 </head>
 <body>
@@ -1566,6 +1683,741 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
   $('pinOk').addEventListener('click', function () { pinDismissed = true; $('pin').style.display = 'none'; }, false);
   $('keySave').addEventListener('click', saveKeyFromInput, false);
   $('keyInput').addEventListener('keydown', function (e) { if (e.keyCode === 13) { saveKeyFromInput(); } }, false);
+
+  /* ==========================================================================
+     Version 2 of the card screen.
+     Everything from here to the start-up code is layered on top of the code
+     above. It replaces the card and night screens and adds: a landscape
+     arrangement, banners, the class timeline, a details sheet, a privacy
+     curtain, a "More" page with tools, and the smaller extras.
+     Still ES5 only: this has to run on Safari 10.
+
+     Personal settings come from data.config, which the updater copies out of
+     config.json in the private repository. Every feature that needs a setting
+     stays switched off until that setting is filled in.
+     ========================================================================== */
+  var X = {
+    course: '', detail: '', priv: false, done: {}, checks: {}, off: {}, lock: '', audio: null,
+    timer: null, alarm: { mins: 7 * 60, armed: false, ringing: false },
+    game: { cells: ['', '', '', '', '', '', '', '', ''], over: '' },
+    frame: { on: false, list: null, at: 0, url: '', busy: false }
+  };
+
+  // Testing on a computer: #name on the end of the address loads data-name.json instead.
+  if (LOCAL && /^#[a-z]+$/.test(window.location.hash) && window.location.hash !== '#test') {
+    DATA_URL = 'data-' + window.location.hash.substring(1) + '.json';
+  }
+
+  function cfg() { return (data && data.config) || {}; }
+  function hm(text, fallback) { var r = /^(\d{1,2}):(\d{2})$/.exec(text || ''); return r ? (+r[1]) * 60 + (+r[2]) : fallback; }
+  function minsOf(d) { return d.getHours() * 60 + d.getMinutes(); }
+  function ymd(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function dayGap(a, b) {
+    return Math.round((new Date(a.getFullYear(), a.getMonth(), a.getDate()) - new Date(b.getFullYear(), b.getMonth(), b.getDate())) / 86400000);
+  }
+  function isLandscape() { return window.innerWidth > window.innerHeight; }
+  function isTest(it) { return /\b(quiz|test|exam|midterm|final|essay|project|presentation)\b/i.test(it.title); }
+  function plural(n, word) { return n + ' ' + word + (n === 1 ? '' : 's'); }
+  function nextUp(list, now) {
+    var i;
+    for (i = 0; i < list.length; i++) { if (list[i].when > now && !X.done[itemKey(list[i])]) { return list[i]; } }
+    return null;
+  }
+  function descFor(it) {
+    var src = (data && data.due) || [], i, d;
+    for (i = 0; i < src.length; i++) {
+      if (src[i].title === it.title && src[i].desc) { d = parse(src[i].due); if (d && d.getTime() === it.when.getTime()) { return src[i].desc; } }
+    }
+    return '';
+  }
+
+  var XI = {
+    eye: ICON_OPEN + '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+    eyeOff: ICON_OPEN + '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><path d="M4 4l16 16"/></svg>',
+    speak: ICON_OPEN + '<path d="M4 9.5v5h4l5 4v-13l-5 4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg>'
+  };
+  function iconBtn(extra, icon, fn) { var b = el('div', 'k-mode k-ref ' + extra); b.innerHTML = icon; return tap(b, fn); }
+
+  /* ---- Settings that change earlier behaviour ---- */
+
+  // Night hours and a locked color theme can come from the settings file.
+  var applyLook0 = applyLook;
+  applyLook = function (now) {
+    var want = X.lock || cfg().theme || '', i;
+    NIGHT_START = hm(cfg().nightStart, 22 * 60);
+    NIGHT_END = hm(cfg().nightEnd, 6 * 60 + 30);
+    applyLook0(now);
+    if (want && !param('theme')) { for (i = 0; i < THEMES.length; i++) { if (THEMES[i].id === want) { theme = THEMES[i]; } } }
+  };
+  // Notes written for the wall ("!Bring gym clothes") get their own banner, so the line beside
+  // the date only shows ordinary all-day entries such as "No school".
+  todayNote = function (now) {
+    var notes = (data && data.notes) || [], i, want = ymd(now);
+    for (i = 0; i < notes.length; i++) {
+      if (notes[i].date === want && notes[i].title && !/^(!|note:)/i.test(notes[i].title)) {
+        return /no school/i.test(notes[i].title) ? 'No school' : notes[i].title;
+      }
+    }
+    return '';
+  };
+  // "Good morning, Dani" when a name is set.
+  var greeting0 = greeting;
+  greeting = function (now) { var name = cfg().name; return greeting0(now) + (name ? ', ' + name : ''); };
+
+  // Both ways up now use the card screen. At night the clock takes over until the screen is touched.
+  pickLayout = function () {
+    var want = param('layout'), i, now = new Date();
+    for (i = 0; i < LAYOUTS.length; i++) { if (LAYOUTS[i] === want) { return want; } }
+    if (isNight(now) && !(ui.touched && now.getTime() - ui.touched < 90000) && !X.alarm.ringing) { return 'night'; }
+    return 'card';
+  };
+
+  viewSwitch = function () {
+    var seg = el('div', 'k-seg'), names = [['list', 'List'], ['month', 'Month'], ['year', 'Year'], ['more', 'More']], i;
+    for (i = 0; i < names.length; i++) {
+      seg.appendChild(tap(el('div', 'k-segb' + (ui.view === names[i][0] ? ' on' : ''), names[i][1]), setView(names[i][0])));
+    }
+    return seg;
+  };
+
+  /* ---- Sound: timers and the alarm. A sound can only start after a tap, so the tap that
+         starts a timer or arms the alarm is also what switches sound on. ---- */
+  function armAudio() {
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!X.audio && AC) { X.audio = new AC(); }
+      if (X.audio && X.audio.resume) { X.audio.resume(); }
+    } catch (err) { /* no sound on this device */ }
+  }
+  function beep(times) {
+    var ctx = X.audio, t0, i, o, g;
+    if (!ctx) { return; }
+    try {
+      t0 = ctx.currentTime;
+      for (i = 0; i < times; i++) {
+        o = ctx.createOscillator(); g = ctx.createGain();
+        o.frequency.value = 880; o.connect(g); g.connect(ctx.destination);
+        g.gain.setValueAtTime(0.0001, t0 + i * 0.5);
+        g.gain.exponentialRampToValueAtTime(0.4, t0 + i * 0.5 + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + i * 0.5 + 0.35);
+        o.start(t0 + i * 0.5); o.stop(t0 + i * 0.5 + 0.4);
+      }
+    } catch (err) { /* ignore */ }
+  }
+  function startTimer(label, minutes) {
+    return function () {
+      armAudio();
+      X.timer = { label: label, end: new Date().getTime() + minutes * 60000, done: false };
+    };
+  }
+  function timerText() {
+    var left = X.timer ? Math.max(0, Math.round((X.timer.end - new Date().getTime()) / 1000)) : 0;
+    return Math.floor(left / 60) + ':' + pad(left % 60);
+  }
+  function speakToday(now, m) {
+    var cd = classDay(now), first = null, i, text, say;
+    if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) { return; }
+    text = 'It is ' + DAYS[now.getDay()] + ', ' + MONTHS[now.getMonth()] + ' ' + now.getDate() + '. ';
+    text += m.today.length ? plural(m.today.length, 'thing') + ' due today: ' : 'Nothing is due today. ';
+    for (i = 0; i < m.today.length && i < 5; i++) { text += m.today[i].title + '. '; }
+    if (m.next && dayKey(m.next.when) !== dayKey(now)) { text += 'Next up is ' + m.next.title + ', ' + whenText(m.next, now) + '. '; }
+    if (cd) { for (i = 0; i < cd.list.length; i++) { if (!first && cd.list[i].start > now) { first = cd.list[i]; } } }
+    if (first) { text += (cd.today ? 'Your next class is ' : 'Your first class ' + DAYS[first.start.getDay()] + ' is ') + first.title + ' at ' + fmtTime(first.start) + '.'; }
+    try {
+      window.speechSynthesis.cancel();
+      say = new window.SpeechSynthesisUtterance(text);
+      say.rate = 1;
+      window.speechSynthesis.speak(say);
+    } catch (err) { /* no speech on this device */ }
+  }
+
+  /* ---- Moon, quotes and seasonal touches ---- */
+  function moonName(now) {
+    var p = ((now.getTime() - Date.UTC(2000, 0, 6, 18, 14)) / 86400000 % 29.530588853) / 29.530588853;
+    if (p < 0) { p += 1; }
+    return ['New moon', 'Waxing crescent', 'First quarter', 'Waxing gibbous', 'Full moon', 'Waning gibbous',
+            'Last quarter', 'Waning crescent'][Math.floor(p * 8 + 0.5) % 8];
+  }
+  var TIPS = [
+    'Start with the thing you are avoiding.', 'Ten focused minutes beats an hour of half-trying.',
+    'Write the first sentence. The second one is easier.', 'Put the phone in another room for one task.',
+    'Finish one thing before opening the next.', 'A rough draft today is worth more than a perfect plan.',
+    'Read the instructions twice before you start.', 'Do the short tasks first to clear the list.',
+    'Explain it out loud. If you can teach it, you know it.', 'Break the big assignment into three small ones.',
+    'Check the due time, not just the due date.', 'Sleep is part of studying.',
+    'Ask the question now, not the night before.', 'Future you will be glad you started early.',
+    'One page at a time is still progress.', 'Set a timer and race it.',
+    'Tidy desk, clearer head.', 'Review your notes the same day you take them.',
+    'Mistakes on homework are cheaper than mistakes on tests.', 'Water first, then work.',
+    'If it takes two minutes, do it now.', 'Stand up and stretch between subjects.',
+    'Hard things get easier the second time.', 'Pack your bag tonight, not tomorrow.',
+    'Show your work so you can find the mistake.', 'Quiet beats music with lyrics for reading.',
+    'Done is better than perfect.', 'Plan the week on Sunday.',
+    'Small steps every day add up.', 'You do not have to feel ready to begin.', 'Check your work before you submit.'
+  ];
+  function tipOfDay(now) {
+    var list = (cfg().quotes && cfg().quotes.length) ? cfg().quotes : TIPS;
+    return list[dayOfYear(now) % list.length];
+  }
+  // A light overlay on the picture card at certain times of year.
+  var seasonKeep = { key: '', svg: '' };
+  function seasonSvg(now) {
+    var mo = now.getMonth() + 1, day = now.getDate(), key = '' + dayKey(now), rand, i, s = '', x, y, kind = '';
+    if (seasonKeep.key === key) { return seasonKeep.svg; }
+    if ((mo === 1 && day === 1) || (mo === 7 && day === 4)) { kind = 'fireworks'; }
+    else if (mo === 10 && day >= 24) { kind = 'pumpkins'; }
+    else if (mo === 2 && day === 14) { kind = 'hearts'; }
+    else if (mo === 12 || mo === 1 || mo === 2) { kind = 'snow'; }
+    if (kind) {
+      rand = rng(dayKey(now) + 7);
+      s = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 262" preserveAspectRatio="xMidYMid slice">';
+      if (kind === 'snow') {
+        for (i = 0; i < 46; i++) {
+          s += '<circle cx="' + Math.round(rand() * 720) + '" cy="' + Math.round(rand() * 262) + '" r="' + (1.2 + rand() * 2.6).toFixed(1) +
+               '" fill="#fff" opacity="' + (0.5 + rand() * 0.5).toFixed(2) + '"/>';
+        }
+      } else if (kind === 'pumpkins') {
+        for (i = 0; i < 4; i++) {
+          x = 70 + i * 60 + Math.round(rand() * 20); y = 232 + Math.round(rand() * 10);
+          s += '<rect x="' + (x - 2) + '" y="' + (y - 21) + '" width="4" height="8" fill="#4d7c0f"/>' +
+               '<ellipse cx="' + x + '" cy="' + y + '" rx="17" ry="13" fill="#f97316"/><ellipse cx="' + x + '" cy="' + y + '" rx="8" ry="13" fill="#fb923c"/>';
+        }
+      } else if (kind === 'hearts') {
+        for (i = 0; i < 9; i++) {
+          x = Math.round(rand() * 700); y = Math.round(rand() * 140);
+          s += '<path transform="translate(' + x + ',' + y + ') scale(' + (0.6 + rand() * 0.8).toFixed(2) + ')" fill="#ff6b8a" opacity="0.85" ' +
+               'd="M10 18 C-6 6 2 -4 10 4 C18 -4 26 6 10 18 Z"/>';
+        }
+      } else {
+        for (i = 0; i < 3; i++) {
+          x = 120 + i * 220 + Math.round(rand() * 60); y = 50 + Math.round(rand() * 50);
+          for (var a = 0; a < 12; a++) {
+            s += '<line x1="' + x + '" y1="' + y + '" x2="' + Math.round(x + 34 * Math.cos(a * Math.PI / 6)) + '" y2="' +
+                 Math.round(y + 34 * Math.sin(a * Math.PI / 6)) + '" stroke="' + ['#ffe066', '#ff8fab', '#9bf6ff'][i] + '" stroke-width="2.5" stroke-linecap="round"/>';
+          }
+        }
+      }
+      s += '</svg>';
+    }
+    seasonKeep = { key: key, svg: s };
+    return s;
+  }
+
+  /* ---- Banners: short lines above the picture. Tapping one hides it for the day. ---- */
+  function leaveText(leave, now) {
+    var n = Math.round((leave - now) / 60000);
+    return 'Leave by ' + fmtTime(leave) + (n > 0 ? ' (in ' + n + ' min)' : ' (now)');
+  }
+  function leaveTime(now) {
+    var cd = classDay(now), travel = +cfg().travelMinutes || 0, leave;
+    if (!travel || !cd || !cd.today || cd.list[0].start <= now) { return null; }
+    leave = new Date(cd.list[0].start.getTime() - travel * 60000);
+    return (leave - now < 90 * 60000) ? leave : null;
+  }
+  function banners(now, m) {
+    var out = [], today = ymd(now), mins = minsOf(now), notes = (data && data.notes) || [], rem = cfg().reminders || [];
+    var i, n, best, total, leave, wd, first, src;
+    function add(id, kind, text, live) { if (!X.off[id + today]) { out.push({ id: id + today, kind: kind, text: text, live: live || '' }); } }
+
+    if (X.timer && X.timer.done) { add('timer' + X.timer.end, 'go', X.timer.label + ' timer finished. Tap to clear.'); }
+    else if (X.timer) { out.push({ id: '', kind: 'go', text: X.timer.label + ' timer · ', live: 'timer' }); }
+    for (i = 0; i < notes.length; i++) {
+      if (notes[i].date === today && /^(!|note:)/i.test(notes[i].title)) { add('note' + i, 'note', notes[i].title.replace(/^(!|note:)\s*/i, '')); }
+    }
+    leave = leaveTime(now);
+    if (leave) { add('leave', 'go', leaveText(leave, now), 'leave'); }
+    for (i = 0; i < rem.length; i++) {
+      if (rem[i] && rem[i].text && (rem[i].days || []).join(',').toLowerCase().indexOf(DSHORT[now.getDay()].toLowerCase()) !== -1 &&
+          mins >= hm(rem[i].from, 0)) { add('rem' + i, 'info', rem[i].text); }
+    }
+    if (m.counts[0] >= 3) { add('today', 'warn', m.counts[0] + ' things are due today.'); }
+    else {
+      for (i = 1, best = 0; i < 7; i++) { if (m.counts[i] >= 5 && (!best || m.counts[i] > m.counts[best])) { best = i; } }
+      if (best) { add('heavy', 'warn', m.counts[best] + ' things due ' + (best === 1 ? 'tomorrow' : 'on ' + DAYS[addDays(now, best).getDay()]) + '. Start today.'); }
+    }
+    if (now.getDay() === 0) {
+      for (i = 1, total = 0, best = 1; i < 7; i++) { total += m.counts[i]; if (m.counts[i] > m.counts[best]) { best = i; } }
+      if (total) { add('week', 'info', 'This week: ' + total + ' due, heaviest on ' + DAYS[addDays(now, best).getDay()] + ' (' + m.counts[best] + ').'); }
+    }
+    wd = hm(cfg().windDown, 21 * 60 + 30);
+    if (mins >= wd && (NIGHT_START < wd || mins < NIGHT_START)) {
+      src = (data && data.classes) || []; first = null;
+      for (i = 0; i < src.length; i++) { n = parse(src[i].start); if (!first && n && dayKey(n) === dayKey(addDays(now, 1))) { first = { title: src[i].title, start: n }; } }
+      add('wind', 'info', 'Tomorrow: ' + (first ? first.title + ' at ' + fmtTime(first.start) : 'no classes') + ', ' + m.counts[1] + ' due.');
+    }
+    return out.slice(0, 2);
+  }
+  function bannerFlags(now) {
+    var mins = minsOf(now), rem = cfg().reminders || [], i, f = '';
+    for (i = 0; i < rem.length; i++) { f += (rem[i] && mins >= hm(rem[i].from, 0)) ? '1' : '0'; }
+    return [mins >= hm(cfg().windDown, 21 * 60 + 30) ? 1 : 0, leaveTime(now) ? 1 : 0, X.timer ? (X.timer.done ? 2 : 1) : 0, f].join('');
+  }
+
+  /* ---- Class strip with time left in the current class and a line showing progress through the day ---- */
+  function classLeft(end, now) { return Math.max(0, Math.round((end - now) / 60000)) + ' min left'; }
+  function dayProgress(cd, now) {
+    var a = cd.list[0].start, b = cd.list[cd.list.length - 1].end;
+    return Math.max(0, Math.min(100, Math.round((now - a) / (b - a) * 100)));
+  }
+  classStrip = function (now) {
+    var cd = classDay(now), row = el('div', 'k-dayr'), i, c, state, t, top, strip, line, fillBar;
+    if (!cd) { return null; }
+    for (i = 0; i < cd.list.length && i < 8; i++) {
+      c = cd.list[i];
+      state = !cd.today ? '' : c.end <= now ? ' done' : c.start <= now ? ' now' : '';
+      t = fmtTime(c.start);
+      top = el('div', 'k-clt', state === ' now' ? classLeft(c.end, now) : t.substring(0, t.length - 3));
+      if (state === ' now') { top.id = 'x-cleft'; }
+      row.appendChild(kids(el('div', 'k-cls' + state), top, el('div', 'k-cln', c.title)));
+    }
+    strip = kids(el('div', 'k-day'), el('div', 'k-dayl', cd.today ? 'Today' : DSHORT[cd.list[0].start.getDay()]), row);
+    if (!cd.today || now < cd.list[0].start) { return strip; }
+    fillBar = el('div', 'x-tlf'); fillBar.id = 'x-tlf'; fillBar.style.width = dayProgress(cd, now) + '%';
+    line = el('div', 'x-tl'); line.appendChild(fillBar);
+    return kids(el('div'), strip, line);
+  };
+
+  /* ---- Morning: before the first class the picture card is about getting out of the door ---- */
+  function morningClass(now) {
+    var mins = minsOf(now), cd = classDay(now);
+    if (mins < hm(cfg().morningStart, 6 * 60 + 30) || mins >= hm(cfg().morningEnd, 8 * 60 + 30)) { return null; }
+    return (cd && cd.today && cd.list[0].start > now) ? cd.list[0] : null;
+  }
+
+  /* ---- In-place updates between full redraws ---- */
+  var cardSignature0 = cardSignature;
+  cardSignature = function (now) {
+    return cardSignature0(now) + '|' + [ui.day, ui.date, ui.view, ui.item, ui.calY, ui.calM, X.course, X.detail, X.priv ? 1 : 0,
+      isLandscape() ? 'L' : 'P', morningClass(now) ? 'm' : '', bannerFlags(now), X.alarm.ringing ? 'r' : '', X.frame.on ? 'f' : ''].join('|');
+  };
+  var cardTick0 = cardTick;
+  cardTick = function (now) {
+    var cd, i, leave, first;
+    if (!cardTick0(now)) { return false; }
+    cd = classDay(now);
+    if (cd && cd.today) {
+      for (i = 0; i < cd.list.length; i++) { if (cd.list[i].start <= now && cd.list[i].end > now) { swapText($('x-cleft'), classLeft(cd.list[i].end, now)); } }
+      if ($('x-tlf')) { $('x-tlf').style.width = dayProgress(cd, now) + '%'; }
+    }
+    leave = leaveTime(now);
+    if (leave) { swapText($('x-live-leave'), leaveText(leave, now)); }
+    first = morningClass(now);
+    if (first) { swapText($('x-morn'), Math.round((first.start - now) / 60000) + ' min'); }
+    return true;
+  };
+
+  /* ---- The details sheet ---- */
+  function findItem(m, key) {
+    var i;
+    for (i = 0; i < m.every.length; i++) { if (itemKey(m.every[i]) === key) { return m.every[i]; } }
+    return null;
+  }
+  function detailSheet(it, now) {
+    var key = itemKey(it), done = !!X.done[key], left = countdown(it, now), desc = descFor(it);
+    var sheet = el('div', 'x-sheet'), box = el('div', 'x-sheetb');
+    kids(box,
+      kids(el('div', 'x-shh'), el('span', '', it.course || 'Due'), isTest(it) ? el('span', 'x-test', 'Test') : null),
+      el('div', 'x-sht', it.title),
+      el('div', 'x-shw', whenText(it, now) + (left === 'now' ? ' · past due' : ' · ' + left + ' left')),
+      desc ? el('div', 'x-shd', desc) : null,
+      kids(el('div', 'x-shb'),
+        tap(el('div', 'x-btn' + (done ? ' on' : ''), done ? 'Marked done' : 'Mark done'), function () { X.done[key] = !done; }),
+        it.course ? tap(el('div', 'x-btn', 'Only ' + it.course), function () {
+          X.course = it.course; X.detail = ''; ui.day = -1; ui.date = 0; ui.view = 'list'; ui.item = ''; ui.scroll = 0;
+        }) : null,
+        tap(el('div', 'x-btn dark', 'Close'), function () { X.detail = ''; })));
+    sheet.appendChild(box);
+    return sheet;
+  }
+
+  /* ---- The "More" page ---- */
+  function card(title) { var c = el('div', 'x-card'); if (title) { c.appendChild(el('div', 'x-ct', title)); } return c; }
+  function btn(text, on, fn) { return tap(el('div', 'x-btn' + (on ? ' on' : ''), text), fn); }
+  function line(left, right) { return kids(el('div', 'x-line'), el('span', '', left), el('b', '', right)); }
+
+  // Tic-tac-toe against the iPad. You are X.
+  var WINS = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+  function winner(c) {
+    var i, w;
+    for (i = 0; i < WINS.length; i++) { w = WINS[i]; if (c[w[0]] && c[w[0]] === c[w[1]] && c[w[1]] === c[w[2]]) { return c[w[0]]; } }
+    return c.join('').length === 9 ? 'draw' : '';
+  }
+  function findMove(c, who) {
+    var i, j, w, mine, empty;
+    for (i = 0; i < WINS.length; i++) {
+      w = WINS[i]; mine = 0; empty = -1;
+      for (j = 0; j < 3; j++) { if (c[w[j]] === who) { mine++; } else if (!c[w[j]]) { empty = w[j]; } }
+      if (mine === 2 && empty >= 0) { return empty; }
+    }
+    return -1;
+  }
+  function playCell(i) {
+    return function () {
+      var g = X.game, move, free = [], j;
+      if (g.over || g.cells[i]) { return; }
+      g.cells[i] = 'X'; g.over = winner(g.cells);
+      if (g.over) { return; }
+      move = findMove(g.cells, 'O');
+      if (move < 0) { move = findMove(g.cells, 'X'); }
+      if (move < 0 && !g.cells[4]) { move = 4; }
+      if (move < 0) { for (j = 0; j < 9; j++) { if (!g.cells[j]) { free.push(j); } } move = free[Math.floor(Math.random() * free.length)]; }
+      g.cells[move] = 'O'; g.over = winner(g.cells);
+    };
+  }
+
+  function toolsPage(box, now, m, sc) {
+    var c, i, row, t, list, counts = {}, names = [], w, g, items, n, term, a, b, pct, notes, cd;
+
+    // Timer
+    c = card('Timer');
+    if (X.timer && !X.timer.done) {
+      t = el('div', 'x-big x-timer', timerText());
+      kids(c, el('div', 'x-sub', X.timer.label), t, btn('Stop', false, function () { X.timer = null; }));
+    } else {
+      kids(c, btn('Study 25', false, startTimer('Study', 25)), btn('Study 45', false, startTimer('Study', 45)),
+        btn('Break 5', false, startTimer('Break', 5)), btn('Game 30', false, startTimer('Game', 30)), btn('Game 60', false, startTimer('Game', 60)));
+    }
+    box.appendChild(c);
+
+    // Today at a glance: weather and the other live extras, when the updater provides them
+    w = data && data.weather;
+    if (w || (data && (data.minecraft || data.team || data.nasa))) {
+      c = card('Right now');
+      if (w) {
+        c.appendChild(line('Weather', Math.round(w.temp) + '° ' + (w.text || '') + ' · high ' + Math.round(w.high) + '°, low ' + Math.round(w.low) + '°'));
+        if (w.sunrise) { c.appendChild(line('Sun', 'up ' + w.sunrise + ' · down ' + w.sunset)); }
+        if (w.air) { c.appendChild(line('Air quality', w.air)); }
+      }
+      if (data.minecraft) { c.appendChild(line(data.minecraft.name || 'Minecraft server', data.minecraft.online ? 'Online · ' + data.minecraft.players + ' playing' : 'Offline')); }
+      if (data.team) {
+        if (data.team.last) { c.appendChild(line(data.team.name || 'Team', data.team.last)); }
+        if (data.team.next) { c.appendChild(line('Next game', data.team.next)); }
+      }
+      if (data.nasa && data.nasa.title) { c.appendChild(line('NASA picture', data.nasa.title)); }
+      box.appendChild(c);
+    }
+    c = card('Tonight');
+    c.appendChild(line('Moon', moonName(now)));
+    c.appendChild(el('div', 'x-quote', tipOfDay(now)));
+    box.appendChild(c);
+
+    // Countdowns
+    c = card('Countdowns');
+    n = 0;
+    term = cfg().term || {};
+    a = parse(term.start); b = parse(term.end);
+    if (a && b && b > a) {
+      pct = Math.max(0, Math.min(100, Math.round((now - a) / (b - a) * 100)));
+      kids(c, line(term.name || 'Term', pct + '% done · ' + Math.max(0, dayGap(b, now)) + ' days left'),
+        kids(el('div', 'x-tl x-wide'), (function () { var f = el('div', 'x-tlf'); f.style.width = pct + '%'; return f; }())));
+      n++;
+    }
+    items = (cfg().countdowns || []).slice(0);
+    notes = (data && data.ahead) || [];
+    for (i = 0; i < notes.length; i++) { items.push(notes[i]); }
+    items.sort(function (p, q) { return (p.date || '') < (q.date || '') ? -1 : 1; });
+    for (i = 0; i < items.length && n < 7; i++) {
+      a = parse(items[i].date);
+      if (a && items[i].title && dayGap(a, now) >= 0) {
+        c.appendChild(line(items[i].title, dayGap(a, now) === 0 ? 'Today' : plural(dayGap(a, now), 'day')));
+        n++;
+      }
+    }
+    if (!n) { c.appendChild(el('div', 'x-sub', 'Nothing coming up yet.')); }
+    box.appendChild(c);
+
+    // Courses: tap one to see only its work
+    for (i = 0; i < m.all.length; i++) {
+      t = m.all[i].course;
+      if (t) { if (!counts[t]) { counts[t] = 0; names.push(t); } counts[t]++; }
+    }
+    if (names.length) {
+      c = card('Courses this week');
+      names.sort();
+      for (i = 0; i < names.length; i++) {
+        c.appendChild(btn(names[i] + ' · ' + counts[names[i]], X.course === names[i], (function (name) {
+          return function () { X.course = name; ui.view = 'list'; ui.day = -1; ui.date = 0; ui.item = ''; ui.scroll = 0; };
+        }(names[i]))));
+      }
+      box.appendChild(c);
+    }
+
+    // Daily checklist: clears itself every night
+    list = (cfg().checklist && cfg().checklist.length) ? cfg().checklist : ['Pack bag for tomorrow', 'Check what is due', 'Read for 20 minutes'];
+    c = card('Daily checklist');
+    for (i = 0; i < list.length && i < 8; i++) {
+      c.appendChild(tap(kids(el('div', 'x-check' + (X.checks[i] ? ' on' : '')), el('i'), el('span', '', list[i])), (function (j) {
+        return function () { X.checks[j] = !X.checks[j]; };
+      }(i))));
+    }
+    box.appendChild(c);
+
+    // Alarm
+    c = card('Alarm');
+    a = new Date(2000, 0, 1, Math.floor(X.alarm.mins / 60), X.alarm.mins % 60);
+    kids(c, el('div', 'x-big', fmtTime(a)),
+      btn('− 15 min', false, function () { X.alarm.mins = (X.alarm.mins + 1425) % 1440; }),
+      btn('+ 15 min', false, function () { X.alarm.mins = (X.alarm.mins + 15) % 1440; }),
+      btn(X.alarm.armed ? 'Alarm is on' : 'Turn alarm on', X.alarm.armed, function () { armAudio(); X.alarm.armed = !X.alarm.armed; }),
+      el('div', 'x-sub', 'Keep this screen open. The alarm has to be turned on again each night.'));
+    box.appendChild(c);
+
+    // Game
+    c = card('Tic-tac-toe');
+    g = el('div', 'x-game');
+    for (i = 0; i < 9; i++) { g.appendChild(tap(el('div', 'x-cell' + (X.game.cells[i] === 'O' ? ' o' : ''), X.game.cells[i]), playCell(i))); }
+    kids(c, g, el('div', 'x-sub', X.game.over === 'X' ? 'You win.' : X.game.over === 'O' ? 'The iPad wins.' : X.game.over === 'draw' ? 'A draw.' : 'You are X. Tap a square.'),
+      btn('New game', false, function () { X.game = { cells: ['', '', '', '', '', '', '', '', ''], over: '' }; }));
+    box.appendChild(c);
+
+    // Look
+    c = card('Look');
+    kids(c, btn('Auto', ui.mode === 'auto', function () { ui.mode = 'auto'; }), btn('Light', ui.mode === 'light', function () { ui.mode = 'light'; }),
+      btn('Dark', ui.mode === 'dark', function () { ui.mode = 'dark'; }));
+    row = el('div', 'x-row');
+    row.appendChild(btn('Daily colors', !X.lock && !cfg().theme, function () { X.lock = ''; }));
+    for (i = 0; i < THEMES.length; i++) {
+      row.appendChild(btn(THEMES[i].name, (X.lock || cfg().theme) === THEMES[i].id, (function (id) { return function () { X.lock = id; }; }(THEMES[i].id))));
+    }
+    kids(c, row, btn(X.frame.on ? 'Photo frame is on' : 'Photo frame', X.frame.on, function () { X.frame.on = !X.frame.on; }),
+      el('div', 'x-sub', 'Choices made here last until the app is closed. Permanent ones go in config.json.'));
+    box.appendChild(c);
+  }
+
+  /* ---- The picture card ---- */
+  function heroCard(now, m, list, hit, selected, sel, dayName, sc) {
+    var hero = el('div', 'k-hero'), art = sceneNode(theme.id, dayKey(now)), body = el('div', 'k-body'), season = seasonSvg(now);
+    var i, n, icon, left, morn, extra, img, nasa = data && data.nasa, due, cta;
+    kids(hero, art);
+    if (X.frame.url) { img = el('img', 'x-photo'); img.src = X.frame.url; hero.appendChild(img); }
+    else if (nasa && nasa.url && cfg().nasaPicture) {
+      img = el('img', 'x-photo'); img.onerror = function () { if (img.parentNode) { img.parentNode.removeChild(img); } }; img.src = nasa.url; hero.appendChild(img);
+    } else if (season) { extra = el('div', 'k-art'); extra.innerHTML = season; hero.appendChild(extra); }
+    hero.appendChild(el('div', 'k-shade'));
+
+    morn = (!selected && !sel && !X.course) ? morningClass(now) : null;
+    if (X.priv) {
+      kids(hero, el('div', 'k-tag', 'Private'));
+      kids(body, kids(el('div', 'k-main'), el('div', 'k-title', DAYS[now.getDay()]), el('div', 'k-when', MONTHS[now.getMonth()] + ' ' + now.getDate() + ' · ' + tipOfDay(now))));
+    } else if (morn) {
+      due = m.today.length ? plural(m.today.length, 'thing') + ' due today' : 'Nothing due today';
+      cta = el('span', '', Math.round((morn.start - now) / 60000) + ' min'); cta.id = 'x-morn';
+      icon = el('i'); icon.innerHTML = CLOCK_ICON;
+      kids(hero, el('div', 'k-tag', 'This morning'));
+      kids(body, kids(el('div', 'k-main'), el('div', 'k-title', morn.title + ' at ' + fmtTime(morn.start)), el('div', 'k-when', due)),
+        kids(el('div', 'k-cta'), cta, icon));
+    } else if (hit) {
+      for (i = 0, n = 0; i < list.length; i++) { if (list[i] === hit) { n = i + 1; } }
+      icon = el('i'); icon.innerHTML = CLOCK_ICON;
+      left = countdown(hit, now);
+      kids(hero, el('div', 'k-tag', selected ? n + ' of ' + list.length : (!sel ? 'Next up' : dayName)),
+        hit.course ? el('div', 'k-tag r', hit.course) : null);
+      kids(body, kids(el('div', 'k-main'), el('div', 'k-title', hit.title), el('div', 'k-when', whenText(hit, now))),
+        kids(el('div', 'k-cta'), el('span', '', left === 'now' ? 'Past due' : left + ' left'), icon));
+    } else {
+      kids(hero, el('div', 'k-tag', !sel ? 'All clear' : dayName));
+      kids(body, kids(el('div', 'k-main'),
+        el('div', 'k-title', !sel ? 'Nothing due this week' : 'Nothing due ' +
+          ((dayName === 'Today' || dayName === 'Tomorrow') ? dayName.toLowerCase() : 'on ' + dayName)),
+        el('div', 'k-when', !sel ? tipOfDay(now) : 'Tap another day to look ahead')));
+    }
+    hero.appendChild(body);
+    tap(hero, function () {
+      var j, cur = -1;
+      if (X.priv || !list.length) { return; }
+      for (j = 0; j < list.length; j++) { if (list[j] === hit) { cur = j; } }
+      ui.item = itemKey(list[(cur + 1) % list.length]);
+      ui.reveal = true;
+    });
+    return { node: hero, shows: (X.priv || morn) ? null : hit };
+  }
+
+  ALT.card = function (now, m) {
+    var s = stage('cardy' + (X.priv ? ' x-priv' : '')), sc = SCENES[theme.id] || SCENES.forest, land = isLandscape();
+    var list = m.all, dayDate = null, dayName = '', hit = null, selected = false, sel, i, d, n, row, chip, key;
+    var left = el('div', 'x-left'), right = el('div', 'x-right'), cols = el('div', 'x-cols'), calendar, tools, hero, strip, bans, b, box, selRow = null, old, it, ban;
+
+    if (!ui.touched) { X.course = ''; X.detail = ''; }   // the idle reset also clears these
+
+    sel = ui.date || (ui.day >= 0 ? dayKey(addDays(now, ui.day)) : 0);
+    if (sel) { dayDate = keyDate(sel); dayName = dayLabel(dayDate, now); list = m.byDay[sel] || []; }
+    if (X.course) { old = list; list = []; for (i = 0; i < old.length; i++) { if (old[i].course === X.course) { list.push(old[i]); } } }
+    for (i = 0; i < list.length; i++) { if (ui.item && itemKey(list[i]) === ui.item) { hit = list[i]; } }
+    if (hit) { selected = true; } else { ui.item = ''; hit = sel ? (list[0] || null) : nextUp(X.course ? list : m.all, now); }
+
+    // Header: greeting, date, and the round buttons
+    var mode = el('div', 'k-mode k-ref');
+    mode.innerHTML = MODE_ICON[ui.mode] || MODE_ICON.auto;
+    tap(mode, function () {
+      ui.mode = MODE_NEXT[ui.mode] || 'auto';
+      try { window.localStorage.setItem('wallMode', ui.mode); } catch (err) { /* still applies now */ }
+    });
+    kids(s, kids(el('div', 'k-head'),
+      kids(el('div', 'k-left'), el('div', 'k-hello', greeting(now)),
+        el('div', 'k-sub', DAYS[now.getDay()] + ', ' + MONTHS[now.getMonth()] + ' ' + now.getDate() +
+          (todayNote(now) ? ' · ' + todayNote(now) : ''))),
+      kids(el('div', 'k-right'),
+        iconBtn('', X.priv ? XI.eyeOff : XI.eye, function () { X.priv = !X.priv; X.detail = ''; }),
+        iconBtn(refreshing ? 'spin' : '', REFRESH_ICON, function () { refreshing = true; load(); }),
+        mode,
+        kids(el('div', 'k-clock'), el('span', '', clockText(now)), el('small', '', ampmText(now))))));
+
+    // Privacy curtain: only the greeting, the clock and the picture
+    if (X.priv) {
+      hero = heroCard(now, m, list, hit, selected, sel, dayName, sc);
+      s.appendChild(hero.node);
+      ui.hero = null;
+      cardSig = cardSignature(now);
+      return;
+    }
+
+    bans = banners(now, m);
+    for (i = 0; i < bans.length; i++) {
+      b = bans[i];
+      ban = el('div', 'x-ban x-' + b.kind);
+      if (b.live === 'timer') { kids(ban, el('span', '', b.text), el('span', 'x-timer', timerText())); }
+      else { ban.appendChild(el('span', '', b.text)); if (b.live) { ban.firstChild.id = 'x-live-' + b.live; } }
+      if (b.id) { tap(ban, (function (id) { return function () { X.off[id] = true; if (X.timer && X.timer.done) { X.timer = null; } }; }(b.id))); }
+      s.appendChild(ban);
+    }
+
+    calendar = ui.view === 'month' || ui.view === 'year';
+    tools = ui.view === 'more';
+
+    // Left: the picture and the class strip. Upright, the calendar and the More page take their place.
+    if (land || (!calendar && !tools)) {
+      hero = heroCard(now, m, list, hit, selected, sel, dayName, sc);
+      left.appendChild(hero.node);
+      strip = classStrip(now);
+      if (strip) { left.appendChild(strip); }
+    }
+
+    // Right: the list, a calendar, or the More page
+    if (calendar) {
+      if (ui.view === 'month') { monthView(right, now, m, sc); } else { yearView(right, now, m, sc); }
+      right.removeChild(right.lastChild);   // those views add their own bottom bar; one is added below instead
+    } else if (tools) {
+      right.appendChild(kids(el('div', 'k-sec'), kids(el('div'), el('b', '', 'More')), viewSwitch()));
+      box = el('div', 'k-list x-tools');
+      toolsPage(box, now, m, sc);
+      right.appendChild(box);
+    } else {
+      chip = kids(el('div', 'k-chips'), tap(el('div', 'k-chip' + (!sel ? ' on' : ''), 'All'), pickDay(-1)));
+      for (i = 0; i < 7; i++) {
+        d = addDays(now, i); n = m.counts[i];
+        row = tap(el('div', 'k-chip' + (sel === dayKey(d) ? ' on' : ''), i === 0 ? 'Today' : DSHORT[d.getDay()]), pickDay(i));
+        if (n) { row.appendChild(el('b', '', '' + n)); }
+        chip.appendChild(row);
+      }
+      right.appendChild(chip);
+      right.appendChild(kids(el('div', 'k-sec'),
+        kids(el('div'),
+          el('b', '', X.course ? X.course : (!sel ? 'Coming up' : dayName + ', ' + MONTHS[dayDate.getMonth()] + ' ' + dayDate.getDate())),
+          X.course ? tap(el('span', 'x-clear', 'Show all'), function () { X.course = ''; ui.scroll = 0; })
+                   : el('span', '', !sel ? m.all.length + ' this week' : list.length + ' due')),
+        kids(el('div', 'x-secr'), iconBtn('x-small', XI.speak, function () { speakToday(new Date(), m); }), viewSwitch())));
+
+      box = el('div', 'k-list');
+      for (i = 0; i < list.length; i++) {
+        key = itemKey(list[i]);
+        row = tap(cardRow(list[i], now, sc.l[1]), (function (k) { return function () { ui.item = k; X.detail = k; }; }(key)));
+        if (isTest(list[i])) { row.insertBefore(el('span', 'x-test', 'Test'), row.lastChild); }
+        if (X.done[key]) { row.className += ' x-done'; }
+        if (list[i] === hit) { row.className += ' sel'; selRow = row; }
+        box.appendChild(row);
+      }
+      if (!list.length) { box.appendChild(el('div', 'k-row k-more', X.course ? 'Nothing due for this course' : (!sel ? 'Nothing due this week' : 'Nothing due this day'))); }
+      // Things that were due in the last two days, so nothing slips by unnoticed
+      if (!sel && !X.course) {
+        old = [];
+        for (i = m.every.length - 1; i >= 0; i--) { it = m.every[i]; if (it.when < now && now - it.when < 48 * 3600000) { old.push(it); } }
+        if (old.length) {
+          box.appendChild(el('div', 'k-row k-more x-label', 'Just passed'));
+          for (i = 0; i < old.length && i < 6; i++) {
+            box.appendChild(tap(cardRow(old[i], now, sc.l[1]), (function (k) { return function () { X.detail = k; }; }(itemKey(old[i])))));
+            box.lastChild.className += ' x-old' + (X.done[itemKey(old[i])] ? ' x-done' : '');
+          }
+        }
+      }
+      box.addEventListener('scroll', function () { ui.scroll = box.scrollTop; ui.touched = ui.scrolled = new Date().getTime(); }, false);
+      right.appendChild(box);
+    }
+
+    kids(cols, left, right);
+    s.appendChild(cols);
+    s.appendChild(statBar(now, m, sel));
+
+    it = X.detail ? findItem(m, X.detail) : null;
+    if (it) { s.appendChild(detailSheet(it, now)); } else { X.detail = ''; }
+    if (X.alarm.ringing) {
+      s.appendChild(tap(kids(el('div', 'x-sheet x-alarm'), kids(el('div', 'x-sheetb'), el('div', 'x-sht', 'Alarm'),
+        el('div', 'x-shw', fmtTime(now)), el('div', 'x-btn dark', 'Stop'))), function () { X.alarm.ringing = false; X.alarm.armed = false; }));
+    }
+
+    // Sizes that depend on the finished layout
+    var grid = right.querySelector('.k-grid'), cells, h;
+    if (grid) {
+      cells = grid.children; h = Math.floor(grid.clientHeight / Math.max(1, Math.round(cells.length / 7)));
+      for (i = 0; i < cells.length; i++) {
+        cells[i].style.height = h + 'px';
+        // Drop labels that do not fit in a short box rather than cutting one in half.
+        while (cells[i].children.length > 1 && cells[i].scrollHeight > cells[i].clientHeight + 1) { cells[i].removeChild(cells[i].lastChild); }
+      }
+    }
+    if (box) {
+      box.scrollTop = ui.scroll;
+      if (ui.reveal && selRow) {
+        if (selRow.offsetTop < box.scrollTop) { box.scrollTop = selRow.offsetTop; }
+        else if (selRow.offsetTop + selRow.offsetHeight > box.scrollTop + box.clientHeight) {
+          box.scrollTop = selRow.offsetTop + selRow.offsetHeight - box.clientHeight;
+        }
+        ui.scroll = box.scrollTop;
+      }
+    }
+    ui.reveal = false;
+    ui.hero = hero ? hero.shows : null;
+    cardSig = cardSignature(now);
+  };
+
+  /* ---- Night clock: add the moon, sunrise when known, and a line for tomorrow ---- */
+  var night0 = ALT.night;
+  ALT.night = function (now, m) {
+    var wrap, w = data && data.weather;
+    night0(now, m);
+    wrap = document.querySelector('.n-wrap');
+    if (!wrap) { return; }
+    wrap.appendChild(el('div', 'n-next n2', moonName(now) + (w && w.sunrise ? ' · sunrise ' + w.sunrise : '')));
+    wrap.appendChild(el('div', 'n-next n3', tipOfDay(addDays(now, minsOf(now) >= 12 * 60 ? 1 : 0))));
+  };
+
+  /* ---- Once a second: the timer and the alarm ---- */
+  setInterval(function () {
+    var t = X.timer, now = new Date(), nodes, i;
+    if (t && !t.done) {
+      if (now.getTime() >= t.end) { t.done = true; beep(4); ui.touched = now.getTime(); render(true); }
+      else { nodes = document.querySelectorAll('.x-timer'); for (i = 0; i < nodes.length; i++) { swapText(nodes[i], timerText()); } }
+    }
+    if (X.alarm.armed && !X.alarm.ringing && minsOf(now) === X.alarm.mins && now.getSeconds() < 2) {
+      X.alarm.ringing = true; ui.touched = now.getTime(); render(true);
+    }
+    if (X.alarm.ringing) {
+      ui.touched = now.getTime();   // keep the screen awake while it rings
+      if (now.getSeconds() % 2 === 0) { beep(2); }
+    }
+  }, 1000);
+
+  /* ---- Swipe left or right across the screen to move between List, Month, Year and More ---- */
+  (function () {
+    var x0 = 0, y0 = 0, t0 = 0, order = ['list', 'month', 'year', 'more'];
+    $('stage').addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = new Date().getTime(); }, false);
+    $('stage').addEventListener('touchend', function (e) {
+      var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0, i, at = 0;
+      if (layout !== 'card' || X.priv || X.detail || Math.abs(dx) < 110 || Math.abs(dy) > 60 || new Date().getTime() - t0 > 700) { return; }
+      for (i = 0; i < order.length; i++) { if (order[i] === ui.view) { at = i; } }
+      at = Math.max(0, Math.min(order.length - 1, at + (dx < 0 ? 1 : -1)));
+      if (order[at] !== ui.view) { setView(order[at])(); ui.touched = new Date().getTime(); render(true); }
+    }, false);
+  }());
 
   render();
   load();

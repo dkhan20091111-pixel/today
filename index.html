@@ -3062,6 +3062,33 @@ body.dark .wx-cloud i { background: #aab3c2; }
     }
   }, 1000);
 
+  /* ---- Backup for the hourly update. GitHub is meant to run the updater every hour by itself. If the
+         due list is ever more than 75 minutes old, the wall asks GitHub to run it now. That only works
+         when the access key is also allowed to start it ("Actions: read and write" on the key);
+         without that permission GitHub says no and nothing else happens. ---- */
+  var nudge = { at: 0, wait: 30 * 60000 };
+  function nudgeUpdater() {
+    var key = getKey(), up = data ? parse(data.updated) : null, now = new Date().getTime(), x;
+    if (LOCAL && !param('nudge')) { return; }
+    if (!key || !up || now - up.getTime() < 75 * 60000 || now - nudge.at < nudge.wait) { return; }
+    nudge.at = now;
+    try {
+      x = new XMLHttpRequest();
+      x.open('POST', 'https://api.github.com/repos/' + DATA_REPO + '/actions/workflows/update.yml/dispatches', true);
+      x.setRequestHeader('Authorization', 'Bearer ' + key);
+      x.setRequestHeader('Accept', 'application/vnd.github+json');
+      x.setRequestHeader('Content-Type', 'application/json');
+      x.onreadystatechange = function () {
+        if (x.readyState !== 4) { return; }
+        if (x.status === 204) { nudge.wait = 30 * 60000; setTimeout(load, 70000); setTimeout(load, 160000); }   // started: collect the result shortly
+        else if (x.status === 401 || x.status === 403 || x.status === 404) { nudge.wait = 6 * 3600000; }       // not allowed: ask only now and then
+      };
+      x.send('{"ref":"main"}');
+    } catch (err) { /* try again later */ }
+  }
+  setTimeout(nudgeUpdater, 20000);
+  setInterval(nudgeUpdater, 5 * 60000);
+
   /* ---- Swipe left or right across the screen to move between the pages ---- */
   (function () {
     var x0 = 0, y0 = 0, t0 = 0;

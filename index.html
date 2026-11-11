@@ -359,6 +359,34 @@ body.l-card #stale { color: #c8553d; }
 .k-yd.today { border-radius: 10px; box-shadow: inset 0 0 0 2px #14161a; color: #14161a; font-weight: 800; }
 .k-yd.today.has { color: #fff; }
 
+/* Card layout: class schedule strip */
+.k-left { min-width: 0; }
+.k-sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 330px; }
+.k-day { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; margin-top: 12px; }
+.k-dayl { width: 56px; -webkit-flex-shrink: 0; flex-shrink: 0; font-size: 13px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: #8a8f98; }
+.k-dayr { -webkit-flex: 1; flex: 1; min-width: 0; display: -webkit-flex; display: flex; }
+.k-cls { -webkit-flex: 1; flex: 1; min-width: 0; margin-left: 6px; padding: 7px 10px; border-radius: 14px; background: #fff; }
+.k-cls:first-child { margin-left: 0; }
+.k-clt { font-size: 11px; font-weight: 700; color: #8a8f98; white-space: nowrap; }
+.k-cln { font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.k-cls.now { background: #14161a; color: #fff; }
+.k-cls.now .k-clt { color: rgba(255,255,255,0.7); }
+.k-cls.done { opacity: 0.45; }
+body.dark .k-cls { background: #1c1f24; }
+body.dark .k-cls.now { background: #f4f5f2; color: #14161a; }
+body.dark .k-cls.now .k-clt { color: rgba(20,22,26,0.6); }
+body.dark .k-dayl, body.dark .k-clt { color: #8d929b; }
+
+/* Night clock */
+body.l-night #app { background: #000; color: #5d626b; padding: 0; }
+body.l-night #deco, body.l-night #foot { display: none; }
+.n-wrap { -webkit-flex: 1; flex: 1; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; text-align: center; cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+.n-time { font-size: 190px; font-weight: 200; letter-spacing: -6px; line-height: 1; color: #878d96; }
+.n-time small { margin-left: 10px; font-size: 34px; font-weight: 500; letter-spacing: 0; color: #4f545c; }
+.n-date { margin-top: 16px; font-size: 26px; font-weight: 500; color: #5d626b; }
+.n-next { margin-top: 38px; padding: 0 30px; font-size: 19px; font-weight: 500; line-height: 1.4; color: #474c54; }
+.n-next.n2 { margin-top: 8px; }
+
 /* Card layout: dark mode */
 body.dark .k-seg, body.dark .k-now { background: #24282d; }
 body.dark .k-segb, body.dark .k-now { color: #b3b8c0; }
@@ -535,7 +563,14 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
   var MOTIFS = ['leaves', 'bubbles', 'waves', 'rays'];
   // How the screen is arranged when the iPad is upright. Landscape always uses 'classic'.
   // Add ?layout=agenda (or focus, poster, classic) to the address to preview one.
-  var LAYOUTS = ['classic', 'agenda', 'focus', 'poster', 'card'];
+  var LAYOUTS = ['classic', 'agenda', 'focus', 'poster', 'card', 'night'];
+  // Night clock: between these times the screen shows only a large dim clock.
+  // Touching it brings the normal screen back for 90 seconds. (Minutes since midnight.)
+  var NIGHT_START = 22 * 60, NIGHT_END = 6 * 60 + 30;
+  function isNight(now) {
+    var mins = now.getHours() * 60 + now.getMinutes();
+    return mins >= NIGHT_START || mins < NIGHT_END || window.location.search.indexOf('night=1') !== -1;
+  }
   var PORTRAIT_LAYOUT = 'card';
   // Colors for the picture card in the 'card' layout: sky (top, bottom), sun or moon, then four hill layers.
   var SCENES = {
@@ -663,8 +698,7 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
     setText('weekday', DAYS[now.getDay()]);
     setText('date', MONTHS[now.getMonth()] + ' ' + now.getDate());
     setText('greet', h24 < 5 ? 'Good night' : h24 < 12 ? 'Good morning' : h24 < 17 ? 'Good afternoon' : h24 < 22 ? 'Good evening' : 'Good night');
-    var mins = h24 * 60 + now.getMinutes();
-    var night = mins >= 22 * 60 || mins < 6 * 60 + 30;
+    var night = isNight(now) && layout !== 'card' && layout !== 'night';
     var cls = 't-' + theme.id + (night ? ' night' : '') + (layout === 'classic' ? '' : ' l-alt l-' + layout) +
               (layout === 'card' && isDark(now) ? ' dark' : '');
     if (document.body.className !== cls) { document.body.className = cls; }
@@ -1136,6 +1170,11 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
   function cardSignature(now) {
     var src = (data && data.due) || [], n = 0, i, d, mins = now.getHours() * 60 + now.getMinutes();
     for (i = 0; i < src.length; i++) { d = parse(src[i].due); if (d && d < now) { n++; } }
+    src = (data && data.classes) || [];
+    for (i = 0; i < src.length; i++) {
+      d = parse(src[i].start); if (d && d <= now) { n += 1000; }
+      d = parse(src[i].end); if (d && d <= now) { n += 1000000; }
+    }
     return dayKey(now) + '|' + theme.id + '|' + (isDark(now) ? 'dark' : 'light') + '|' +
            ((mins >= 22 * 60 || mins < 6 * 60 + 30) ? 'night' : 'day') + '|' + n;
   }
@@ -1155,6 +1194,67 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
     }
     return true;
   }
+
+  /* Class schedule: today's classes while any are left, otherwise the next day that has some. */
+  function classDay(now) {
+    var src = (data && data.classes) || [], byDay = {}, keys = [], i, s, e, k, list, todayK = dayKey(now);
+    for (i = 0; i < src.length; i++) {
+      s = parse(src[i].start); e = parse(src[i].end);
+      if (!s || !e) { continue; }
+      k = dayKey(s);
+      if (!byDay[k]) { byDay[k] = []; keys.push(k); }
+      byDay[k].push({ title: src[i].title || '', start: s, end: e });
+    }
+    keys.sort(function (a, b) { return a - b; });
+    for (i = 0; i < keys.length; i++) {
+      if (keys[i] < todayK) { continue; }
+      list = byDay[keys[i]];
+      list.sort(function (a, b) { return a.start - b.start; });
+      if (keys[i] === todayK && list[list.length - 1].end <= now) { continue; }
+      return { list: list, today: keys[i] === todayK };
+    }
+    return null;
+  }
+  function todayNote(now) {
+    var notes = (data && data.notes) || [], i;
+    var want = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+    for (i = 0; i < notes.length; i++) {
+      if (notes[i].date === want && notes[i].title) {
+        // Keep it short enough to sit beside the date.
+        return /no school/i.test(notes[i].title) ? 'No school' : notes[i].title;
+      }
+    }
+    return '';
+  }
+  function classStrip(now) {
+    var cd = classDay(now), row = el('div', 'k-dayr'), i, c, state, t;
+    if (!cd) { return null; }
+    for (i = 0; i < cd.list.length && i < 8; i++) {
+      c = cd.list[i];
+      state = !cd.today ? '' : c.end <= now ? ' done' : c.start <= now ? ' now' : '';
+      t = fmtTime(c.start);
+      row.appendChild(kids(el('div', 'k-cls' + state), el('div', 'k-clt', t.substring(0, t.length - 3)), el('div', 'k-cln', c.title)));
+    }
+    return kids(el('div', 'k-day'), el('div', 'k-dayl', cd.today ? 'Today' : DSHORT[cd.list[0].start.getDay()]), row);
+  }
+
+  /* Night clock: a large dim clock on black. Touch it to see the normal screen for a while. */
+  ALT.night = function (now, m) {
+    var s = stage('night'), wrap = el('div', 'n-wrap'), t = el('div', 'n-time'), min = now.getMinutes(), cd = classDay(now), i, first = null;
+    t.appendChild(document.createTextNode(clockText(now)));
+    t.appendChild(el('small', '', ampmText(now)));
+    kids(wrap, t, el('div', 'n-date', DAYS[now.getDay()] + ', ' + MONTHS[now.getMonth()] + ' ' + now.getDate()));
+    if (cd) { for (i = 0; i < cd.list.length; i++) { if (!first && cd.list[i].start > now) { first = cd.list[i]; } } }
+    if (first) {
+      wrap.appendChild(el('div', 'n-next', (cd.today ? 'Next class: ' : 'First class: ') + first.title + ' \u00b7 ' +
+        (cd.today ? '' : DAYS[first.start.getDay()] + ' ') + fmtTime(first.start)));
+    }
+    if (m.next) { wrap.appendChild(el('div', 'n-next n2', 'Next due: ' + m.next.title + ' \u00b7 ' + whenText(m.next, now))); }
+    // Shift a few pixels every minute so nothing sits in exactly the same place all night.
+    wrap.style.webkitTransform = wrap.style.transform = 'translate(' + ((min % 5) - 2) * 8 + 'px,' + ((min % 7) - 3) * 8 + 'px)';
+    tap(wrap, function () { ui.touched = new Date().getTime(); });
+    s.appendChild(wrap);
+  };
 
   ALT.card = function (now, m) {
     var s = stage('cardy'), i, d, n, chip, icon, row, sc = SCENES[theme.id] || SCENES.forest;
@@ -1179,8 +1279,9 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
       try { window.localStorage.setItem('wallMode', ui.mode); } catch (err) { /* not saved, still applies now */ }
     });
     kids(s, kids(el('div', 'k-head'),
-      kids(el('div'), el('div', 'k-hello', greeting(now)),
-        el('div', 'k-sub', DAYS[now.getDay()] + ', ' + MONTHS[now.getMonth()] + ' ' + now.getDate())),
+      kids(el('div', 'k-left'), el('div', 'k-hello', greeting(now)),
+        el('div', 'k-sub', DAYS[now.getDay()] + ', ' + MONTHS[now.getMonth()] + ' ' + now.getDate() +
+          (todayNote(now) ? ' \u00b7 ' + todayNote(now) : ''))),
       kids(el('div', 'k-right'), refresh, mode,
         kids(el('div', 'k-clock'), el('span', '', clockText(now)), el('small', '', ampmText(now))))));
 
@@ -1228,6 +1329,8 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
       ui.reveal = true;
     });
     s.appendChild(hero);
+    var strip = classStrip(now);
+    if (strip) { s.appendChild(strip); }
 
     kids(s, kids(el('div', 'k-sec'),
       kids(el('div'),
@@ -1265,9 +1368,11 @@ body.dark .k-stat.on b { background: #14161a; color: #fff; }
   };
 
   function pickLayout() {
-    var want = param('layout'), i;
+    var want = param('layout'), i, now = new Date();
     // A layout named in the address always wins, so any of them can be previewed on a computer.
     for (i = 0; i < LAYOUTS.length; i++) { if (LAYOUTS[i] === want) { return want; } }
+    // At night show the clock, unless the screen was touched in the last 90 seconds.
+    if (isNight(now) && !(ui.touched && now.getTime() - ui.touched < 90000)) { return 'night'; }
     return window.innerHeight > window.innerWidth ? PORTRAIT_LAYOUT : 'classic';
   }
 

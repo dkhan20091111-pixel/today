@@ -22,7 +22,7 @@
 </head>
 <body>
 <h1>Alarm sounds</h1>
-<p>Birds and nature this time. Tap one to hear it twice, spaced the way the alarm would repeat it. Nothing on the wall changes until you choose.</p>
+<p>Tunes and rhythms this time. Tap one to hear it twice, spaced the way the alarm would repeat it. Nothing on the wall changes until you choose.</p>
 <div id="list"></div>
 <button class="snd wide" id="stop">Stop</button>
 <div id="info">Tap a sound to start.</div>
@@ -32,8 +32,8 @@
   /* The sounds are worked out number by number into a short recording, then played like a
      recording. That is steadier on an old iPad than asking its sound system to make each tone
      as it goes. Plain ES5: this has to run on Safari 10. */
-  var SPEC = {"voices":{"chirp":{"parts":[[1,1]],"decay":6,"attack":0.008},"tweet":{"parts":[[1,1],[2,0.18]],"decay":3,"attack":0.006},"flute":{"parts":[[1,1],[2,0.14],[3,0.05]],"decay":1.5,"attack":0.035},"cricket":{"parts":[[1,1],[2,0.2]],"decay":0,"attack":0.004,"am":[58,1]},"bell":{"parts":[[1,1],[2.76,0.34],[5.4,0.14]],"decay":2.2,"attack":0.004},"knock":{"parts":[[1,1],[2.4,0.4]],"decay":70,"attack":0.001},"gull":{"parts":[[1,1],[2,0.3],[3,0.15]],"decay":1,"attack":0.03},"wave":{"noise":"low","decay":0.5,"attack":1.4},"foam":{"noise":"high","decay":1.0,"attack":0.8}},"sounds":[{"id":"birds","name":"Birds","about":"The one you liked from the first set","every":2.6,"notes":[["chirp",[2600,3400],0,0.09,0.4],["chirp",[3000,2300],0.14,0.08,0.4],["chirp",[2700,3600],0.3,0.1,0.4],["chirp",[3200,2500],0.46,0.07,0.35],["chirp",[2400,3300],1.0,0.09,0.4],["chirp",[3300,2600],1.14,0.08,0.4],["chirp",[2800,3700],1.3,0.1,0.4]]},{"id":"songbird","name":"Songbird","about":"Rising whistles, then a trill","every":3.0,"notes":[["tweet",[2200,3000],0,0.16,0.45],["tweet",[2400,3300],0.22,0.16,0.45],["tweet",[2600,3600],0.44,0.18,0.45],["tweet",3400,0.75,0.05,0.4],["tweet",2900,0.81,0.05,0.4],["tweet",3400,0.87,0.05,0.4],["tweet",2900,0.93,0.05,0.4],["tweet",3400,0.99,0.05,0.4],["tweet",2900,1.05,0.05,0.4],["tweet",3400,1.11,0.05,0.4],["tweet",2900,1.17,0.05,0.4],["tweet",3400,1.23,0.05,0.4],["tweet",2900,1.29,0.05,0.4],["tweet",[3600,2400],1.45,0.22,0.45]]},{"id":"chorus","name":"Dawn chorus","about":"Three birds calling over each other","every":3.4,"notes":[["chirp",[2700,3500],0,0.09,0.35],["chirp",[3200,2500],0.13,0.08,0.35],["tweet",3100,0.25,0.28,0.4],["tweet",2600,0.62,0.4,0.4],["chirp",[2500,3400],0.95,0.09,0.35],["chirp",[3300,2700],1.08,0.08,0.35],["flute",[540,490],1.25,0.5,0.45],["chirp",[2800,3600],1.75,0.1,0.35],["tweet",3100,1.9,0.28,0.4],["flute",[540,490],2.0,0.5,0.45],["tweet",2600,2.27,0.4,0.4],["chirp",[2600,3500],2.5,0.09,0.35],["chirp",[3400,2600],2.63,0.08,0.35]]},{"id":"cuckoo","name":"Cuckoo","about":"The two-note call, twice","every":2.6,"notes":[["flute",660,0,0.28,0.5],["flute",523.25,0.36,0.44,0.5],["flute",660,1.15,0.28,0.5],["flute",523.25,1.51,0.44,0.5]]},{"id":"owl","name":"Owl","about":"Soft low hoots","every":3.4,"notes":[["flute",[372,352],0,0.3,0.5],["flute",[372,352],0.42,0.3,0.5],["flute",[392,330],0.95,0.75,0.55],["flute",[372,352],2.0,0.3,0.45],["flute",[392,330],2.4,0.7,0.5]]},{"id":"crickets","name":"Crickets","about":"Two crickets taking turns","every":2.0,"notes":[["cricket",4300,0,0.28,0.4],["cricket",4800,0.27,0.2,0.25],["cricket",4300,0.5,0.28,0.4],["cricket",4800,0.77,0.2,0.25],["cricket",4300,1.0,0.28,0.4],["cricket",4800,1.27,0.2,0.25],["cricket",4300,1.5,0.28,0.4],["cricket",4800,1.77,0.2,0.25]]},{"id":"seaside","name":"Seaside","about":"A wave rolling in, with gulls","every":5.0,"notes":[["wave",0,0,4.2,0.9],["foam",0,1.1,3.0,0.3],["gull",[1500,1000],2.1,0.35,0.3],["gull",[1500,1050],2.6,0.3,0.3],["gull",[1400,950],3.05,0.45,0.3]]},{"id":"chimes","name":"Wind chimes","about":"Bells in a light breeze","every":3.8,"notes":[["bell",1318.51,0,1.6,0.4],["bell",1567.98,0.35,1.6,0.35],["bell",1174.66,0.6,1.6,0.4],["bell",1760,1.0,1.6,0.35],["bell",1318.51,1.25,1.6,0.35],["bell",2093,1.7,1.7,0.3],["bell",1567.98,2.1,1.7,0.35]]},{"id":"woodpecker","name":"Woodpecker","about":"Drumming on a tree, then a call","every":3.0,"notes":[["knock",950,0.0,0.04,0.44999999999999996],["knock",950,0.045,0.04,0.525],["knock",950,0.09,0.04,0.6],["knock",950,0.135,0.04,0.44999999999999996],["knock",950,0.18,0.04,0.525],["knock",950,0.225,0.04,0.6],["knock",950,0.27,0.04,0.44999999999999996],["knock",950,0.315,0.04,0.525],["knock",950,0.36,0.04,0.6],["knock",950,0.405,0.04,0.44999999999999996],["knock",950,0.45,0.04,0.525],["knock",950,0.495,0.04,0.6],["tweet",[2800,2300],0.8,0.15,0.35],["tweet",[2800,2300],1.0,0.15,0.35],["knock",950,1.45,0.04,0.44999999999999996],["knock",950,1.495,0.04,0.525],["knock",950,1.54,0.04,0.6],["knock",950,1.585,0.04,0.44999999999999996],["knock",950,1.63,0.04,0.525],["knock",950,1.675,0.04,0.6],["knock",950,1.72,0.04,0.44999999999999996],["knock",950,1.765,0.04,0.525],["knock",950,1.81,0.04,0.6],["knock",950,1.855,0.04,0.44999999999999996]]}]};
-  var ctx = null, started = 0, bufs = {}, playing = [], current = '';
+  var SPEC = {"voices":{"chirp":{"parts":[[1,1]],"decay":6,"attack":0.008},"piano":{"parts":[[1,1,1],[2,0.5,1.6],[3,0.25,2.4],[4,0.12,3.2],[5,0.06,4]],"decay":2.6,"attack":0.004},"pad":{"parts":[[1,0.6],[1.006,0.6],[2,0.2],[3,0.08]],"decay":0.6,"attack":0.25},"kalimba":{"parts":[[1,1,1],[2,0.12,2],[5.4,0.25,5]],"decay":5,"attack":0.002},"chip":{"parts":[[1,1],[3,0.333],[5,0.2],[7,0.143]],"decay":1.2,"attack":0.003},"steel":{"parts":[[1,1,1],[2,0.55,1.4],[3.02,0.18,2.2],[4.1,0.12,3]],"decay":4.5,"attack":0.004},"pluck":{"parts":[[1,1,1],[2,0.6,1.5],[3,0.4,2.2],[4,0.25,3],[5,0.15,3.8],[6,0.08,4.6]],"decay":3.2,"attack":0.003},"lead":{"parts":[[1,0.7,1],[1.007,0.7,1],[2,0.35,1.3],[3,0.2,1.6],[4,0.1,2]],"decay":5,"attack":0.004},"bass":{"parts":[[1,1,1],[2,0.4,1.5],[3,0.15,2]],"decay":4,"attack":0.005},"kick":{"parts":[[1,1]],"decay":11,"attack":0.002},"snaret":{"parts":[[1,1]],"decay":22,"attack":0.001},"snare":{"noise":"white","decay":24,"attack":0.001},"hat":{"noise":"high","decay":70,"attack":0.001},"shaker":{"noise":"high","decay":45,"attack":0.002}},"sounds":[{"id":"birds","name":"Birds","about":"Your favorite so far, to compare","every":2.6,"notes":[["chirp",[2600,3400],0,0.09,0.4],["chirp",[3000,2300],0.14,0.08,0.4],["chirp",[2700,3600],0.3,0.1,0.4],["chirp",[3200,2500],0.46,0.07,0.35],["chirp",[2400,3300],1.0,0.09,0.4],["chirp",[3300,2600],1.14,0.08,0.4],["chirp",[2800,3700],1.3,0.1,0.4]]},{"id":"sunrise","name":"Sunrise","about":"A slow piano climb over a soft chord","every":4.0,"notes":[["pad",261.63,0,3.6,0.22],["pad",329.63,0,3.6,0.22],["pad",392.0,0,3.6,0.22],["piano",261.63,0.0,1.2,0.5],["piano",329.63,0.3,1.2,0.5],["piano",392.0,0.6,1.2,0.5],["piano",523.25,0.9,1.2,0.5],["piano",659.26,1.2,1.2,0.5],["piano",783.99,1.5,1.2,0.5],["piano",1046.5,1.9,1.6,0.5]]},{"id":"skip","name":"Skip","about":"A bouncy thumb-piano tune","every":2.4,"notes":[["kalimba",392.0,0.0,0.5,0.5],["kalimba",493.88,0.15,0.5,0.5],["kalimba",587.33,0.3,0.5,0.5],["kalimba",783.99,0.45,0.5,0.5],["kalimba",659.26,0.6,0.5,0.5],["kalimba",587.33,0.75,0.5,0.5],["kalimba",493.88,0.9,0.5,0.5],["kalimba",587.33,1.05,0.5,0.5],["kalimba",783.99,1.3,0.5,0.5],["kalimba",987.77,1.5,0.8,0.5],["shaker",0,0.075,0.06,0.12],["shaker",0,0.375,0.06,0.12],["shaker",0,0.675,0.06,0.12],["shaker",0,0.975,0.06,0.12],["shaker",0,1.275,0.06,0.12],["shaker",0,1.575,0.06,0.12]]},{"id":"arcade","name":"Arcade","about":"An old video game jingle","every":2.0,"notes":[["chip",659.26,0.0,0.1,0.3],["chip",783.99,0.11,0.1,0.3],["chip",1046.5,0.22,0.1,0.3],["chip",1318.51,0.33,0.1,0.3],["chip",1174.66,0.5,0.1,0.3],["chip",1046.5,0.61,0.1,0.3],["chip",1174.66,0.72,0.1,0.3],["chip",1567.98,0.83,0.35,0.3],["chip",261.63,0,0.2,0.22],["chip",196.0,0.5,0.2,0.22]]},{"id":"steel","name":"Steel drum","about":"A sunny island tune","every":2.8,"notes":[["steel",783.99,0.0,0.45,0.5],["steel",659.26,0.2,0.45,0.5],["steel",783.99,0.4,0.45,0.5],["steel",1046.5,0.6,0.5,0.5],["steel",987.77,0.9,0.45,0.5],["steel",783.99,1.1,0.45,0.5],["steel",880.0,1.3,0.45,0.5],["steel",783.99,1.6,0.9,0.5],["steel",261.63,0,0.5,0.3],["steel",349.23,0.9,0.5,0.3],["steel",392.0,1.6,0.6,0.3]]},{"id":"guitar","name":"Guitar","about":"Two strummed chords","every":3.2,"notes":[["pluck",196.0,0.0,1.3,0.4],["pluck",246.94,0.03,1.3,0.4],["pluck",293.66,0.06,1.3,0.4],["pluck",392.0,0.09,1.3,0.4],["pluck",493.88,0.12,1.3,0.4],["pluck",783.99,0.15,1.3,0.4],["pluck",783.99,0.8,0.9,0.3],["pluck",493.88,0.83,0.9,0.3],["pluck",392.0,0.86,0.9,0.3],["pluck",293.66,0.89,0.9,0.3],["pluck",261.63,1.6,1.5,0.4],["pluck",329.63,1.63,1.5,0.4],["pluck",392.0,1.66,1.5,0.4],["pluck",523.25,1.69,1.5,0.4],["pluck",659.26,1.72,1.5,0.4]]},{"id":"neon","name":"Neon","about":"A quick electronic pattern with a beat","every":2.0,"notes":[["lead",440.0,0.0,0.14,0.3],["lead",523.25,0.125,0.14,0.3],["lead",659.26,0.25,0.14,0.3],["lead",880.0,0.375,0.14,0.3],["lead",523.25,0.5,0.14,0.3],["lead",659.26,0.625,0.14,0.3],["lead",880.0,0.75,0.14,0.3],["lead",1046.5,0.875,0.14,0.3],["lead",349.23,1.0,0.14,0.3],["lead",440.0,1.125,0.14,0.3],["lead",523.25,1.25,0.14,0.3],["lead",698.46,1.375,0.14,0.3],["lead",392.0,1.5,0.14,0.3],["lead",493.88,1.625,0.14,0.3],["lead",587.33,1.75,0.14,0.3],["lead",783.99,1.875,0.14,0.3],["kick",[150,45],0,0.25,0.8],["kick",[150,45],0.5,0.25,0.8],["kick",[150,45],1.0,0.25,0.8],["kick",[150,45],1.5,0.25,0.8],["hat",0,0.25,0.05,0.2],["hat",0,0.75,0.05,0.2],["hat",0,1.25,0.05,0.2],["hat",0,1.75,0.05,0.2],["bass",110.0,0,0.45,0.4],["bass",110.0,0.5,0.45,0.4],["bass",87.31,1.0,0.45,0.4],["bass",98.0,1.5,0.45,0.4]]},{"id":"levelup","name":"Level up","about":"A fast run up to a bright chord","every":2.2,"notes":[["kalimba",523.25,0.0,0.2,0.4],["kalimba",587.33,0.07,0.2,0.4],["kalimba",659.26,0.14,0.2,0.4],["kalimba",698.46,0.21,0.2,0.4],["kalimba",783.99,0.28,0.2,0.4],["kalimba",880.0,0.35,0.2,0.4],["kalimba",987.77,0.42,0.2,0.4],["lead",1046.5,0.5,1.1,0.35],["lead",1318.51,0.5,1.1,0.35],["lead",1567.98,0.5,1.1,0.35]]},{"id":"beat","name":"Drum beat","about":"Kick, snare and a bass line","every":2.0,"notes":[["kick",[150,45],0,0.25,0.9],["kick",[150,45],1.0,0.25,0.9],["kick",[150,45],1.25,0.25,0.9],["snare",0,0.5,0.18,0.5],["snare",0,1.5,0.18,0.5],["snaret",190,0.5,0.12,0.3],["snaret",190,1.5,0.12,0.3],["hat",0,0.25,0.05,0.22],["hat",0,0.75,0.05,0.22],["hat",0,1.125,0.05,0.22],["hat",0,1.75,0.05,0.22],["bass",110.0,0,0.4,0.45],["bass",110.0,1.0,0.2,0.45],["bass",130.81,1.25,0.3,0.45]]}]};
+  var ctx = null, started = 0, bufs = {}, playing = [], current = '', asked = 0;
   function $(id) { return document.getElementById(id); }
   function say(text) { $('info').firstChild.nodeValue = text; }
   function getCtx() {
@@ -62,7 +62,7 @@
   // One round of a sound as a list of numbers, at the speed the sound system runs at.
   function render(sound, rate) {
     var notes = sound.notes, len = 0, peak = 1e-9, soften = 1 - Math.exp(-2 * Math.PI * 500 / rate);
-    var out, i, j, k, n, v, parts, f0, f1, dur, vol, first, count, t, env, phase, x, seed, prev, low, r;
+    var out, i, j, k, n, v, parts, f0, f1, dur, vol, first, count, t, env, phase, x, seed, prev, low, r, fades, rates;
     for (i = 0; i < notes.length; i++) { len = Math.max(len, notes[i][2] + notes[i][3]); }
     out = new Float32Array(Math.floor((len + 0.05) * rate));
     for (i = 0; i < notes.length; i++) {
@@ -73,6 +73,8 @@
       parts = [];
       for (j = 0; v.parts && j < v.parts.length; j++) { if (Math.max(f0, f1) * v.parts[j][0] < 0.45 * rate) { parts.push(v.parts[j]); } }   // leave out tones too high to play cleanly
       seed = 12345 + i * 7919; prev = 0; low = 0;
+      fades = []; rates = [];
+      for (j = 0; j < parts.length; j++) { fades.push(1); rates.push(parts[j].length > 2 ? Math.exp(-v.decay * (parts[j][2] - 1) / rate) : 1); }
       for (k = 0; k < count && first + k < out.length; k++) {
         t = k / rate;
         env = Math.min(1, t / v.attack) * Math.exp(-v.decay * t) * Math.min(1, (dur - t) / 0.012);   // fade in, ring down, fade out
@@ -86,7 +88,10 @@
         } else {
           phase = 2 * Math.PI * (f0 * t + (f1 - f0) * t * t / (2 * dur));
           x = 0;
-          for (j = 0; j < parts.length; j++) { x += parts[j][1] * Math.sin(phase * parts[j][0]); }
+          for (j = 0; j < parts.length; j++) {
+            x += parts[j][1] * fades[j] * Math.sin(phase * parts[j][0]);
+            fades[j] *= rates[j];   // higher tones die away sooner, which is what makes a plucked note sound real
+          }
         }
         out[first + k] += vol * env * x;
       }
@@ -101,6 +106,7 @@
       try { if (playing[i].stop) { playing[i].stop(0); } else { playing[i].noteOff(0); } } catch (err) { /* already finished */ }
     }
     playing = [];
+    asked++;
     mark('');
   }
   function mark(id) {
@@ -111,26 +117,40 @@
   function status(extra) {
     say((extra ? extra + ' · ' : '') + 'Sound system: ' + ctx.sampleRate + ' Hz' + (started !== ctx.sampleRate ? ' (started at ' + started + ', corrected)' : '') + '.');
   }
+  function blip(c) {
+    try {
+      var b = c.createBuffer(1, 1, c.sampleRate), src = c.createBufferSource();
+      src.buffer = b; src.connect(c.destination);
+      if (src.start) { src.start(0); } else { src.noteOn(0); }
+    } catch (err) { /* nothing to unlock */ }
+  }
   function play(id) {
-    var c = getCtx(), s = find(id), key, data, buf, src, i, t0, took = new Date().getTime();
+    var c = getCtx(), s = find(id), key, turn;
     if (!c || !s) { return; }
     stop();
+    blip(c);
     key = id + '/' + c.sampleRate;
-    if (!bufs[key]) {
-      data = render(s, c.sampleRate);
-      buf = c.createBuffer(1, data.length, c.sampleRate);
-      buf.getChannelData(0).set(data);
-      bufs[key] = buf;
-    }
-    took = new Date().getTime() - took;
-    t0 = c.currentTime + 0.06;
-    for (i = 0; i < 2; i++) {
-      src = c.createBufferSource(); src.buffer = bufs[key]; src.connect(c.destination);
-      if (src.start) { src.start(t0 + i * s.every); } else { src.noteOn(t0 + i * s.every); }
-      playing.push(src);
-    }
     mark(id);
-    status(s.name + ' (ready in ' + took + ' ms)');
+    turn = ++asked;
+    function go() {
+      var data, buf, src, i, t0, took = new Date().getTime();
+      if (turn !== asked) { return; }   // another one was tapped meanwhile
+      if (!bufs[key]) {
+        data = render(s, c.sampleRate);
+        buf = c.createBuffer(1, data.length, c.sampleRate);
+        buf.getChannelData(0).set(data);
+        bufs[key] = buf;
+      }
+      took = new Date().getTime() - took;
+      t0 = c.currentTime + 0.06;
+      for (i = 0; i < 2; i++) {
+        src = c.createBufferSource(); src.buffer = bufs[key]; src.connect(c.destination);
+        if (src.start) { src.start(t0 + i * s.every); } else { src.noteOn(t0 + i * s.every); }
+        playing.push(src);
+      }
+      status(s.name + ' (ready in ' + took + ' ms)');
+    }
+    if (bufs[key]) { go(); } else { say('Getting ' + s.name + ' ready…'); setTimeout(go, 40); }
   }
   (function () {
     var list = $('list'), i, b, s;

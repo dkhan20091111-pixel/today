@@ -2007,7 +2007,7 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
          saved to config.json in the private repository, which needs an access key that is allowed
          to write. If the key may only read, changes are kept on this iPad until the app is closed. ---- */
   var CONF_KEY = 'wallConf' + (LOCAL ? ':' + DATA_URL : '');   // test pages each keep their own
-  var store = { sha: '', dirty: false, state: '', canWrite: null, canRun: null, timer: 0, busy: false, tries: 0, note: '' };
+  var store = { sha: '', dirty: false, state: '', canWrite: null, canRun: null, timer: 0, busy: false, tries: 0, note: '', wantRun: false, runTimer: 0 };
   function clone(o) { return JSON.parse(JSON.stringify(o)); }
   function cfg() { return X.conf || (data && data.config) || {}; }
   function conf() { if (!X.conf) { X.conf = clone((data && data.config) || {}); } return X.conf; }
@@ -2028,7 +2028,9 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
     if (c.mode === 'auto' || c.mode === 'light' || c.mode === 'dark') { ui.mode = c.mode; }
     X.motion = (c.motion === 'less' || c.motion === 'off') ? c.motion : 'full';
   }
-  function touchConf() {
+  var SERVED = { town: 1, units: 1, team: 1, birthdays: 1, nasaPicture: 1 };   // what the updater on GitHub uses
+  function touchConf(path) {
+    if (path && SERVED[path.split('.')[0]]) { store.wantRun = true; }
     store.dirty = true; store.state = 'saving'; store.tries = 0;
     keepConf(); applyConf(); showSave();
     clearTimeout(store.timer);
@@ -2041,13 +2043,13 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
       o = o[parts[i]];
     }
     o[parts[parts.length - 1]] = value;
-    touchConf();
+    touchConf(path);
   }
   function delv(path) {
     var parts = path.split('.'), o = conf(), i;
     for (i = 0; i < parts.length - 1; i++) { if (o[parts[i]] === null || typeof o[parts[i]] !== 'object') { return; } o = o[parts[i]]; }
     delete o[parts[parts.length - 1]];
-    touchConf();
+    touchConf(path);
   }
   // What is written to the file: the same settings without the rows that were added but never filled in.
   function cleanConf(c) {
@@ -2134,7 +2136,11 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
             store.sha = (j && j.content && j.content.sha) || '';
             if (JSON.stringify(cleanConf(X.conf), null, 2) + '\n' === sent) {
               store.dirty = false; store.state = 'saved'; keepConf();
-              nudgeUpdater(true);   // so things worked out on GitHub, such as the weather for a new town, follow soon
+              if (store.wantRun) {   // the weather for a new town, a new team and so on: fetched on GitHub shortly
+                store.wantRun = false;
+                clearTimeout(store.runTimer);
+                store.runTimer = setTimeout(function () { nudgeUpdater(true); }, 20000);
+              }
             } else { store.timer = setTimeout(saveConfig, 1500); }   // changed again while it was saving
             showSave();
           } else if ((status === 409 || status === 422) && store.tries < 3) {

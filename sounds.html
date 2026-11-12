@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="robots" content="noindex">
+<title>Alarm sounds</title>
+<style>
+  body { margin: 0; padding: 28px 28px 40px; font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif; background: #f1f2ee; color: #14161a; -webkit-user-select: none; -webkit-text-size-adjust: 100%; }
+  h1 { margin: 0 0 6px; font-size: 30px; letter-spacing: -0.5px; }
+  p { margin: 0 0 20px; font-size: 17px; line-height: 1.4; color: #5d626b; }
+  #list:after { content: ""; display: block; clear: both; }
+  .snd { display: block; float: left; width: 48.5%; box-sizing: border-box; margin: 0 3% 12px 0; padding: 18px 20px; border: 0; border-radius: 22px; background: #fff; color: #14161a; text-align: left; font-family: inherit; font-size: 21px; font-weight: 700; -webkit-appearance: none; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+  .snd:nth-child(even) { margin-right: 0; }
+  .snd small { display: block; margin-top: 3px; font-size: 15px; font-weight: 500; color: #8a8f98; }
+  .snd.on { background: #14161a; color: #fff; }
+  .snd.on small { color: rgba(255,255,255,0.7); }
+  .wide { float: none; width: 100%; margin-right: 0; }
+  #stop { background: #e4e6e0; text-align: center; }
+  #info { margin-top: 18px; font-size: 14px; line-height: 1.5; color: #8a8f98; }
+</style>
+</head>
+<body>
+<h1>Alarm sounds</h1>
+<p>Tap one to hear it twice, spaced the way the alarm would repeat it. Nothing on the wall changes until you choose.</p>
+<div id="list"></div>
+<button class="snd wide" id="old">Old chime<small>How the wall plays it today, to compare</small></button>
+<button class="snd wide" id="stop">Stop</button>
+<div id="info">Tap a sound to start.</div>
+<script>
+(function () {
+  'use strict';
+  /* The sounds are worked out number by number into a short recording, then played like a
+     recording. That is steadier on an old iPad than asking its sound system to make each tone
+     as it goes, which is how the wall does it today. Plain ES5: this has to run on Safari 10. */
+  var SPEC = {"voices":{"bell":{"parts":[[1,1],[2.76,0.34],[5.4,0.14]],"decay":3.2,"attack":0.006},"soft":{"parts":[[1,1],[2,0.1]],"decay":2.6,"attack":0.012},"wood":{"parts":[[1,1],[4,0.22],[10,0.05]],"decay":9,"attack":0.003},"box":{"parts":[[1,1],[3,0.2],[6.3,0.07]],"decay":5,"attack":0.003},"pip":{"parts":[[1,1],[3,0.06]],"decay":0,"attack":0.01},"chirp":{"parts":[[1,1]],"decay":6,"attack":0.008},"buzz":{"parts":[[1,1],[2,0.5],[3,0.33],[4,0.25],[5,0.2],[6,0.16]],"decay":0,"attack":0.02}},"sounds":[{"id":"chime","name":"Chime","about":"Three soft bell notes going up","every":3.0,"notes":[["bell",659.26,0,1.6,0.5],["bell",880,0.32,1.6,0.5],["bell",1318.51,0.64,1.7,0.45]]},{"id":"marimba","name":"Marimba","about":"A quick, warm wooden run","every":2.4,"notes":[["wood",523.25,0,0.5,0.6],["wood",659.26,0.16,0.5,0.6],["wood",783.99,0.32,0.5,0.6],["wood",1046.5,0.48,0.6,0.6],["wood",783.99,0.72,0.5,0.5],["wood",659.26,0.88,0.6,0.5]]},{"id":"musicbox","name":"Music box","about":"A gentle eight-note tune","every":3.4,"notes":[["box",659.26,0,0.9,0.45],["box",783.99,0.24,0.9,0.45],["box",1046.5,0.48,0.9,0.45],["box",783.99,0.72,0.9,0.4],["box",880,0.96,0.9,0.45],["box",1046.5,1.2,0.9,0.45],["box",1318.51,1.44,1.1,0.45],["box",1046.5,1.8,1.2,0.4]]},{"id":"dingdong","name":"Ding-dong","about":"Two slow notes, like a doorbell","every":3.4,"notes":[["bell",659.26,0,1.7,0.55],["bell",523.25,0.75,2.1,0.55]]},{"id":"birds","name":"Birds","about":"Morning chirps","every":2.6,"notes":[["chirp",[2600,3400],0,0.09,0.4],["chirp",[3000,2300],0.14,0.08,0.4],["chirp",[2700,3600],0.3,0.1,0.4],["chirp",[3200,2500],0.46,0.07,0.35],["chirp",[2400,3300],1.0,0.09,0.4],["chirp",[3300,2600],1.14,0.08,0.4],["chirp",[2800,3700],1.3,0.1,0.4]]},{"id":"pips","name":"Pips","about":"Four beeps, like an alarm clock","every":1.4,"notes":[["pip",1000,0,0.1,0.45],["pip",1000,0.18,0.1,0.45],["pip",1000,0.36,0.1,0.45],["pip",1000,0.54,0.1,0.45]]},{"id":"pulse","name":"Pulse","about":"Three rising pips","every":1.5,"notes":[["pip",660,0,0.12,0.45],["pip",880,0.15,0.12,0.45],["pip",1100,0.3,0.16,0.45]]},{"id":"buzzer","name":"Buzzer","about":"Low and harsh, for heavy sleepers","every":1.6,"notes":[["buzz",196,0,0.9,0.3],["buzz",207.65,0,0.9,0.25]]}]};
+  var ctx = null, started = 0, bufs = {}, playing = [], current = '';
+  function $(id) { return document.getElementById(id); }
+  function say(text) { $('info').firstChild.nodeValue = text; }
+  function getCtx() {
+    var AC = window.AudioContext || window.webkitAudioContext, b, s;
+    if (!AC) { say('This browser has no sound system the page can use.'); return null; }
+    if (!ctx) {
+      ctx = new AC();
+      started = ctx.sampleRate;
+      // An old iPad can start its sound system at the wrong speed, which makes every sound crackle.
+      // Playing one silent sample and starting over puts it right.
+      if (/iPad|iPhone|iPod/.test(window.navigator.userAgent) && ctx.sampleRate !== 44100 && ctx.close) {
+        try {
+          b = ctx.createBuffer(1, 1, 44100);
+          s = ctx.createBufferSource(); s.buffer = b; s.connect(ctx.destination);
+          if (s.start) { s.start(0); } else { s.noteOn(0); }
+          s.disconnect();
+          ctx.close();
+          ctx = new AC();
+        } catch (err) { /* keep the one we have */ }
+      }
+    }
+    if (ctx.resume) { try { ctx.resume(); } catch (err2) { /* already running */ } }
+    return ctx;
+  }
+  function find(id) { var i; for (i = 0; i < SPEC.sounds.length; i++) { if (SPEC.sounds[i].id === id) { return SPEC.sounds[i]; } } return null; }
+  // One round of a sound as a list of numbers, at the speed the sound system runs at.
+  function render(sound, rate) {
+    var notes = sound.notes, len = 0, peak = 1e-9, out, i, j, k, n, v, parts, f0, f1, dur, vol, first, count, t, env, phase, x;
+    for (i = 0; i < notes.length; i++) { len = Math.max(len, notes[i][2] + notes[i][3]); }
+    out = new Float32Array(Math.floor((len + 0.05) * rate));
+    for (i = 0; i < notes.length; i++) {
+      n = notes[i]; v = SPEC.voices[n[0]]; parts = v.parts;
+      f0 = typeof n[1] === 'number' ? n[1] : n[1][0];
+      f1 = typeof n[1] === 'number' ? n[1] : n[1][1];
+      dur = n[3]; vol = n[4]; first = Math.floor(n[2] * rate); count = Math.floor(dur * rate);
+      for (k = 0; k < count && first + k < out.length; k++) {
+        t = k / rate;
+        env = Math.min(1, t / v.attack) * Math.exp(-v.decay * t) * Math.min(1, (dur - t) / 0.012);   // fade in, ring down, fade out
+        phase = 2 * Math.PI * (f0 * t + (f1 - f0) * t * t / (2 * dur));
+        x = 0;
+        for (j = 0; j < parts.length; j++) { x += parts[j][1] * Math.sin(phase * parts[j][0]); }
+        out[first + k] += vol * env * x;
+      }
+    }
+    for (i = 0; i < out.length; i++) { if (Math.abs(out[i]) > peak) { peak = Math.abs(out[i]); } }
+    for (i = 0; i < out.length; i++) { out[i] = out[i] * 0.85 / peak; }   // every sound ends up equally loud
+    return out;
+  }
+  function stop() {
+    var i;
+    for (i = 0; i < playing.length; i++) {
+      try { if (playing[i].stop) { playing[i].stop(0); } else { playing[i].noteOff(0); } } catch (err) { /* already finished */ }
+    }
+    playing = [];
+    mark('');
+  }
+  function mark(id) {
+    var nodes = document.querySelectorAll('.snd'), i;
+    current = id;
+    for (i = 0; i < nodes.length; i++) { nodes[i].className = nodes[i].className.replace(/ ?\bon\b/, '') + (nodes[i].getAttribute('data-id') === id && id ? ' on' : ''); }
+  }
+  function status(extra) {
+    say((extra ? extra + ' · ' : '') + 'Sound system: ' + ctx.sampleRate + ' Hz' + (started !== ctx.sampleRate ? ' (started at ' + started + ', corrected)' : '') + '.');
+  }
+  function play(id) {
+    var c = getCtx(), s = find(id), key, data, buf, src, i, t0, took = new Date().getTime();
+    if (!c || !s) { return; }
+    stop();
+    key = id + '/' + c.sampleRate;
+    if (!bufs[key]) {
+      data = render(s, c.sampleRate);
+      buf = c.createBuffer(1, data.length, c.sampleRate);
+      buf.getChannelData(0).set(data);
+      bufs[key] = buf;
+    }
+    took = new Date().getTime() - took;
+    t0 = c.currentTime + 0.06;
+    for (i = 0; i < 2; i++) {
+      src = c.createBufferSource(); src.buffer = bufs[key]; src.connect(c.destination);
+      if (src.start) { src.start(t0 + i * s.every); } else { src.noteOn(t0 + i * s.every); }
+      playing.push(src);
+    }
+    mark(id);
+    status(s.name + ' (ready in ' + took + ' ms)');
+  }
+  // The way the wall makes its chime today, for comparison.
+  function playOld() {
+    var c = getCtx(), notes = [[659.3, 0, 0.9, 0.35], [880, 0.28, 0.9, 0.35], [1318.5, 0.56, 1.5, 0.3]], t0, i, n, o, g;
+    if (!c) { return; }
+    stop();
+    t0 = c.currentTime + 0.03;
+    for (i = 0; i < notes.length; i++) {
+      n = notes[i];
+      o = c.createOscillator(); g = c.createGain ? c.createGain() : c.createGainNode();
+      o.frequency.value = n[0]; o.connect(g); g.connect(c.destination);
+      g.gain.setValueAtTime(0.0001, t0 + n[1]);
+      g.gain.exponentialRampToValueAtTime(n[3], t0 + n[1] + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + n[1] + n[2]);
+      if (o.start) { o.start(t0 + n[1]); o.stop(t0 + n[1] + n[2] + 0.05); } else { o.noteOn(t0 + n[1]); o.noteOff(t0 + n[1] + n[2] + 0.05); }
+      playing.push(o);
+    }
+    mark('old');
+    status('Old chime');
+  }
+  (function () {
+    var list = $('list'), i, b, s;
+    for (i = 0; i < SPEC.sounds.length; i++) {
+      s = SPEC.sounds[i];
+      b = document.createElement('button');
+      b.className = 'snd';
+      b.setAttribute('data-id', s.id);
+      b.appendChild(document.createTextNode((i + 1) + '. ' + s.name));
+      b.appendChild(document.createElement('small')).appendChild(document.createTextNode(s.about));
+      b.addEventListener('click', (function (id) { return function () { play(id); }; }(s.id)), false);
+      list.appendChild(b);
+    }
+    $('old').setAttribute('data-id', 'old');
+    $('old').addEventListener('click', playOld, false);
+    $('stop').addEventListener('click', stop, false);
+  }());
+}());
+</script>
+</body>
+</html>

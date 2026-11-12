@@ -732,7 +732,8 @@ body.dark .x-cell { background: #1a1d21; }
 .x-ban.a-out { opacity: 0; -webkit-transform: translateX(60px); transform: translateX(60px); }
 
 /* Settings > Animations: Fewer stops the things that move all the time, Off stops everything */
-html.m-less .a-drift, html.m-less .wx-rays, html.m-less .wx-cloud, html.m-less .wx-drop, html.m-less .x-snow i, html.m-less .x-dot.on {
+html.m-less .a-drift, html.m-less .wx-rays, html.m-less .wx-cloud, html.m-less .wx-drop, html.m-less .x-snow i, html.m-less .x-dot.on,
+html.m-less .a-sheet, html.m-less .a-sheet .x-sheetb, html.m-less .a-drop, html.m-less .a-up, html.m-less .a-fade, html.m-less .a-pop, html.m-less .a-rise, html.m-less .x-wakeb {
   -webkit-animation: none !important; animation: none !important; }
 html.m-off *, html.m-off *:before, html.m-off *:after {
   -webkit-animation: none !important; animation: none !important; -webkit-transition: none !important; transition: none !important; }
@@ -2113,42 +2114,108 @@ html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rg
     DATA_URL = 'data-' + window.location.hash.substring(1) + '.json';
   }
 
-  // Taps, as before, with two additions: the thing under the finger presses in while it is held,
-  // and a handler can return false to say it will redraw the screen itself (after an animation).
-  tap = function (node, fn) {
-    var sx = 0, sy = 0, st = 0, handled = 0;
-    function run() {
+  /* ---- Taps. One listener for the whole screen finds what was touched and runs what that thing
+         does. The thing under the finger presses in while it is held, and a handler can return false
+         to say it will redraw the screen itself (after an animation). ---- */
+  tap = function (node, fn) { node._fn = fn; return node; };
+  (function () {
+    var st = $('stage'), sx = 0, sy = 0, t0 = 0, handled = 0, held = null;
+    function target(n) { while (n && n !== st) { if (n._fn) { return n; } n = n.parentNode; } return null; }
+    function lift() { if (held) { held.className = held.className.replace(/ ?x-press/g, ''); held = null; } }
+    function run(node) {
       ui.touched = new Date().getTime();
       if (editing()) { document.activeElement.blur(); }   // finish typing first, so what was typed is kept
       armAudio();                                         // sound may only start after a tap, so every tap enables it
-      if (fn() !== false) { X.bypass = true; render(true); X.bypass = false; }   // a tap always redraws
+      if (node._fn.call(node) !== false) { X.bypass = true; render(true); X.bypass = false; }   // a tap always redraws
     }
-    function lift() { node.className = node.className.replace(/ ?x-press/g, ''); }
-    node.addEventListener('touchstart', function (e) {
-      var t = e.touches[0];
-      sx = t.clientX; sy = t.clientY; st = new Date().getTime();
-      if (node.className.indexOf('x-press') === -1) { node.className += ' x-press'; }
+    st.addEventListener('touchstart', function (e) {
+      var t = e.touches[0], n = target(e.target);
+      sx = t.clientX; sy = t.clientY; t0 = new Date().getTime();
+      lift();
+      if (n && typeof n.className === 'string') { held = n; if (n.className.indexOf('x-press') === -1) { n.className += ' x-press'; } }
     }, false);
-    node.addEventListener('touchmove', function (e) {
+    st.addEventListener('touchmove', function (e) {
       var t = e.touches[0];
       if (Math.abs(t.clientX - sx) > 10 || Math.abs(t.clientY - sy) > 10) { lift(); }
     }, false);
-    node.addEventListener('touchcancel', lift, false);
-    node.addEventListener('touchend', function (e) {
-      var t = e.changedTouches[0], at = new Date().getTime();
+    st.addEventListener('touchcancel', lift, false);
+    st.addEventListener('touchend', function (e) {
+      var t = e.changedTouches[0], at = new Date().getTime(), n = target(e.target);
       lift();
-      if (Math.abs(t.clientX - sx) > 10 || Math.abs(t.clientY - sy) > 10 || at - st > 600) { return; }
+      if (!n || Math.abs(t.clientX - sx) > 10 || Math.abs(t.clientY - sy) > 10 || at - t0 > 600) { return; }
       if (at - ui.scrolled < 350) { return; }   // that touch only stopped a moving list
       handled = at;
       e.preventDefault();
-      run();
+      run(n);
     }, false);
-    node.addEventListener('click', function () {
-      if (new Date().getTime() - handled < 700) { return; }   // already handled as a touch
-      run();
+    st.addEventListener('click', function (e) {
+      var n = target(e.target);
+      if (!n || new Date().getTime() - handled < 700) { return; }   // nothing there, or already handled as a touch
+      run(n);
     }, false);
+  }());
+
+  /* ---- Redrawing without starting over. A fresh copy of the screen is built off to one side, and
+         the screen that is showing is then changed only where the two differ. What has not changed
+         is never touched, so it does not blink, and the iPad has far less to repaint. Because the
+         things on screen stay the same things, a moved marker or a flipped switch glides by itself. ---- */
+  // A stand-in for something expensive that should be left exactly as it is while its key is the same.
+  function keepNode(key, make) { var p = document.createElement('div'); p._keep = key; p._make = make; return p; }
+  function realize(n) { var r; if (n._make) { r = n._make(); r._keep = n._keep; return r; } return n; }
+  // Anything new that goes on screen may hold stand-ins further down: swap each for the real thing.
+  function realizeInside(node) {
+    var c = node.firstChild, next;
+    while (c) {
+      next = c.nextSibling;
+      if (c._make) { node.replaceChild(realize(c), c); } else if (c.nodeType === 1 && !c._keep) { realizeInside(c); }
+      c = next;
+    }
     return node;
-  };
+  }
+  function kindOf(n) {
+    if (n.nodeType !== 1) { return '#' + n.nodeType; }
+    if (n._keep) { return 'keep:' + n._keep; }
+    return n.tagName + '.' + (n.getAttribute('class') || '').split(' ')[0];
+  }
+  function patch(op, o, n) {
+    var next = o.nextSibling, a, i;
+    if (n.nodeType !== 1) { if (o.nodeValue !== n.nodeValue) { o.nodeValue = n.nodeValue; } return next; }
+    if (n._keep) { return next; }                                                        // the same kept thing as before: leave it
+    if (/^(INPUT|SELECT|TEXTAREA)$/.test(n.tagName)) { op.replaceChild(n, o); return next; }   // boxes to type in are always new
+    a = n.attributes;
+    for (i = 0; i < a.length; i++) { if (o.getAttribute(a[i].name) !== a[i].value) { o.setAttribute(a[i].name, a[i].value); } }
+    a = o.attributes;
+    for (i = a.length - 1; i >= 0; i--) { if (!n.hasAttribute(a[i].name)) { o.removeAttribute(a[i].name); } }
+    o._fn = n._fn;
+    if (n.onerror) { o.onerror = n.onerror; }
+    morph(o, n);
+    return next;
+  }
+  function morph(op, np) {
+    var o = op.firstChild, n = np.firstChild, nn, k, scan, i, gone;
+    while (n) {
+      nn = n.nextSibling;
+      k = kindOf(n);
+      if (o && kindOf(o) === k) { o = patch(op, o, n); }
+      else {
+        // Was something taken away here? Look a few places ahead for the match.
+        scan = o; i = 0;
+        while (scan && i < 4 && kindOf(scan) !== k) { scan = scan.nextSibling; i++; }
+        if (scan && i < 4) {
+          while (o !== scan) { gone = o; o = o.nextSibling; op.removeChild(gone); }
+          o = patch(op, o, n);
+        } else { op.insertBefore(realizeInside(realize(n)), o); }   // something new: put it in
+      }
+      n = nn;
+    }
+    while (o) { gone = o; o = o.nextSibling; op.removeChild(gone); }
+  }
+  function showStage(next) {
+    var live = $('stage');
+    if (live.className !== next.className) { live.className = next.className; }
+    morph(live, next);
+    return live;
+  }
 
   /* ---- Settings. There is one working copy. A change made on the wall shows at once and is then
          saved to config.json in the private repository, which needs an access key that is allowed
@@ -2845,7 +2912,8 @@ html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rg
           X.course = it.course; X.detail = ''; ui.day = -1; ui.date = 0; ui.view = 'list'; ui.item = ''; ui.scroll = 0;
         }) : null,
         tap(el('div', 'x-btn dark', 'Close'), function () {
-          sheet.className = sheet.className.replace(' a-sheet', '') + ' a-out';
+          var open = document.querySelector('.x-sheet');
+          if (open) { open.className = open.className.replace(' a-sheet', '') + ' a-out'; }
           return after(230, function () { X.detail = ''; render(true); });
         })));
     sheet.appendChild(box);
@@ -2976,20 +3044,16 @@ html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rg
     }
     return seg;
   };
-  function navBar(from) {
-    var bar = el('div', 'x-nav'), at = tabOf(ui.view), pill = el('div', 'x-navp'), tabs = [], i, t;
-    function place(n) { pill.style.webkitTransform = pill.style.transform = 'translateX(' + (n * 100) + '%)'; }
-    function mark(n) { for (var j = 0; j < tabs.length; j++) { tabs[j].className = 'x-navt' + (j === n ? ' on' : ''); } }
+  function navBar() {
+    var bar = el('div', 'x-nav'), at = tabOf(ui.view), pill = el('div', 'x-navp'), i, t;
+    pill.style.webkitTransform = pill.style.transform = 'translateX(' + (at * 100) + '%)';
     bar.appendChild(pill);
     for (i = 0; i < TABS.length; i++) {
-      t = el('div', 'x-navt');
+      t = el('div', 'x-navt' + (i === at ? ' on' : ''));
       t.innerHTML = TABS[i].icon;
       t.appendChild(el('span', '', TABS[i].name));
-      tabs.push(t);
       bar.appendChild(tap(t, goTab(i)));
     }
-    if (from === at || still()) { place(at); mark(at); }
-    else { place(from); mark(from); setTimeout(function () { place(at); mark(at); }, 30); }   // the marker slides across
     return bar;
   }
   function pageHead(title, sub) { return kids(el('div', 'k-sec x-ph'), kids(el('div'), el('b', '', title), el('span', '', sub))); }
@@ -3258,11 +3322,7 @@ html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rg
   function sSwitch(id, on, fn) {
     var n = el('div', 's-sw' + (on ? ' on' : ''));
     n.appendChild(el('i'));
-    if (A.flip === id && !still()) {
-      n.className = 's-sw' + (on ? '' : ' on');
-      setTimeout(function () { n.className = 's-sw' + (on ? ' on' : ''); }, 30);
-    }
-    return tap(n, function () { A.flip = id; fn(); });
+    return tap(n, fn);
   }
   function sSeg(options, current, fn) {
     var seg = el('div', 'k-seg s-seg'), i;
@@ -3441,12 +3501,12 @@ html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rg
     }
     b.appendChild(row);
     kids(c, sSeg([['full', 'Full'], ['less', 'Fewer'], ['off', 'Off']], X.motion, setter('motion')),
-      note('Animations only play when you touch the screen. Choose Fewer or Off if the iPad feels slow.'));
+      note('Pages always switch at once. Full adds small touches: the sheet sliding up, banners dropping in, numbers counting up. Fewer keeps only the tab marker and switches gliding. Off turns everything off.'));
     kids(d, sSeg(LOOKS, lookId(), function (v) { setv('look', v); A.view = ''; }),
       note('Soft is rounded cards. Clean is flat with thin lines. Bold has thick outlines and hard shadows. Glass floats on a wash of the day\'s colors.'));
     pics.appendChild(tap(kids(el('div', 's-pic' + (!pic ? ' on' : '')), el('div', 's-pict s-daily', '1 · 2 · 3'), el('span', '', 'New each day')), function () { setv('picture', ''); }));
     for (i = 0; i < PICTURES.length; i++) {
-      pics.appendChild(tap(kids(el('div', 's-pic' + (pic === PICTURES[i][0] ? ' on' : '')), thumb(PICTURES[i][0]), el('span', '', PICTURES[i][1])),
+      pics.appendChild(tap(kids(el('div', 's-pic' + (pic === PICTURES[i][0] ? ' on' : '')), keepNode('thumb/' + PICTURES[i][0] + '/' + theme.id, (function (k) { return function () { return thumb(k); }; }(PICTURES[i][0]))), el('span', '', PICTURES[i][1])),
         (function (id) { return function () { setv('picture', id); }; }(PICTURES[i][0]))));
     }
     kids(e, pics, note('The drawing on the picture card. Its colors follow the color theme. Your photos or the NASA picture take its place when those are on.'));
@@ -3619,7 +3679,7 @@ html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rg
       ic.style.background = SETS[i].tint;
       t = tap(kids(el('div', 's-tile'), ic, kids(el('div', 's-tt'), el('b', '', SETS[i].name), el('span', '', SETS[i].sum(now)))),
         (function (id) { return function () { X.set = id; ui.scroll = 0; }; }(SETS[i].id)));
-      grid.appendChild(fresh ? stagger(t, 'a-pop', i) : t);
+      grid.appendChild(t);
     }
     pg.appendChild(grid);
   }
@@ -3628,13 +3688,13 @@ html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rg
   function W(node, weight) { return node ? { node: node, weight: weight } : null; }
   function buildPage(pg, feature, cards, land, fresh, count) {
     var n = count || ((land && !feature) ? 3 : 2), wrap = el('div', 'x-grid'), cols = [], i, j, best, seq = 0;
-    if (feature) { pg.appendChild(fresh ? stagger(feature, 'a-pop', seq++) : feature); }
+    if (feature) { pg.appendChild(feature); }
     for (i = 0; i < n; i++) { cols.push({ node: el('div', 'x-col'), h: 0 }); wrap.appendChild(cols[i].node); }
     for (i = 0; i < cards.length; i++) {
       if (!cards[i]) { continue; }
       for (best = 0, j = 1; j < n; j++) { if (cols[j].h < cols[best].h) { best = j; } }
       cols[best].h += cards[i].weight;
-      cols[best].node.appendChild(fresh ? stagger(cards[i].node, 'a-pop', seq++) : cards[i].node);
+      cols[best].node.appendChild(cards[i].node);
     }
     pg.appendChild(wrap);
   }
@@ -3668,14 +3728,15 @@ html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rg
     return wrap;
   }
   function heroCard(now, m, list, hit, selected, sel, dayName, sc) {
-    var hero = el('div', 'k-hero'), art = sceneNode(theme.id, dayKey(now)), body = el('div', 'k-body'), season = seasonSvg(now);
+    var hero = el('div', 'k-hero'), body = el('div', 'k-body'), season = seasonSvg(now), day = dayKey(now);
+    var art = keepNode('art/' + pictureKind(day) + '/' + theme.id + '/' + day, function () { return sceneNode(theme.id, day); });
     var i, n, icon, left, morn, extra, img, nasa = data && data.nasa, due, cta;
-    kids(hero, drift(art));
+    kids(hero, art);
     if (X.frame.url && frameOn()) { img = el('img', 'x-photo x-frame'); img.src = X.frame.url; hero.appendChild(img); }
     else if (nasaOn()) {
       img = el('img', 'x-photo'); img.onerror = function () { if (img.parentNode) { img.parentNode.removeChild(img); } }; img.src = nasa.url; hero.appendChild(img);
-    } else if (snowing(now) && X.motion === 'full') { hero.appendChild(snowNode(now)); }
-    else if (season) { extra = el('div', 'k-art'); extra.innerHTML = season; hero.appendChild(extra); }
+    } else if (snowing(now) && X.motion === 'full') { hero.appendChild(keepNode('snow/' + day, function () { return snowNode(now); })); }
+    else if (season) { hero.appendChild(keepNode('season/' + day, function () { var e = el('div', 'k-art'); e.innerHTML = season; return e; })); }
     if (img) { drift(img); }
     hero.appendChild(el('div', 'k-shade'));
 
@@ -3743,7 +3804,7 @@ html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rg
   }
 
   ALT.card = function (now, m) {
-    var s = stage('cardy' + (X.priv ? ' x-priv' : '')), sc = SCENES[theme.id] || SCENES.forest, land = isLandscape();
+    var s = el('div', 'cardy' + (X.priv ? ' x-priv' : '')), live, sc = SCENES[theme.id] || SCENES.forest, land = isLandscape();
     var list = m.all, dayDate = null, dayName = '', hit = null, selected = false, sel, i, d, n, row, chip, key;
     var left = el('div', 'x-left'), right = el('div', 'x-right'), cols = el('div', 'x-cols'), hero = null, strip, bans, b, box = null, selRow = null, old, it, ban;
     var wx = weatherNow(), view = ui.view, tabNow = tabOf(view), home = view === 'list', calendar = view === 'month' || view === 'year';
@@ -3774,7 +3835,7 @@ html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rg
       setv('mode', ui.mode);
       A.view = '';   // light and dark fade into each other
     });
-    kids(s, kids(el('div', 'k-head' + (A.first && !still() ? ' a-drop' : '')),
+    kids(s, kids(el('div', 'k-head'),
       kids(el('div', 'k-left'), el('div', 'k-hello', greeting(now)),
         el('div', 'k-sub', DAYS[now.getDay()] + ', ' + MONTHS[now.getMonth()] + ' ' + now.getDate() +
           (todayNote(now) ? ' · ' + todayNote(now) : '') + (wx ? ' · ' + Math.round(wx.temp) + '°' + (wx.text ? ' ' + wx.text : '') : ''))),
@@ -3786,11 +3847,11 @@ html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rg
     // Privacy curtain: only the greeting, the clock and the picture
     if (X.priv) {
       hero = heroCard(now, m, list, hit, selected, sel, dayName, sc);
-      if (A.view !== 'priv' && !still()) { hero.node.className += ' a-in'; }
       s.appendChild(hero.node);
       if (X.alarm.ringing) { s.appendChild(alarmScreen(now, m)); }   // the alarm shows even behind the privacy curtain
       ui.hero = null;
       A.first = false; A.view = 'priv'; A.sheet = ''; A.bans = {};
+      showStage(s);
       settleSoon();
       cardSig = cardSignature(now);
       return;
@@ -3806,16 +3867,16 @@ html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rg
       if (b.live === 'timer') { kids(ban, el('span', '', b.text), el('span', 'x-timer', timerText())); }
       else { ban.appendChild(el('span', '', b.text)); if (b.live) { ban.firstChild.id = 'x-live-' + b.live; } }
       if (b.id) {
-        tap(ban, (function (id, el1) {
+        tap(ban, (function (id) {
           return function () {
-            el1.className += ' a-out';
+            this.className += ' a-out';   // "this" is the banner that is on screen
             return after(240, function () {
               if (id === 'snooze') { X.alarm.snooze = 0; } else { X.off[id] = true; }
               if (X.timer && X.timer.done) { X.timer = null; }
               render(true);
             });
           };
-        }(b.id, ban)));
+        }(b.id)));
       }
       s.appendChild(ban);
     }
@@ -3832,7 +3893,6 @@ html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rg
       strip = shown('classes') ? classStrip(now) : null;
       if (strip) { left.appendChild(strip); }
       node = homeTiles(now, (land && bans.length) ? 2 : 4);   // sideways with banners showing, there is room for one row
-      if (fresh) { for (i = 0; i < node.children.length; i++) { stagger(node.children[i], 'a-pop', i + 1); } }
       left.appendChild(node);
 
       chip = kids(el('div', 'k-chips'), tap(el('div', 'k-chip' + (!sel ? ' on' : ''), 'All'), pickDay(-1)));
@@ -3864,7 +3924,6 @@ html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rg
         if (shown('tests') && isTest(list[i])) { row.insertBefore(el('span', 'x-test', 'Test'), row.lastChild); }
         if (X.done[key]) { row.className += ' x-done'; }
         if (list[i] === hit) { row.className += ' sel'; selRow = row; }
-        if ((fresh || listKey !== A.list) && i < 6) { stagger(row, 'a-rise', i + 1); }
         box.appendChild(row);
       }
       if (!list.length) { box.appendChild(el('div', 'k-row k-more', X.course ? 'Nothing due for this course' : (!sel ? 'Nothing due this week' : 'Nothing due this day'))); }
@@ -3887,7 +3946,6 @@ html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rg
       right.removeChild(right.lastChild);   // those views add their own bottom bar; the tab bar is used instead
       calKey = (view === 'month' ? 1 : 100) * (ui.calY * 12 + (view === 'month' ? ui.calM : 0));
       node = right.lastChild;
-      if (!fresh && !still() && A.cal && calKey !== A.cal && node) { node.className += calKey > A.cal ? ' a-in-r' : ' a-in-l'; }
       cols.appendChild(right);
     } else {
       right.appendChild(view === 'focus' ? pageHead('Focus', 'Timer, checklist, alarm and a break')
@@ -3904,9 +3962,8 @@ html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rg
     }
     if (box) { box.addEventListener('scroll', function () { ui.scroll = box.scrollTop; ui.touched = ui.scrolled = new Date().getTime(); }, false); }
 
-    if (fresh && !still()) { cols.className += A.first ? ' a-in' : dir > 0 ? ' a-in-r' : dir < 0 ? ' a-in-l' : ' a-in'; }
     s.appendChild(cols);
-    s.appendChild(navBar(A.first ? tabNow : A.tab));
+    s.appendChild(navBar());
 
     it = X.detail ? findItem(m, X.detail) : null;
     if (it) {
@@ -3916,8 +3973,13 @@ html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rg
     } else { X.detail = ''; }
     if (X.alarm.ringing) { s.appendChild(alarmScreen(now, m)); }
 
+    // Put it on screen, changing only what differs from what is there now
+    live = showStage(s);
+    box = live.querySelector('.k-list');
+    selRow = live.querySelector('.k-list .k-row.sel');
+
     // Sizes that depend on the finished layout
-    grid = right.querySelector('.k-grid');
+    grid = live.querySelector('.k-grid');
     if (grid) {
       cells = grid.children; h = Math.floor(grid.clientHeight / Math.max(1, Math.round(cells.length / 7)));
       for (i = 0; i < cells.length; i++) {
@@ -3927,7 +3989,7 @@ html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rg
       }
     }
     if (box) {
-      box.scrollTop = ui.scroll;
+      if (box.scrollTop !== ui.scroll) { box.scrollTop = ui.scroll; }
       if (ui.reveal && selRow) {
         if (selRow.offsetTop < box.scrollTop) { box.scrollTop = selRow.offsetTop; }
         else if (selRow.offsetTop + selRow.offsetHeight > box.scrollTop + box.clientHeight) {
@@ -3936,7 +3998,7 @@ html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rg
         ui.scroll = box.scrollTop;
       }
     }
-    if (fresh && !still()) { growBars(s); countUps(s); }
+    if (fresh && X.motion === 'full') { growBars(live); countUps(live); }
     ui.reveal = false;
     ui.hero = hero ? hero.shows : null;
     A.first = false; A.view = view; A.tab = tabNow; A.list = listKey; A.hero = heroKey; A.bans = seen; A.sheet = X.detail;

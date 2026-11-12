@@ -22,9 +22,8 @@
 </head>
 <body>
 <h1>Alarm sounds</h1>
-<p>Tap one to hear it twice, spaced the way the alarm would repeat it. Nothing on the wall changes until you choose.</p>
+<p>Birds and nature this time. Tap one to hear it twice, spaced the way the alarm would repeat it. Nothing on the wall changes until you choose.</p>
 <div id="list"></div>
-<button class="snd wide" id="old">Old chime<small>How the wall plays it today, to compare</small></button>
 <button class="snd wide" id="stop">Stop</button>
 <div id="info">Tap a sound to start.</div>
 <script>
@@ -32,8 +31,8 @@
   'use strict';
   /* The sounds are worked out number by number into a short recording, then played like a
      recording. That is steadier on an old iPad than asking its sound system to make each tone
-     as it goes, which is how the wall does it today. Plain ES5: this has to run on Safari 10. */
-  var SPEC = {"voices":{"bell":{"parts":[[1,1],[2.76,0.34],[5.4,0.14]],"decay":3.2,"attack":0.006},"soft":{"parts":[[1,1],[2,0.1]],"decay":2.6,"attack":0.012},"wood":{"parts":[[1,1],[4,0.22],[10,0.05]],"decay":9,"attack":0.003},"box":{"parts":[[1,1],[3,0.2],[6.3,0.07]],"decay":5,"attack":0.003},"pip":{"parts":[[1,1],[3,0.06]],"decay":0,"attack":0.01},"chirp":{"parts":[[1,1]],"decay":6,"attack":0.008},"buzz":{"parts":[[1,1],[2,0.5],[3,0.33],[4,0.25],[5,0.2],[6,0.16]],"decay":0,"attack":0.02}},"sounds":[{"id":"chime","name":"Chime","about":"Three soft bell notes going up","every":3.0,"notes":[["bell",659.26,0,1.6,0.5],["bell",880,0.32,1.6,0.5],["bell",1318.51,0.64,1.7,0.45]]},{"id":"marimba","name":"Marimba","about":"A quick, warm wooden run","every":2.4,"notes":[["wood",523.25,0,0.5,0.6],["wood",659.26,0.16,0.5,0.6],["wood",783.99,0.32,0.5,0.6],["wood",1046.5,0.48,0.6,0.6],["wood",783.99,0.72,0.5,0.5],["wood",659.26,0.88,0.6,0.5]]},{"id":"musicbox","name":"Music box","about":"A gentle eight-note tune","every":3.4,"notes":[["box",659.26,0,0.9,0.45],["box",783.99,0.24,0.9,0.45],["box",1046.5,0.48,0.9,0.45],["box",783.99,0.72,0.9,0.4],["box",880,0.96,0.9,0.45],["box",1046.5,1.2,0.9,0.45],["box",1318.51,1.44,1.1,0.45],["box",1046.5,1.8,1.2,0.4]]},{"id":"dingdong","name":"Ding-dong","about":"Two slow notes, like a doorbell","every":3.4,"notes":[["bell",659.26,0,1.7,0.55],["bell",523.25,0.75,2.1,0.55]]},{"id":"birds","name":"Birds","about":"Morning chirps","every":2.6,"notes":[["chirp",[2600,3400],0,0.09,0.4],["chirp",[3000,2300],0.14,0.08,0.4],["chirp",[2700,3600],0.3,0.1,0.4],["chirp",[3200,2500],0.46,0.07,0.35],["chirp",[2400,3300],1.0,0.09,0.4],["chirp",[3300,2600],1.14,0.08,0.4],["chirp",[2800,3700],1.3,0.1,0.4]]},{"id":"pips","name":"Pips","about":"Four beeps, like an alarm clock","every":1.4,"notes":[["pip",1000,0,0.1,0.45],["pip",1000,0.18,0.1,0.45],["pip",1000,0.36,0.1,0.45],["pip",1000,0.54,0.1,0.45]]},{"id":"pulse","name":"Pulse","about":"Three rising pips","every":1.5,"notes":[["pip",660,0,0.12,0.45],["pip",880,0.15,0.12,0.45],["pip",1100,0.3,0.16,0.45]]},{"id":"buzzer","name":"Buzzer","about":"Low and harsh, for heavy sleepers","every":1.6,"notes":[["buzz",196,0,0.9,0.3],["buzz",207.65,0,0.9,0.25]]}]};
+     as it goes. Plain ES5: this has to run on Safari 10. */
+  var SPEC = {"voices":{"chirp":{"parts":[[1,1]],"decay":6,"attack":0.008},"tweet":{"parts":[[1,1],[2,0.18]],"decay":3,"attack":0.006},"flute":{"parts":[[1,1],[2,0.14],[3,0.05]],"decay":1.5,"attack":0.035},"cricket":{"parts":[[1,1],[2,0.2]],"decay":0,"attack":0.004,"am":[58,1]},"bell":{"parts":[[1,1],[2.76,0.34],[5.4,0.14]],"decay":2.2,"attack":0.004},"knock":{"parts":[[1,1],[2.4,0.4]],"decay":70,"attack":0.001},"gull":{"parts":[[1,1],[2,0.3],[3,0.15]],"decay":1,"attack":0.03},"wave":{"noise":"low","decay":0.5,"attack":1.4},"foam":{"noise":"high","decay":1.0,"attack":0.8}},"sounds":[{"id":"birds","name":"Birds","about":"The one you liked from the first set","every":2.6,"notes":[["chirp",[2600,3400],0,0.09,0.4],["chirp",[3000,2300],0.14,0.08,0.4],["chirp",[2700,3600],0.3,0.1,0.4],["chirp",[3200,2500],0.46,0.07,0.35],["chirp",[2400,3300],1.0,0.09,0.4],["chirp",[3300,2600],1.14,0.08,0.4],["chirp",[2800,3700],1.3,0.1,0.4]]},{"id":"songbird","name":"Songbird","about":"Rising whistles, then a trill","every":3.0,"notes":[["tweet",[2200,3000],0,0.16,0.45],["tweet",[2400,3300],0.22,0.16,0.45],["tweet",[2600,3600],0.44,0.18,0.45],["tweet",3400,0.75,0.05,0.4],["tweet",2900,0.81,0.05,0.4],["tweet",3400,0.87,0.05,0.4],["tweet",2900,0.93,0.05,0.4],["tweet",3400,0.99,0.05,0.4],["tweet",2900,1.05,0.05,0.4],["tweet",3400,1.11,0.05,0.4],["tweet",2900,1.17,0.05,0.4],["tweet",3400,1.23,0.05,0.4],["tweet",2900,1.29,0.05,0.4],["tweet",[3600,2400],1.45,0.22,0.45]]},{"id":"chorus","name":"Dawn chorus","about":"Three birds calling over each other","every":3.4,"notes":[["chirp",[2700,3500],0,0.09,0.35],["chirp",[3200,2500],0.13,0.08,0.35],["tweet",3100,0.25,0.28,0.4],["tweet",2600,0.62,0.4,0.4],["chirp",[2500,3400],0.95,0.09,0.35],["chirp",[3300,2700],1.08,0.08,0.35],["flute",[540,490],1.25,0.5,0.45],["chirp",[2800,3600],1.75,0.1,0.35],["tweet",3100,1.9,0.28,0.4],["flute",[540,490],2.0,0.5,0.45],["tweet",2600,2.27,0.4,0.4],["chirp",[2600,3500],2.5,0.09,0.35],["chirp",[3400,2600],2.63,0.08,0.35]]},{"id":"cuckoo","name":"Cuckoo","about":"The two-note call, twice","every":2.6,"notes":[["flute",660,0,0.28,0.5],["flute",523.25,0.36,0.44,0.5],["flute",660,1.15,0.28,0.5],["flute",523.25,1.51,0.44,0.5]]},{"id":"owl","name":"Owl","about":"Soft low hoots","every":3.4,"notes":[["flute",[372,352],0,0.3,0.5],["flute",[372,352],0.42,0.3,0.5],["flute",[392,330],0.95,0.75,0.55],["flute",[372,352],2.0,0.3,0.45],["flute",[392,330],2.4,0.7,0.5]]},{"id":"crickets","name":"Crickets","about":"Two crickets taking turns","every":2.0,"notes":[["cricket",4300,0,0.28,0.4],["cricket",4800,0.27,0.2,0.25],["cricket",4300,0.5,0.28,0.4],["cricket",4800,0.77,0.2,0.25],["cricket",4300,1.0,0.28,0.4],["cricket",4800,1.27,0.2,0.25],["cricket",4300,1.5,0.28,0.4],["cricket",4800,1.77,0.2,0.25]]},{"id":"seaside","name":"Seaside","about":"A wave rolling in, with gulls","every":5.0,"notes":[["wave",0,0,4.2,0.9],["foam",0,1.1,3.0,0.3],["gull",[1500,1000],2.1,0.35,0.3],["gull",[1500,1050],2.6,0.3,0.3],["gull",[1400,950],3.05,0.45,0.3]]},{"id":"chimes","name":"Wind chimes","about":"Bells in a light breeze","every":3.8,"notes":[["bell",1318.51,0,1.6,0.4],["bell",1567.98,0.35,1.6,0.35],["bell",1174.66,0.6,1.6,0.4],["bell",1760,1.0,1.6,0.35],["bell",1318.51,1.25,1.6,0.35],["bell",2093,1.7,1.7,0.3],["bell",1567.98,2.1,1.7,0.35]]},{"id":"woodpecker","name":"Woodpecker","about":"Drumming on a tree, then a call","every":3.0,"notes":[["knock",950,0.0,0.04,0.44999999999999996],["knock",950,0.045,0.04,0.525],["knock",950,0.09,0.04,0.6],["knock",950,0.135,0.04,0.44999999999999996],["knock",950,0.18,0.04,0.525],["knock",950,0.225,0.04,0.6],["knock",950,0.27,0.04,0.44999999999999996],["knock",950,0.315,0.04,0.525],["knock",950,0.36,0.04,0.6],["knock",950,0.405,0.04,0.44999999999999996],["knock",950,0.45,0.04,0.525],["knock",950,0.495,0.04,0.6],["tweet",[2800,2300],0.8,0.15,0.35],["tweet",[2800,2300],1.0,0.15,0.35],["knock",950,1.45,0.04,0.44999999999999996],["knock",950,1.495,0.04,0.525],["knock",950,1.54,0.04,0.6],["knock",950,1.585,0.04,0.44999999999999996],["knock",950,1.63,0.04,0.525],["knock",950,1.675,0.04,0.6],["knock",950,1.72,0.04,0.44999999999999996],["knock",950,1.765,0.04,0.525],["knock",950,1.81,0.04,0.6],["knock",950,1.855,0.04,0.44999999999999996]]}]};
   var ctx = null, started = 0, bufs = {}, playing = [], current = '';
   function $(id) { return document.getElementById(id); }
   function say(text) { $('info').firstChild.nodeValue = text; }
@@ -62,20 +61,33 @@
   function find(id) { var i; for (i = 0; i < SPEC.sounds.length; i++) { if (SPEC.sounds[i].id === id) { return SPEC.sounds[i]; } } return null; }
   // One round of a sound as a list of numbers, at the speed the sound system runs at.
   function render(sound, rate) {
-    var notes = sound.notes, len = 0, peak = 1e-9, out, i, j, k, n, v, parts, f0, f1, dur, vol, first, count, t, env, phase, x;
+    var notes = sound.notes, len = 0, peak = 1e-9, soften = 1 - Math.exp(-2 * Math.PI * 500 / rate);
+    var out, i, j, k, n, v, parts, f0, f1, dur, vol, first, count, t, env, phase, x, seed, prev, low, r;
     for (i = 0; i < notes.length; i++) { len = Math.max(len, notes[i][2] + notes[i][3]); }
     out = new Float32Array(Math.floor((len + 0.05) * rate));
     for (i = 0; i < notes.length; i++) {
-      n = notes[i]; v = SPEC.voices[n[0]]; parts = v.parts;
+      n = notes[i]; v = SPEC.voices[n[0]];
       f0 = typeof n[1] === 'number' ? n[1] : n[1][0];
       f1 = typeof n[1] === 'number' ? n[1] : n[1][1];
       dur = n[3]; vol = n[4]; first = Math.floor(n[2] * rate); count = Math.floor(dur * rate);
+      parts = [];
+      for (j = 0; v.parts && j < v.parts.length; j++) { if (Math.max(f0, f1) * v.parts[j][0] < 0.45 * rate) { parts.push(v.parts[j]); } }   // leave out tones too high to play cleanly
+      seed = 12345 + i * 7919; prev = 0; low = 0;
       for (k = 0; k < count && first + k < out.length; k++) {
         t = k / rate;
         env = Math.min(1, t / v.attack) * Math.exp(-v.decay * t) * Math.min(1, (dur - t) / 0.012);   // fade in, ring down, fade out
-        phase = 2 * Math.PI * (f0 * t + (f1 - f0) * t * t / (2 * dur));
-        x = 0;
-        for (j = 0; j < parts.length; j++) { x += parts[j][1] * Math.sin(phase * parts[j][0]); }
+        if (v.am) { env *= 1 - v.am[1] * 0.5 * (1 - Math.cos(2 * Math.PI * v.am[0] * t)); }           // a fast flutter
+        if (v.noise) {
+          seed = (seed * 16807) % 2147483647;
+          r = seed / 2147483647 * 2 - 1;
+          if (v.noise === 'high') { x = (r - prev) * 0.7; prev = r; }
+          else if (v.noise === 'low') { low += soften * (r - low); x = low * 6; }
+          else { x = r; }
+        } else {
+          phase = 2 * Math.PI * (f0 * t + (f1 - f0) * t * t / (2 * dur));
+          x = 0;
+          for (j = 0; j < parts.length; j++) { x += parts[j][1] * Math.sin(phase * parts[j][0]); }
+        }
         out[first + k] += vol * env * x;
       }
     }
@@ -120,25 +132,6 @@
     mark(id);
     status(s.name + ' (ready in ' + took + ' ms)');
   }
-  // The way the wall makes its chime today, for comparison.
-  function playOld() {
-    var c = getCtx(), notes = [[659.3, 0, 0.9, 0.35], [880, 0.28, 0.9, 0.35], [1318.5, 0.56, 1.5, 0.3]], t0, i, n, o, g;
-    if (!c) { return; }
-    stop();
-    t0 = c.currentTime + 0.03;
-    for (i = 0; i < notes.length; i++) {
-      n = notes[i];
-      o = c.createOscillator(); g = c.createGain ? c.createGain() : c.createGainNode();
-      o.frequency.value = n[0]; o.connect(g); g.connect(c.destination);
-      g.gain.setValueAtTime(0.0001, t0 + n[1]);
-      g.gain.exponentialRampToValueAtTime(n[3], t0 + n[1] + 0.02);
-      g.gain.exponentialRampToValueAtTime(0.0001, t0 + n[1] + n[2]);
-      if (o.start) { o.start(t0 + n[1]); o.stop(t0 + n[1] + n[2] + 0.05); } else { o.noteOn(t0 + n[1]); o.noteOff(t0 + n[1] + n[2] + 0.05); }
-      playing.push(o);
-    }
-    mark('old');
-    status('Old chime');
-  }
   (function () {
     var list = $('list'), i, b, s;
     for (i = 0; i < SPEC.sounds.length; i++) {
@@ -151,8 +144,6 @@
       b.addEventListener('click', (function (id) { return function () { play(id); }; }(s.id)), false);
       list.appendChild(b);
     }
-    $('old').setAttribute('data-id', 'old');
-    $('old').addEventListener('click', playOld, false);
     $('stop').addEventListener('click', stop, false);
   }());
 }());

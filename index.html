@@ -838,6 +838,119 @@ body.dark .s-sw.on { background: #2fbf71; }
 body.dark .s-save { background: #24282d; color: #b3b8c0; }
 body.dark .s-save.saved { background: #143524; color: #b6f0c8; }
 body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #ffd7b0; }
+
+/* ==== Roomier layout: fewer things on the Home page and more space around them ==== */
+body.l-card #foot { display: none; }
+.x-daysb { margin-right: 8px; padding: 8px 15px; border-radius: 999px; background: #e4e6e0; color: #5d626b; font-size: 14px; font-weight: 700; cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); -webkit-transition: -webkit-transform 0.14s ease; transition: transform 0.14s ease; }
+.x-daysb.on { background: #14161a; color: #fff; }
+body.dark .x-daysb { background: #24282d; color: #b3b8c0; }
+body.dark .x-daysb.on { background: #f4f5f2; color: #14161a; }
+.x-right .k-chips { margin: 0 0 12px; }
+.x-page .x-card { margin-bottom: 16px; padding: 20px 22px 14px; }
+.x-col { margin-left: 16px; }
+.s-tile { margin-bottom: 16px; }
+.s-row { min-height: 54px; }
+.x-ct { margin-bottom: 12px; }
+@media (orientation: portrait) {
+  body.l-card #app { padding: 28px 28px 20px; }
+  .k-hero { margin-top: 22px; }
+  .k-day { margin-top: 18px; }
+  .x-tiles { margin-top: 18px; }
+  .x-tile { margin-left: 12px; padding: 14px 16px 13px; }
+  .k-sec { margin: 24px 4px 14px; }
+  .k-list { padding: 8px 18px; }
+  .k-row { padding: 12px 0; }
+  .x-nav { margin-top: 18px; }
+  .x-ban { margin-top: 16px; padding: 13px 18px; }
+  .x-ph { margin-top: 22px; }
+  .s-tile { padding: 18px; }
+}
+@media (orientation: landscape) {
+  body.l-card #app { padding: 18px 26px 14px; }
+  .x-cols { margin-top: 16px; }
+  .x-left { margin-right: 20px; }
+  .x-right .k-sec { margin: 4px 2px 12px; }
+  .x-right .k-row { padding: 9px 0; }
+  .x-left .x-tile { margin-top: 10px; padding: 10px 14px 9px; }
+  .x-left .x-tile:nth-child(odd) { margin-right: 10px; }
+  .x-nav { margin-top: 14px; }
+  .x-ban { margin-top: 12px; }
+}
+
+/* ==== Resting: when nobody has touched the screen for a while, nothing moves by itself ==== */
+html.idle .wx-rays, html.idle .wx-cloud, html.idle .wx-drop, html.idle .wx-bolt, html.idle .x-snow i, html.idle .x-dot.on, html.idle .k-ref.spin svg {
+  -webkit-animation: none !important; animation: none !important; }
+
+/* ==== Picture chooser in Settings ==== */
+.s-pics { display: -webkit-flex; display: flex; -webkit-flex-wrap: wrap; flex-wrap: wrap; margin: 0 -5px; }
+.s-pic { width: calc(33.333% - 10px); box-sizing: border-box; margin: 0 5px 10px; padding: 5px 5px 7px; border-radius: 16px; background: #f1f2ee; text-align: center; cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); -webkit-transition: -webkit-transform 0.14s ease; transition: transform 0.14s ease; }
+.s-pic.on { background: #14161a; color: #fff; }
+.s-pic span { display: block; margin-top: 5px; font-size: 13px; font-weight: 700; }
+.s-pict { position: relative; height: 62px; border-radius: 12px; overflow: hidden; }
+.s-pict svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.s-pict.s-daily { background: #dfe2db; color: #5d626b; font-size: 15px; font-weight: 800; line-height: 62px; letter-spacing: 1px; }
+body.dark .s-pic { background: #25292f; color: #d6d9de; }
+body.dark .s-pic.on { background: #f4f5f2; color: #14161a; }
+body.dark .s-pict.s-daily { background: #33383f; color: #b3b8c0; }
+
+/* ==== Looks. "Soft" is the original. The other three change the surfaces through a few values,
+        which are set here for light and for dark ("dk"). ==== */
+html.skin-clean { --bg: #ffffff; --surf: #ffffff; --surf-b: 1px solid #e0e3dc; --surf-sh: none; --rad: 18px; }
+html.skin-clean.dk { --bg: #0b0c0e; --surf: #0b0c0e; --surf-b: 1px solid #2c3036; }
+html.skin-bold { --bg: var(--sky1); --surf: #ffffff; --surf-b: 2.5px solid #14161a; --surf-sh: 4px 4px 0 #14161a; --rad: 12px; }
+html.skin-bold.dk { --bg: #101214; --surf: #1a1d21; --surf-b: 2.5px solid #f4f5f2; --surf-sh: 4px 4px 0 var(--acc); }
+html.skin-glass { --bg: linear-gradient(160deg, var(--sky0) 0%, var(--sky1) 55%, var(--acc) 135%); --surf: rgba(255,255,255,0.62); --surf-b: 1px solid rgba(255,255,255,0.8); --surf-sh: none; --rad: 26px; }
+html.skin-glass.dk { --bg: linear-gradient(160deg, var(--deep) 0%, #0f1113 72%); --surf: rgba(14,16,20,0.55); --surf-b: 1px solid rgba(255,255,255,0.13); }
+
+html.sk body.l-card #app { background: var(--bg); }
+html.sk .k-list:not(.x-page), html.sk .x-tile, html.sk .x-page .x-card, html.sk .k-cls, html.sk .s-tile, html.sk .k-cal, html.sk .k-year {
+  background: var(--surf); border: var(--surf-b); box-shadow: var(--surf-sh); border-radius: var(--rad); }
+html.sk .k-clock, html.sk .k-mode, html.sk .s-back, html.sk .k-arrow { background: var(--surf); border: var(--surf-b); box-shadow: none; }
+html.sk .k-ref.x-small { border: 0; }
+html.sk .k-cls.now { background: #14161a; border-color: #14161a; color: #fff; }
+html.sk.dk .k-cls.now { background: #f4f5f2; border-color: #f4f5f2; color: #14161a; }
+
+html.skin-clean .k-hero { border-radius: 22px; box-shadow: none; }
+html.skin-clean .k-hello { font-weight: 600; letter-spacing: -0.8px; }
+html.skin-clean .k-chip, html.skin-clean .x-daysb { background: transparent; border: 1px solid #d6d9d2; }
+html.skin-clean .k-chip.on, html.skin-clean .x-daysb.on { background: #14161a; border-color: #14161a; color: #fff; }
+html.skin-clean.dk .k-chip, html.skin-clean.dk .x-daysb { border-color: #2c3036; }
+html.skin-clean.dk .k-chip.on, html.skin-clean.dk .x-daysb.on { background: #f4f5f2; border-color: #f4f5f2; color: #14161a; }
+html.skin-clean .x-nav { box-shadow: none; }
+html.skin-clean .s-ic { border-radius: 50%; }
+
+html.skin-bold .k-hero { border-radius: 12px; border: 2.5px solid #14161a; box-shadow: 5px 5px 0 #14161a; }
+html.skin-bold.dk .k-hero { border-color: #f4f5f2; box-shadow: 5px 5px 0 var(--acc); }
+html.skin-bold .k-hello { font-size: 30px; font-weight: 800; letter-spacing: 0.3px; text-transform: uppercase; }
+html.skin-bold .k-sec b { font-size: 19px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+html.skin-bold .k-chip, html.skin-bold .x-btn, html.skin-bold .x-daysb { border: 2px solid #14161a; border-radius: 10px; background: #fff; color: #14161a; }
+html.skin-bold .k-chip.on, html.skin-bold .x-btn.on, html.skin-bold .x-btn.dark, html.skin-bold .x-daysb.on { background: var(--acc); color: #fff; }
+html.skin-bold.dk .k-chip, html.skin-bold.dk .x-btn, html.skin-bold.dk .x-daysb { border-color: #f4f5f2; background: transparent; color: #f4f5f2; }
+html.skin-bold.dk .k-chip.on, html.skin-bold.dk .x-btn.on, html.skin-bold.dk .x-btn.dark, html.skin-bold.dk .x-daysb.on { background: var(--acc); color: #fff; }
+html.skin-bold .k-clock, html.skin-bold .k-mode { border-radius: 12px; }
+html.skin-bold .k-tile, html.skin-bold .s-ic { border-radius: 8px; }
+html.skin-bold .k-time { border-radius: 8px; }
+html.skin-bold .x-nav { border-radius: 14px; }
+html.skin-bold .x-navp { border-radius: 9px; background: var(--orb); }
+html.skin-bold .x-navt.on { color: #14161a; }
+html.skin-bold .x-tb, html.skin-bold .k-t { font-weight: 800; }
+html.skin-bold .x-ban { border-radius: 10px; border: 2px solid #14161a; }
+html.skin-bold.dk .x-ban { border-color: #f4f5f2; }
+html.skin-bold .x-sheetb { border: 2.5px solid #14161a; }
+
+html.skin-glass .k-hero { border: 1px solid rgba(255,255,255,0.6); }
+html.skin-glass.dk .k-hero { border-color: rgba(255,255,255,0.14); }
+html.skin-glass .k-chip, html.skin-glass .x-daysb, html.skin-glass .x-ban.x-info { background: rgba(255,255,255,0.5); }
+html.skin-glass .k-chip.on, html.skin-glass .x-daysb.on { background: #14161a; }
+html.skin-glass.dk .k-chip, html.skin-glass.dk .x-daysb, html.skin-glass.dk .x-ban.x-info { background: rgba(255,255,255,0.1); }
+html.skin-glass.dk .k-chip.on, html.skin-glass.dk .x-daysb.on { background: #f4f5f2; }
+html.skin-glass .k-sub, html.skin-glass .k-sec span, html.skin-glass .k-dayl { color: rgba(20,22,26,0.62); }
+html.skin-glass.dk .k-sub, html.skin-glass.dk .k-sec span, html.skin-glass.dk .k-dayl { color: rgba(255,255,255,0.66); }
+html.skin-glass .k-row, html.skin-glass .s-row { border-top-color: rgba(20,22,26,0.08); }
+html.skin-glass.dk .k-row, html.skin-glass.dk .s-row { border-top-color: rgba(255,255,255,0.08); }
+html.skin-glass .x-nav { background: rgba(20,22,26,0.86); }
+html.skin-glass.dk .x-nav { background: rgba(14,16,20,0.7); border: 1px solid rgba(255,255,255,0.13); }
+.x-card > .k-seg.s-seg { display: -webkit-inline-flex; display: inline-flex; }
 </style>
 </head>
 <body>
@@ -1955,7 +2068,7 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
      ========================================================================== */
   var X = {
     course: '', detail: '', priv: false, done: {}, checks: {}, off: {}, audio: null,
-    conf: null, set: '', typed: 0, bypass: false, newAlbum: '', albumNote: '',
+    conf: null, set: '', typed: 0, bypass: false, newAlbum: '', albumNote: '', idle: true, days: false, ms: 0,
     timer: null, alarm: { ringing: false, rang: 0, since: 0, played: 0, gap: 2 },
     game: { cells: ['', '', '', '', '', '', '', '', ''], over: '' },
     frame: { at: 0, idx: -1, url: '', blob: false, busy: false }, checkDay: 0, motion: 'full', cal: 'month'
@@ -2174,7 +2287,12 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
     return !!(a && a !== document.body && /^(INPUT|SELECT|TEXTAREA)$/.test(a.tagName) && $('stage').contains(a));
   }
   var render0 = render;
-  render = function (force) { if (editing() && !X.bypass) { return; } render0(force); };
+  render = function (force) {
+    var t0 = new Date().getTime();
+    if (editing() && !X.bypass) { return; }
+    render0(force);
+    if (force === true) { X.ms = new Date().getTime() - t0; }
+  };
   function redrawNow() { X.bypass = true; render(true); X.bypass = false; }   // for things that must show at once
   function hm(text, fallback) { var r = /^(\d{1,2}):(\d{2})$/.exec(text || ''); return r ? (+r[1]) * 60 + (+r[2]) : fallback; }
   function minsOf(d) { return d.getHours() * 60 + d.getMinutes(); }
@@ -2289,9 +2407,9 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
     var want = cfg().theme || '', i;
     applyConf();
     nightHours();
-    document.documentElement.className = 'm-' + X.motion;
     applyLook0(now);
     if (want && !param('theme')) { for (i = 0; i < THEMES.length; i++) { if (THEMES[i].id === want) { theme = THEMES[i]; } } }
+    rootClass();
   };
   // Notes written for the wall ("!Bring gym clothes") get their own banner, so the line beside
   // the date only shows ordinary all-day entries such as "No school".
@@ -2492,7 +2610,7 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
   }
   function banners(now, m) {
     var out = [], today = ymd(now), mins = minsOf(now), notes = (data && data.notes) || [], rem = cfg().reminders || [];
-    var i, n, best, total, leave, wd, first, src, ahead = (data && data.ahead) || [];
+    var i, n, best, total, leave, wd, first, src, ahead = (data && data.ahead) || [], up = data ? parse(data.updated) : null;
     function add(id, kind, text, live) { if (!X.off[id + today]) { out.push({ id: id + today, kind: kind, text: text, live: live || '' }); } }
 
     if (X.timer && X.timer.done) { add('timer' + X.timer.end, 'go', X.timer.label + ' timer finished. Tap to clear.'); }
@@ -2500,6 +2618,8 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
     for (i = 0; i < notes.length; i++) {
       if (shown('bNote') && notes[i].date === today && /^(!|note:)/i.test(notes[i].title)) { add('note' + i, 'note', notes[i].title.replace(/^(!|note:)\s*/i, '')); }
     }
+    if (loadFailed) { add('net', 'warn', 'Cannot reach GitHub right now. Showing the last list.'); }
+    else if (up && now - up > STALE_MS) { add('old', 'warn', 'The due list is ' + Math.round((now - up) / 3600000) + ' hours old.'); }
     if (data && data.configError) { add('cfg', 'warn', data.configError); }
     for (i = 0; i < ahead.length; i++) {
       if (shown('bBday') && ahead[i].date === today && /birthday/i.test(ahead[i].title || '')) { add('bday' + i, 'note', 'Today: ' + ahead[i].title); }
@@ -2525,7 +2645,7 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
       for (i = 0; i < src.length; i++) { n = parse(src[i].start); if (!first && n && dayKey(n) === dayKey(addDays(now, 1))) { first = { title: src[i].title, start: n }; } }
       add('wind', 'info', 'Tomorrow: ' + (first ? first.title + ' at ' + fmtTime(first.start) : 'no classes') + ', ' + m.counts[1] + ' due.');
     }
-    return out.slice(0, 2);
+    return out.slice(0, 1);   // one at a time; tapping it away shows the next
   }
   function bannerFlags(now) {
     var mins = minsOf(now), rem = cfg().reminders || [], i, f = '';
@@ -2568,7 +2688,7 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
   var cardSignature0 = cardSignature;
   cardSignature = function (now) {
     return cardSignature0(now) + '|' + [ui.day, ui.date, ui.view, ui.item, ui.calY, ui.calM, X.course, X.detail, X.priv ? 1 : 0,
-      isLandscape() ? 'L' : 'P', morningClass(now) ? 'm' : '', bannerFlags(now), X.alarm.ringing ? 'r' : '', frameOn() ? 'f' : '', nasaOn() ? 'n' : '', X.motion, X.set, cfg().theme || '', cfg().name || '', X.frame.url ? 'u' : ''].join('|');
+      isLandscape() ? 'L' : 'P', morningClass(now) ? 'm' : '', bannerFlags(now), X.alarm.ringing ? 'r' : '', frameOn() ? 'f' : '', nasaOn() ? 'n' : '', X.motion, X.set, cfg().theme || '', cfg().name || '', X.frame.url ? 'u' : '', cfg().look || '', cfg().picture || '', X.days ? 'd' : '', loadFailed ? 'x' : ''].join('|');
   };
   var cardTick0 = cardTick;
   cardTick = function (now) {
@@ -2666,12 +2786,7 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
     if (still()) { go(); } else { setTimeout(go, ms); }
     return false;
   }
-  // Slow movement that carries on from where it was, even though the screen is rebuilt.
-  function drift(node) {
-    if (node.className.indexOf('a-drift') === -1) { node.className += ' a-drift'; }
-    node.style.webkitAnimationDelay = node.style.animationDelay = '-' + ((new Date().getTime() / 1000) % 90).toFixed(1) + 's';
-    return node;
-  }
+  function drift(node) { return node; }   // the picture used to move slowly all the time; it now stays still
   // Entrance animations start from invisible, so a moment later their classes are taken off again.
   // If an animation ever stalls (an app coming back from the background, say), everything still shows.
   var settleTimer = 0;
@@ -2704,9 +2819,9 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
         swapText(node, '0' + tail);
         timer = setInterval(function () {
           step++;
-          swapText(node, (step >= 14 ? to : Math.round(to * (1 - Math.pow(1 - step / 14, 3)))) + tail);
-          if (step >= 14) { clearInterval(timer); }
-        }, 36);
+          swapText(node, (step >= 8 ? to : Math.round(to * (1 - Math.pow(1 - step / 8, 3)))) + tail);
+          if (step >= 8) { clearInterval(timer); }
+        }, 50);
       }(nodes[i]));
     }
   }
@@ -3195,6 +3310,7 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
   }
   function setLook() {
     var a = card('Light and dark'), b = card('Colors'), c = card('Animations'), row = el('div', 'x-row'), cur = getv('theme', ''), i, sw, sc;
+    var d = card('Style'), e = card('Picture'), pics = el('div', 's-pics'), pic = getv('picture', '');
     kids(a, sSeg([['auto', 'Auto'], ['light', 'Light'], ['dark', 'Dark']], ui.mode, function (v) { ui.mode = v; setv('mode', v); A.view = ''; }),
       note('Auto is light by day and dark from 7 in the evening.'));
     row.appendChild(btn('A new one each day', !cur, function () { setv('theme', ''); }));
@@ -3206,8 +3322,27 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
         (function (id) { return function () { setv('theme', id); }; }(THEMES[i].id))));
     }
     b.appendChild(row);
-    kids(c, sSeg([['full', 'Full'], ['less', 'Fewer'], ['off', 'Off']], X.motion, setter('motion')), note('Choose Fewer or Off if the iPad feels slow.'));
-    return [W(a, 4), W(b, 6), W(c, 4)];
+    kids(c, sSeg([['full', 'Full'], ['less', 'Fewer'], ['off', 'Off']], X.motion, setter('motion')),
+      note('Animations only play when you touch the screen. Choose Fewer or Off if the iPad feels slow.'));
+    kids(d, sSeg(LOOKS, lookId(), function (v) { setv('look', v); A.view = ''; }),
+      note('Soft is rounded cards. Clean is flat with thin lines. Bold has thick outlines and hard shadows. Glass floats on a wash of the day\'s colors.'));
+    pics.appendChild(tap(kids(el('div', 's-pic' + (!pic ? ' on' : '')), el('div', 's-pict s-daily', '1 · 2 · 3'), el('span', '', 'New each day')), function () { setv('picture', ''); }));
+    for (i = 0; i < PICTURES.length; i++) {
+      pics.appendChild(tap(kids(el('div', 's-pic' + (pic === PICTURES[i][0] ? ' on' : '')), thumb(PICTURES[i][0]), el('span', '', PICTURES[i][1])),
+        (function (id) { return function () { setv('picture', id); }; }(PICTURES[i][0]))));
+    }
+    kids(e, pics, note('The drawing on the picture card. Its colors follow the color theme. Your photos or the NASA picture take its place when those are on.'));
+    return [W(d, 5), W(e, 9), W(a, 4), W(b, 6), W(c, 4)];
+  }
+  // Small versions of the drawings for the picture chooser, built once for each color theme.
+  var thumbKeep = {};
+  function thumb(kind) {
+    var key = kind + '/' + theme.id, n = thumbKeep[key];
+    if (!n) {
+      n = thumbKeep[key] = el('div', 's-pict');
+      n.innerHTML = kind === 'hills' ? sceneSvg0(theme.id, 20260101) : DRAW[kind](SCENES[theme.id] || SCENES.forest, rng(20260112));
+    }
+    return n;
   }
   function setNight() {
     var a = card('Night clock'), b = card('Evening'), on = getv('nightClock', true) !== false;
@@ -3308,6 +3443,7 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
   function setData(now) {
     var a = card('Due list'), b = card('Saving settings'), up = data ? parse(data.updated) : null;
     if (up) { a.appendChild(line('Last updated', (dayKey(up) === dayKey(now) ? '' : DSHORT[up.getDay()] + ' ') + fmtTime(up))); }
+    a.appendChild(line('Last redraw took', X.ms + ' ms'));
     kids(a, btn('Check for new data', false, function () { refreshing = true; load(); loadConfig(); }),
       btn('Run the updater now', false, function () { store.note = 'Asking GitHub…'; nudgeUpdater(true, true); }),
       store.note ? note(store.note) : null,
@@ -3472,7 +3608,7 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
     var opened = view === 'more' && A.view === 'more' && A.set !== X.set;   // moved into or out of a Settings area
     var listKey = '', heroKey = '', calKey = 0, seen = {}, mode, sheet, pg, node, grid, cells, h;
 
-    if (!ui.touched) { X.course = ''; X.detail = ''; X.set = ''; }   // the idle reset also clears these
+    if (!ui.touched) { X.course = ''; X.detail = ''; X.set = ''; X.days = false; }   // the idle reset also clears these
     if (view !== 'more') { X.set = ''; }
     if (opened) { fresh = true; dir = X.set ? 1 : -1; }
     if (X.checkDay !== dayKey(now)) { X.checks = {}; X.checkDay = dayKey(now); }   // the checklist clears itself each day
@@ -3501,7 +3637,6 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
       kids(el('div', 'k-right'),
         iconBtn('', X.priv ? XI.eyeOff : XI.eye, function () { X.priv = !X.priv; X.detail = ''; }),
         iconBtn(refreshing ? 'spin' : '', REFRESH_ICON, function () { refreshing = true; load(); }),
-        mode,
         kids(el('div', 'k-clock'), el('span', '', clockText(now)), el('small', '', ampmText(now))))));
 
     // Privacy curtain: only the greeting, the clock and the picture
@@ -3559,13 +3694,18 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
         chip.appendChild(row);
       }
       if (!fresh && !still() && sel !== A.sel) { node = chip.querySelector('.on'); if (node) { node.className += ' a-pop'; } }
-      right.appendChild(chip);
       right.appendChild(kids(el('div', 'k-sec'),
         kids(el('div'),
           el('b', '', X.course ? X.course : (!sel ? 'Coming up' : dayName + ', ' + MONTHS[dayDate.getMonth()] + ' ' + dayDate.getDate())),
           X.course ? tap(el('span', 'x-clear', 'Show all'), function () { X.course = ''; ui.scroll = 0; })
                    : el('span', '', !sel ? m.all.length + ' this week' : list.length + ' due')),
-        kids(el('div', 'x-secr'), shown('speak') ? iconBtn('x-small', XI.speak, function () { speakToday(new Date(), m); }) : null)));
+        kids(el('div', 'x-secr'),
+          tap(el('div', 'x-daysb' + ((X.days || sel) ? ' on' : ''), 'Days'), function () {
+            X.days = !(X.days || sel);
+            if (!X.days) { ui.day = -1; ui.date = 0; ui.item = ''; ui.scroll = 0; }
+          }),
+          shown('speak') ? iconBtn('x-small', XI.speak, function () { speakToday(new Date(), m); }) : null)));
+      if (X.days || sel) { right.appendChild(chip); }   // the row of days stays out of the way until asked for
 
       box = el('div', 'k-list');
       listKey = [sel, X.course, data ? 1 : 0].join('|');
@@ -3575,7 +3715,7 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
         if (shown('tests') && isTest(list[i])) { row.insertBefore(el('span', 'x-test', 'Test'), row.lastChild); }
         if (X.done[key]) { row.className += ' x-done'; }
         if (list[i] === hit) { row.className += ' sel'; selRow = row; }
-        if ((fresh || listKey !== A.list) && i < 9) { stagger(row, 'a-rise', i + 1); }
+        if ((fresh || listKey !== A.list) && i < 6) { stagger(row, 'a-rise', i + 1); }
         box.appendChild(row);
       }
       if (!list.length) { box.appendChild(el('div', 'k-row k-more', X.course ? 'Nothing due for this course' : (!sel ? 'Nothing due this week' : 'Nothing due this day'))); }
@@ -3659,6 +3799,203 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
     cardSig = cardSignature(now);
   };
 
+  /* ---- Pictures: eight different drawings for the picture card. The colors still come from the
+         color theme, so every drawing exists in every color. With no picture chosen, a different
+         one is used each day. They are plain drawings (nothing moves), which keeps the iPad quick. ---- */
+  var PICTURES = [['hills', 'Hills'], ['peaks', 'Peaks'], ['ocean', 'Ocean'], ['city', 'City'], ['desert', 'Desert'],
+    ['space', 'Space'], ['forest', 'Forest'], ['shapes', 'Shapes']];
+  function pictureKind(seed) {
+    var want = cfg().picture || '', i;
+    for (i = 0; i < PICTURES.length; i++) { if (PICTURES[i][0] === want) { return want; } }
+    return PICTURES[seed % PICTURES.length][0];
+  }
+  function R(n) { return Math.round(n); }
+  function svgOpen(top, bottom) {
+    var id = 'g' + (top + bottom).replace(/[^0-9a-z]/gi, '');   // named after its colors, so the same wash is shared
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 262" preserveAspectRatio="xMidYMid slice"><defs>' +
+      '<linearGradient id="' + id + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + top + '"/><stop offset="1" stop-color="' + bottom +
+      '"/></linearGradient></defs><rect width="720" height="262" fill="url(#' + id + ')"/>';
+  }
+  function svgStars(rand, n, maxY) {
+    var s = '', i;
+    for (i = 0; i < n; i++) {
+      s += '<circle cx="' + R(rand() * 720) + '" cy="' + R(rand() * maxY) + '" r="' + (0.6 + rand() * 1.5).toFixed(1) + '" fill="#fff" opacity="' +
+        (0.35 + rand() * 0.65).toFixed(2) + '"/>';
+    }
+    return s;
+  }
+  function svgOrb(sc, x, y, r) {
+    return '<circle cx="' + x + '" cy="' + y + '" r="' + R(r * 1.7) + '" fill="' + sc.orb + '" opacity="0.25"/><circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="' + sc.orb + '"/>';
+  }
+  // A line of ground from one side to the other: rolling when smooth, jagged when not.
+  function svgRidge(rand, base, tall, step, smooth, fill) {
+    var x = -30, y = base - rand() * tall, d = 'M-30,262 L-30,' + R(y), px, py;
+    while (x < 750) {
+      px = x; py = y;
+      x += step * (0.6 + rand() * 0.8); y = base - rand() * tall;
+      d += smooth ? ' Q' + R(px + (x - px) / 2) + ',' + R(Math.min(py, y) - 14) + ' ' + R(x) + ',' + R(y) : ' L' + R(x) + ',' + R(y);
+    }
+    return '<path d="' + d + ' L750,262 Z" fill="' + fill + '"/>';
+  }
+  function svgPines(rand, base, tall, step, fill) {
+    var s = '', x = -10, h, w;
+    while (x < 740) {
+      h = tall * (0.6 + rand() * 0.6); w = h * 0.3;
+      s += 'M' + R(x) + ',' + R(base - h) + ' l-' + R(w * 0.7) + ',' + R(h * 0.45) + ' h' + R(w * 1.4) + ' z M' + R(x) + ',' + R(base - h * 0.72) +
+           ' l-' + R(w) + ',' + R(h * 0.72) + ' h' + R(w * 2) + ' z ';
+      x += step * (0.7 + rand() * 0.6);
+    }
+    return '<path d="' + s + '" fill="' + fill + '"/>';
+  }
+  var DRAW = {
+    peaks: function (sc, rand) {
+      var s = svgOpen(sc.sky[0], sc.sky[1]) + (sc.stars ? svgStars(rand, 40, 140) : '') + svgOrb(sc, R(120 + rand() * 480), R(52 + rand() * 30), 30);
+      var k, x, w, h, base, d, caps;
+      for (k = 0; k < 2; k++) {
+        x = -60; base = k ? 222 : 206; d = 'M-60,262 L-60,' + base; caps = '';
+        while (x < 760) {
+          w = (k ? 62 : 96) * (0.7 + rand() * 0.6); h = (k ? 92 : 156) * (0.62 + rand() * 0.45);
+          d += ' L' + R(x) + ',' + base + ' L' + R(x + w) + ',' + R(base - h);
+          if (!k) {
+            caps += '<path d="M' + R(x + w) + ',' + R(base - h) + ' L' + R(x + w * 0.78) + ',' + R(base - h * 0.78) + ' l' + R(w * 0.11) + ',-5 l' + R(w * 0.11) + ',8 l' +
+              R(w * 0.11) + ',-8 l' + R(w * 0.11) + ',5 Z" fill="#fff" opacity="0.92"/>';
+          }
+          x += w * 2;
+        }
+        s += '<path d="' + d + ' L' + R(x) + ',' + base + ' L760,262 Z" fill="' + sc.l[k] + '"/>' + caps;
+      }
+      return s + '<rect y="232" width="720" height="30" fill="' + sc.l[2] + '"/>' + svgPines(rand, 250, 42, 30, sc.l[3]) + '</svg>';
+    },
+    ocean: function (sc, rand) {
+      var cx = R(180 + rand() * 360), s = svgOpen(sc.sky[0], sc.sky[1]) + (sc.stars ? svgStars(rand, 40, 120) : '') + svgOrb(sc, cx, 150, 50), i, j, d, bx;
+      for (i = 0; i < 4; i++) {
+        d = 'M' + R(-80 - rand() * 60) + ',' + (152 + i * 27);
+        for (j = 0; j < 8; j++) { d += ' q30,' + (-9 + i) + ' 60,0 t60,0'; }
+        s += '<path d="' + d + ' V262 H-140 Z" fill="' + sc.l[i] + '"/>';
+        if (i === 0) {
+          for (j = 0; j < 3; j++) { s += '<rect x="' + (cx - 38 + j * 9) + '" y="' + (163 + j * 9) + '" width="' + (76 - j * 18) + '" height="3" rx="1.5" fill="' + sc.orb + '" opacity="0.55"/>'; }
+          bx = cx > 360 ? cx - 190 : cx + 190;
+          s += '<path d="M' + (bx - 24) + ',172 h48 l-9,11 h-30 z" fill="#fff"/><path d="M' + bx + ',168 v-42 l24,42 z" fill="#fff" opacity="0.95"/><path d="M' + (bx - 4) + ',168 v-30 l-17,30 z" fill="#fff" opacity="0.8"/>';
+        }
+      }
+      return s + '</svg>';
+    },
+    city: function (sc, rand) {
+      var s = svgOpen(sc.sky[0], sc.sky[1]) + (sc.stars ? svgStars(rand, 40, 110) : '') + svgOrb(sc, R(110 + rand() * 500), R(54 + rand() * 30), 30);
+      var k, x, w, h, i, j, tall = [150, 112, 74];
+      for (k = 0; k < 3; k++) {
+        x = -12;
+        while (x < 730) {
+          w = R(30 + rand() * 38); h = R(tall[k] * (0.55 + rand() * 0.6));
+          s += '<rect x="' + x + '" y="' + (262 - h) + '" width="' + w + '" height="' + h + '" fill="' + sc.l[k + 1] + '"/>';
+          if (k > 0) {
+            for (i = 0; i < 3; i++) {
+              for (j = 0; j < Math.min(5, Math.floor((h - 12) / 16)); j++) {
+                if (rand() > 0.5) { s += '<rect x="' + (x + 6 + i * R((w - 12) / 3)) + '" y="' + (262 - h + 9 + j * 16) + '" width="5" height="8" fill="' + sc.orb + '" opacity="0.85"/>'; }
+              }
+            }
+          }
+          x += w + R(rand() * 7);
+        }
+      }
+      return s + '</svg>';
+    },
+    desert: function (sc, rand) {
+      var s = svgOpen(sc.sky[0], sc.sky[1]) + (sc.stars ? svgStars(rand, 40, 120) : '') + svgOrb(sc, R(430 + rand() * 200), R(96 + rand() * 30), 50), i, x, y;
+      s += svgRidge(rand, 190, 46, 190, true, sc.l[0]) + svgRidge(rand, 216, 34, 210, true, sc.l[1]) + svgRidge(rand, 244, 22, 230, true, sc.l[2]);
+      for (i = 0; i < 3; i++) {
+        x = R(60 + i * 250 + rand() * 120); y = R(236 + rand() * 12);
+        s += '<path d="M' + x + ',' + y + ' v-48 M' + (x - 15) + ',' + (y - 20) + ' v-10 q0,-9 9,-9 h6 M' + (x + 15) + ',' + (y - 12) + ' v-14 q0,-9 -9,-9 h-6" stroke="' + sc.l[3] +
+          '" stroke-width="9" stroke-linecap="round" fill="none"/>';
+      }
+      for (i = 0; i < 3; i++) {
+        x = R(80 + rand() * 300); y = R(36 + rand() * 50);
+        s += '<path d="M' + x + ',' + y + ' q6,-7 12,0 q6,-7 12,0" stroke="' + sc.l[3] + '" stroke-width="2.2" stroke-linecap="round" fill="none"/>';
+      }
+      return s + '</svg>';
+    },
+    space: function (sc, rand) {
+      var px = R(440 + rand() * 170), py = R(96 + rand() * 30), mx = R(110 + rand() * 150), my = R(60 + rand() * 50), i;
+      var s = svgOpen(sc.l[3], sc.l[2]) + svgStars(rand, 80, 262);
+      s += '<circle cx="' + px + '" cy="' + py + '" r="54" fill="' + sc.orb + '"/><circle cx="' + (px + 14) + '" cy="' + (py + 12) + '" r="50" fill="' + sc.l[1] + '" opacity="0.22"/>' +
+        '<ellipse cx="' + px + '" cy="' + py + '" rx="96" ry="17" fill="none" stroke="' + sc.sky[1] + '" stroke-width="7" opacity="0.9" transform="rotate(-18 ' + px + ' ' + py + ')"/>' +
+        '<circle cx="' + mx + '" cy="' + my + '" r="22" fill="' + sc.l[0] + '"/><circle cx="' + (mx - 7) + '" cy="' + (my - 5) + '" r="5" fill="' + sc.l[1] + '" opacity="0.6"/>' +
+        '<circle cx="' + (mx + 8) + '" cy="' + (my + 7) + '" r="3.5" fill="' + sc.l[1] + '" opacity="0.6"/>' +
+        '<path d="M-20,262 Q360,176 740,262 Z" fill="' + sc.l[1] + '"/>';
+      for (i = 0; i < 5; i++) {
+        s += '<ellipse cx="' + R(120 + i * 120 + rand() * 60) + '" cy="' + R(238 + rand() * 16) + '" rx="' + R(14 + rand() * 16) + '" ry="5" fill="' + sc.l[2] + '" opacity="0.8"/>';
+      }
+      return s + '<path d="M' + R(250 + rand() * 80) + ',34 l46,18" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.7"/></svg>';
+    },
+    forest: function (sc, rand) {
+      return svgOpen(sc.sky[0], sc.sky[1]) + (sc.stars ? svgStars(rand, 40, 130) : '') + svgOrb(sc, R(120 + rand() * 480), R(56 + rand() * 34), 32) +
+        svgRidge(rand, 170, 60, 150, true, sc.l[0]) + svgPines(rand, 212, 74, 30, sc.l[1]) + '<rect y="208" width="720" height="54" fill="' + sc.l[1] + '"/>' +
+        svgPines(rand, 240, 96, 42, sc.l[2]) + '<rect y="236" width="720" height="26" fill="' + sc.l[2] + '"/>' + svgPines(rand, 272, 128, 58, sc.l[3]) + '</svg>';
+    },
+    shapes: function (sc, rand) {
+      var s = svgOpen(sc.sky[1], sc.sky[0]), i, x, y;
+      s += '<circle cx="' + R(90 + rand() * 120) + '" cy="' + R(190 + rand() * 40) + '" r="118" fill="' + sc.l[1] + '"/>' +
+        '<path d="M' + R(330 + rand() * 60) + ',262 a96,96 0 0 1 192,0 z" fill="' + sc.orb + '"/>' +
+        '<path d="M' + R(520 + rand() * 60) + ',40 l96,150 h-192 z" fill="' + sc.l[2] + '" opacity="0.92"/>' +
+        '<circle cx="' + R(300 + rand() * 80) + '" cy="' + R(60 + rand() * 30) + '" r="34" fill="none" stroke="' + sc.l[3] + '" stroke-width="12"/>' +
+        '<rect x="' + R(600 + rand() * 40) + '" y="188" width="150" height="16" fill="' + sc.l[3] + '"/><rect x="' + R(620 + rand() * 40) + '" y="214" width="150" height="16" fill="' + sc.l[0] + '"/>';
+      x = R(420 + rand() * 40); y = R(40 + rand() * 20);
+      for (i = 0; i < 15; i++) { s += '<circle cx="' + (x + (i % 5) * 16) + '" cy="' + (y + Math.floor(i / 5) * 16) + '" r="3.5" fill="' + sc.l[3] + '"/>'; }
+      x = R(30 + rand() * 60);
+      return s + '<path d="M' + x + ',44 l18,-16 l18,16 l18,-16 l18,16 l18,-16 l18,16" fill="none" stroke="' + sc.l[2] + '" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    }
+  };
+  var sceneSvg0 = sceneSvg, pictureKeep = { key: '', svg: '' };
+  sceneSvg = function (themeId, seed) {
+    var kind = pictureKind(seed), key = kind + '/' + themeId + '/' + seed;
+    if (kind === 'hills' || !DRAW[kind]) { return sceneSvg0(themeId, seed); }
+    if (pictureKeep.key !== key) { pictureKeep = { key: key, svg: DRAW[kind](SCENES[themeId] || SCENES.forest, rng(seed + 11)) }; }
+    return pictureKeep.svg;
+  };
+  // The drawing is built once and the same element is put back on every redraw.
+  var nodeKeep = { key: '', node: null };
+  sceneNode = function (themeId, seed) {
+    var key = pictureKind(seed) + '/' + themeId + '/' + seed;
+    if (nodeKeep.key !== key || !nodeKeep.node) {
+      nodeKeep = { key: key, node: el('div', 'k-art') };
+      nodeKeep.node.innerHTML = sceneSvg(themeId, seed);
+    }
+    return nodeKeep.node;
+  };
+
+  /* ---- Looks: four different styles for the whole screen, set as a class on the page so the
+         style sheet does the rest. The page also carries whether it is resting (nobody has touched
+         it for a while): while resting, nothing on screen moves except the clock and a running
+         timer, which change once a second at most. ---- */
+  var LOOKS = [['soft', 'Soft'], ['clean', 'Clean'], ['bold', 'Bold'], ['glass', 'Glass']];
+  function lookId() {
+    var want = cfg().look || 'soft', i;
+    for (i = 0; i < LOOKS.length; i++) { if (LOOKS[i][0] === want) { return want; } }
+    return 'soft';
+  }
+  var rootKeep = '';
+  function rootClass() {
+    var look = lookId(), sc = SCENES[theme.id] || SCENES.forest, st = document.documentElement.style;
+    var cls = 'm-' + X.motion + ' skin-' + look + (look !== 'soft' ? ' sk' : '') + (isDark(new Date()) ? ' dk' : '') + (X.idle ? ' idle' : '');
+    if (cls + '/' + theme.id === rootKeep) { return; }
+    rootKeep = cls + '/' + theme.id;
+    document.documentElement.className = cls;
+    st.setProperty('--acc', sc.l[1]); st.setProperty('--acc2', sc.l[2]); st.setProperty('--deep', sc.l[3]);
+    st.setProperty('--sky0', sc.sky[0]); st.setProperty('--sky1', sc.sky[1]); st.setProperty('--orb', sc.orb);
+  }
+  function wake() { if (X.idle) { X.idle = false; rootClass(); } }
+  document.addEventListener('touchstart', wake, true);
+  document.addEventListener('mousedown', wake, true);
+
+  /* ---- Less work for the iPad: the sorted list of what is due is worked out once a minute (or when
+         new data arrives) instead of on every tap. ---- */
+  var model0 = model, modelKeep = { data: null, minute: 0, out: null };
+  model = function (now) {
+    var minute = Math.floor(now.getTime() / 60000);
+    if (!modelKeep.out || modelKeep.data !== data || modelKeep.minute !== minute) { modelKeep = { data: data, minute: minute, out: model0(now) }; }
+    return modelKeep.out;
+  };
+
   /* ---- Night clock: add the moon, sunrise when known, and a line for tomorrow ---- */
   var night0 = ALT.night;
   ALT.night = function (now, m) {
@@ -3675,7 +4012,8 @@ body.dark .s-save.local, body.dark .s-save.error { background: #4a2a12; color: #
 
   /* ---- Once a second: the timer, the alarm and the photo frame ---- */
   setInterval(function () {
-    var t = X.timer, now = new Date(), nodes, i, ring;
+    var t = X.timer, now = new Date(), nodes, i, ring, rest = !ui.touched || now.getTime() - ui.touched > 15000;
+    if (rest !== X.idle) { X.idle = rest; rootClass(); }
     if (t && !t.done) {
       if (now.getTime() >= t.end) { t.done = true; beep(4); ui.touched = now.getTime(); redrawNow(); }
       else {

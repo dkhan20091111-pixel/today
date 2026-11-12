@@ -2277,43 +2277,63 @@ html.skin-bold.dk .x-playb { border-color: #f4f5f2; }
 
   /* ---- Taps. One listener for the whole screen finds what was touched and runs what that thing
          does. The thing under the finger presses in while it is held, and a handler can return false
-         to say it will redraw the screen itself (after an animation). ---- */
+         to say it will redraw the screen itself (after an animation).
+         Inside a game it works differently, because a game is tapped quickly and often: the move
+         happens the moment the finger lands rather than when it lifts, the finger may slide without
+         the tap being lost, and only the game is redrawn, not the page behind it. ---- */
   tap = function (node, fn) { node._fn = fn; return node; };
   (function () {
-    var st = $('stage'), sx = 0, sy = 0, t0 = 0, handled = 0, held = null;
+    var st = $('stage'), sx = 0, sy = 0, t0 = 0, handled = 0, held = null, early = {};
     function target(n) { while (n && n !== st) { if (n._fn) { return n; } n = n.parentNode; } return null; }
+    function inGame(n) {
+      while (n && n !== st) { if (typeof n.className === 'string' && /(^| )x-playb( |$)/.test(n.className)) { return true; } n = n.parentNode; }
+      return false;
+    }
     function lift() { if (held) { held.className = held.className.replace(/ ?x-press/g, ''); held = null; } }
-    function run(node) {
+    function press(n) { if (n && typeof n.className === 'string') { held = n; if (n.className.indexOf('x-press') === -1) { n.className += ' x-press'; } } }
+    function run(node, game) {
       ui.touched = new Date().getTime();
+      if (game) { X.playAt = ui.touched; }
       if (editing()) { document.activeElement.blur(); }   // finish typing first, so what was typed is kept
       armAudio();                                         // sound may only start after a tap, so every tap enables it
       X.peek = false;                                     // any touch ends a preview of the night screen
-      if (node._fn.call(node) !== false) { X.bypass = true; render(true); X.bypass = false; }   // a tap always redraws
+      if (node._fn.call(node) === false) { return; }      // it will redraw by itself
+      if (game && gmDraw()) { return; }                   // a move in a game redraws the game and nothing else
+      X.bypass = true; render(true); X.bypass = false;    // any other tap redraws the screen
     }
     st.addEventListener('touchstart', function (e) {
-      var t = e.touches[0], n = target(e.target);
-      sx = t.clientX; sy = t.clientY; t0 = new Date().getTime();
+      var t = e.changedTouches[0], n = target(e.target);
       lift();
-      if (n && typeof n.className === 'string') { held = n; if (n.className.indexOf('x-press') === -1) { n.className += ' x-press'; } }
+      if (n && inGame(e.target)) {
+        early[t.identifier] = 1; handled = new Date().getTime();
+        e.preventDefault();                     // no scrolling, no zooming, and no second "click" for this touch
+        run(n, true);
+        if (st.contains(n)) { press(n); }       // stays pressed in until the finger lifts
+        return;
+      }
+      sx = t.clientX; sy = t.clientY; t0 = new Date().getTime();
+      press(n);
     }, false);
     st.addEventListener('touchmove', function (e) {
-      var t = e.touches[0];
-      if (Math.abs(t.clientX - sx) > 10 || Math.abs(t.clientY - sy) > 10) { lift(); }
+      var t = e.changedTouches[0];
+      if (!early[t.identifier] && (Math.abs(t.clientX - sx) > 14 || Math.abs(t.clientY - sy) > 14)) { lift(); }
     }, false);
-    st.addEventListener('touchcancel', lift, false);
+    st.addEventListener('touchcancel', function (e) { delete early[e.changedTouches[0].identifier]; lift(); }, false);
     st.addEventListener('touchend', function (e) {
-      var t = e.changedTouches[0], at = new Date().getTime(), n = target(e.target);
+      var t = e.changedTouches[0], at = new Date().getTime(), n;
       lift();
-      if (!n || Math.abs(t.clientX - sx) > 10 || Math.abs(t.clientY - sy) > 10 || at - t0 > 600) { return; }
+      if (early[t.identifier]) { delete early[t.identifier]; handled = at; e.preventDefault(); return; }   // done when the finger landed
+      n = target(e.target);
+      if (!n || Math.abs(t.clientX - sx) > 14 || Math.abs(t.clientY - sy) > 14 || at - t0 > 600) { return; }
       if (at - ui.scrolled < 350) { return; }   // that touch only stopped a moving list
       handled = at;
       e.preventDefault();
-      run(n);
+      run(n, false);
     }, false);
     st.addEventListener('click', function (e) {
       var n = target(e.target);
       if (!n || new Date().getTime() - handled < 700) { return; }   // nothing there, or already handled as a touch
-      run(n);
+      run(n, inGame(e.target));
     }, false);
   }());
 
@@ -3149,7 +3169,7 @@ html.skin-bold.dk .x-playb { border-color: #f4f5f2; }
     'rocket sailor sandwich science shadow shield signal sketch spirit square summer theory thirty thunder trumpet turtle twelve victory violin ' +
     'volcano voyage weekend whisper window wisdom wizard yellow').split(' ');
   var GMAKE = {}, GDRAW = {};
-  X.play = ''; X.gs = {}; X.gnew = '';
+  X.play = ''; X.gs = {}; X.gnew = ''; X.playAt = 0;
 
   function gameInfo(id) { var i; for (i = 0; i < GAMES.length; i++) { if (GAMES[i].id === id) { return GAMES[i]; } } return null; }
   function gstats() { var s = getv('games', null); return (s && typeof s === 'object') ? s : {}; }
@@ -3188,9 +3208,21 @@ html.skin-bold.dk .x-playb { border-color: #f4f5f2; }
     for (i = 0; i < g.timers.length; i++) { clearTimeout(g.timers[i]); }
     g.timers = [];
     if (g.phase === 'show') { g.phase = 'ready'; }
+    if (g.lit !== undefined) { g.lit = -1; }
   }
   function gmLater(g, ms, fn) { g.timers.push(setTimeout(fn, ms)); }
-  function gmRedraw(id) { if (X.play === id && layout === 'card' && !editing()) { redrawNow(); } }
+  // Redraw only the open game, in place. The page behind it is left alone, which keeps a move quick.
+  function gmDraw() {
+    var live = document.querySelector('.x-play'), next;
+    if (!X.play || !live || layout !== 'card') { return false; }
+    next = playSheet();
+    if (!next) { return false; }
+    patch(live.parentNode, live, next);
+    A.cells = X.game.cells.join(',');
+    settleSoon();
+    return true;
+  }
+  function gmRedraw(id) { if (X.play === id) { gmDraw(); } }
   // With no seed this is today's puzzle; with one, that exact puzzle again or a different one.
   function gmNew(id, seed) {
     var sd = seed === undefined ? gmSeed(id) : seed, g;
@@ -3200,8 +3232,8 @@ html.skin-bold.dk .x-playb { border-color: #f4f5f2; }
     X.gs[id] = g; X.gnew = '';
     return g;
   }
-  function gmState(id) { var g = X.gs[id]; return (g && g.day === dayKey(new Date())) ? g : gmNew(id); }
-  function gmOpen(id) { return function () { X.play = id; X.gnew = ''; }; }
+  function gmState(id) { var g = X.gs[id]; return (g && (g.day === dayKey(new Date()) || X.play === id)) ? g : gmNew(id); }
+  function gmOpen(id) { return function () { X.play = id; X.gnew = ''; X.playAt = new Date().getTime(); }; }
   function gmClose() {
     var open = document.querySelector('.x-play');
     gmStop(X.gs[X.play]);
@@ -3423,18 +3455,22 @@ html.skin-bold.dk .x-playb { border-color: #f4f5f2; }
   GMAKE.echo = function (rand) {
     var seq = [], i;
     for (i = 0; i < 40; i++) { seq.push(gmPick(rand, 9)); }
-    return { seq: seq, len: 1, at: 0, phase: 'ready', score: 0, miss: -1, over: false };
+    return { seq: seq, len: 1, at: 0, phase: 'ready', score: 0, miss: -1, lit: -1, over: false };
   };
-  function echoLight(p, on) {
-    return function () { var pads = document.querySelectorAll('.gm-pad'); if (pads[p]) { pads[p].className = on ? 'gm-pad lit' : 'gm-pad'; } };
+  function echoLight(g, p, on) {
+    return function () {
+      var pads = document.querySelectorAll('.gm-pad');
+      g.lit = on ? p : -1;
+      if (pads[p]) { pads[p].className = on ? 'gm-pad lit' : 'gm-pad'; }
+    };
   }
   function echoShow(g) {
     var i;
     gmStop(g);
     g.phase = 'show'; g.at = 0;
     for (i = 0; i < g.len; i++) {
-      gmLater(g, 700 + i * 600, echoLight(g.seq[i], true));
-      gmLater(g, 700 + i * 600 + 400, echoLight(g.seq[i], false));
+      gmLater(g, 700 + i * 600, echoLight(g, g.seq[i], true));
+      gmLater(g, 700 + i * 600 + 400, echoLight(g, g.seq[i], false));
     }
     gmLater(g, 700 + g.len * 600, function () { g.phase = 'input'; g.timers = []; gmRedraw('echo'); });
   }
@@ -3445,7 +3481,7 @@ html.skin-bold.dk .x-playb { border-color: #f4f5f2; }
   GDRAW.echo = function (g, out) {
     var b = el('div', 'gb-echo gm-board'), row = el('div', 'gm-row'), i;
     for (i = 0; i < 9; i++) {
-      b.appendChild(tap(el('div', 'gm-pad' + (g.phase === 'over' && i === g.miss ? ' bad' : g.phase === 'over' && i === g.seq[g.at] ? ' lit' : '')), (function (p) {
+      b.appendChild(tap(el('div', 'gm-pad' + (g.phase === 'over' && i === g.miss ? ' bad' : (g.phase === 'over' && i === g.seq[g.at]) || (g.phase === 'show' && i === g.lit) ? ' lit' : '')), (function (p) {
         return function () {
           if (g.phase !== 'input') { return false; }
           if (g.seq[g.at] !== p) { g.miss = p; echoEnd(g, g.len - 1); return; }
@@ -4547,7 +4583,8 @@ html.skin-bold.dk .x-playb { border-color: #f4f5f2; }
     ui.reveal = false;
     ui.hero = hero ? hero.shows : null;
     A.first = false; A.view = view; A.tab = tabNow; A.list = listKey; A.hero = heroKey; A.sheet = X.detail;
-    for (key in seen) { if (seen.hasOwnProperty(key)) { A.bans[key] = 1; } }   // a banner drops in the first time it shows, not every time it comes back A.play = X.play;
+    A.play = X.play;
+    for (key in seen) { if (seen.hasOwnProperty(key)) { A.bans[key] = 1; } }   // a banner drops in the first time it shows, not every time it comes back
     A.sel = sel; A.check = -1; A.cells = X.game.cells.join(','); A.cal = calKey; A.set = X.set; A.flip = '';
     settleSoon();
     cardSig = cardSignature(now);
@@ -4842,6 +4879,7 @@ html.skin-bold.dk .x-playb { border-color: #f4f5f2; }
   var nightPlain = ALT.night;
   ALT.night = function (now, m) {
     var s, wrap, inner, top, mid, clock, bar, fill, dot, tiles, moon, live, span, late, morning, word, a, next, at, set, cd, first, i, w, wx, rise, n, phase, land, left;
+    if (X.play) { gmStop(X.gs[X.play]); X.play = ''; }   // a game left open does not come back when the screen wakes
     if (getv('nightStyle', 'scene') === 'plain') { nightPlain(now, m); return; }
     land = isLandscape();
     late = minsOf(now) >= 12 * 60;                 // before midnight, "the morning" is tomorrow's
@@ -4926,6 +4964,9 @@ html.skin-bold.dk .x-playb { border-color: #f4f5f2; }
         if (ring) { ring.style.strokeDashoffset = (326.7 * (1 - Math.max(0, Math.min(1, (t.end - now.getTime() - 1000) / (t.total || 1))))).toFixed(1); }
       }
     }
+    // Thinking about a puzzle takes time: a game played in the last five minutes is not closed by the
+    // return to Home that follows 90 quiet seconds.
+    if (X.play && layout === 'card' && ui.touched && now.getTime() - X.playAt < 300000 && now.getTime() - ui.touched > 60000) { ui.touched = now.getTime() - 60000; }
     if (editing()) {
       ui.touched = now.getTime();   // do not go back to Home in the middle of typing
       if (now.getTime() - X.typed > 180000) { document.activeElement.blur(); }   // left open and forgotten
